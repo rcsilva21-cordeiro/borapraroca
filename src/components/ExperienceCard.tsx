@@ -67,6 +67,7 @@ const ExperienceCard = ({
         </div>
       </div>
     </article>
+    </Link>
   );
 };
 
