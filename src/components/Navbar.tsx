@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X, TreePine } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
