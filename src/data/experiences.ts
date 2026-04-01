@@ -25,6 +25,7 @@ export interface Experience {
   rating: number;
   price: number;
   capacity: number;
+  description?: string;
 }
 
 export const experiences: Experience[] = [
