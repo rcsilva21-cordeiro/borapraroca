@@ -1,7 +1,9 @@
 import { MapPin, Star, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 interface ExperienceCardProps {
+  id: number;
   image: string;
   title: string;
   location: string;
