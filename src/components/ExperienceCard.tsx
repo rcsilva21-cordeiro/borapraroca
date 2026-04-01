@@ -14,6 +14,7 @@ interface ExperienceCardProps {
 }
 
 const ExperienceCard = ({
+  id,
   image,
   title,
   location,
@@ -23,6 +24,7 @@ const ExperienceCard = ({
   capacity,
 }: ExperienceCardProps) => {
   return (
+    <Link to={`/experiencia/${id}`} className="block">
     <article className="group rounded-xl overflow-hidden bg-card border border-border/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-1 cursor-pointer">
       <div className="relative overflow-hidden aspect-[4/3]">
         <img
