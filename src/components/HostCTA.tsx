@@ -1,5 +1,6 @@
 import { ArrowRight, Home, TrendingUp, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const benefits = [
   { icon: <Home className="h-5 w-5" />, text: "Cadastre sua propriedade ou atividade gratuitamente" },
@@ -27,14 +28,16 @@ const HostCTA = () => {
                 </div>
               ))}
             </div>
-            <Button
-              variant="secondary"
-              size="lg"
-              className="gap-2 font-semibold"
-            >
-              Quero ser Hospedeiro
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Link to="/hospedeiro">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="gap-2 font-semibold"
+              >
+                Quero ser Hospedeiro
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
           <div className="flex-1 hidden lg:block">
             <div className="bg-primary-foreground/10 rounded-xl p-8 text-center">
