@@ -28,14 +28,16 @@ const HostCTA = () => {
                 </div>
               ))}
             </div>
-            <Button
-              variant="secondary"
-              size="lg"
-              className="gap-2 font-semibold"
-            >
-              Quero ser Hospedeiro
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Link to="/hospedeiro">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="gap-2 font-semibold"
+              >
+                Quero ser Hospedeiro
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
           <div className="flex-1 hidden lg:block">
             <div className="bg-primary-foreground/10 rounded-xl p-8 text-center">
