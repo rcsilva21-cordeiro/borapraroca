@@ -1,4 +1,4 @@
-import { LayoutDashboard, PlusCircle, List, User, Settings, LogOut, TreePine } from "lucide-react";
+import { LayoutDashboard, PlusCircle, List, User, Settings, LogOut, TreePine, HardHat } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import {
