@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,29 +13,90 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { categories } from "@/data/experiences";
-import { ImagePlus, Save } from "lucide-react";
+import { useCreateExperience } from "@/hooks/useExperiences";
+import { ImagePlus, Save, X } from "lucide-react";
+import type { Database } from "@/integrations/supabase/types";
 
-const categoryOptions = categories.filter((c) => c !== "Todas");
+type Category = Database["public"]["Enums"]["experience_category"];
+type Duration = Database["public"]["Enums"]["experience_duration"];
+
+const categoryOptions: Category[] = [
+  "Hospedagem", "Trilhas", "Gastronomia", "Bike Tour", "Ecoturismo", "Camping", "Cavalgada",
+];
+
+const durationOptions: { value: Duration; label: string }[] = [
+  { value: "meio-dia", label: "Meio dia" },
+  { value: "dia-inteiro", label: "Dia inteiro" },
+  { value: "diaria", label: "Diária" },
+  { value: "fim-de-semana", label: "Fim de semana" },
+  { value: "personalizado", label: "Personalizado" },
+];
 
 export default function HostNewExperience() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const createExperience = useCreateExperience();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [form, setForm] = useState({
+    title: "",
+    category: "" as Category | "",
+    location: "",
+    description: "",
+    price: "",
+    capacity: "",
+    duration: "" as Duration | "",
+    includes: "",
+  });
+  const [photos, setPhotos] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+
+  const handlePhotos = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const remaining = 5 - photos.length;
+    const toAdd = files.slice(0, remaining);
+    setPhotos((prev) => [...prev, ...toAdd]);
+    toAdd.forEach((f) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => setPreviews((prev) => [...prev, ev.target?.result as string]);
+      reader.readAsDataURL(f);
+    });
+  };
+
+  const removePhoto = (idx: number) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== idx));
+    setPreviews((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!form.category || !form.duration) return;
 
-    // Simulate submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await createExperience.mutateAsync({
+        title: form.title,
+        category: form.category as Category,
+        location: form.location,
+        description: form.description,
+        price: parseFloat(form.price),
+        capacity: parseInt(form.capacity),
+        duration: form.duration as Duration,
+        includes: form.includes.split("\n").filter(Boolean),
+        status: "pending",
+        photos,
+      });
       toast({
-        title: "Experiência enviada!",
+        title: "Experiência enviada! 🎉",
         description: "Sua experiência foi enviada para análise da plataforma.",
       });
       navigate("/hospedeiro/experiencias");
-    }, 1500);
+    } catch (error: any) {
+      toast({
+        title: "Erro ao criar experiência",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -50,7 +111,6 @@ export default function HostNewExperience() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Basic Info */}
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-lg">Informações Básicas</CardTitle>
@@ -63,21 +123,25 @@ export default function HostNewExperience() {
                 placeholder="Ex: Sítio Recanto das Águas"
                 required
                 maxLength={100}
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
               />
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="category">Categoria *</Label>
-                <Select required>
+                <Label>Categoria *</Label>
+                <Select
+                  value={form.category}
+                  onValueChange={(v) => setForm({ ...form, category: v as Category })}
+                  required
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione" />
                   </SelectTrigger>
                   <SelectContent>
                     {categoryOptions.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat}
-                      </SelectItem>
+                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -90,6 +154,8 @@ export default function HostNewExperience() {
                   placeholder="Ex: Cunha, SP"
                   required
                   maxLength={100}
+                  value={form.location}
+                  onChange={(e) => setForm({ ...form, location: e.target.value })}
                 />
               </div>
             </div>
@@ -102,12 +168,13 @@ export default function HostNewExperience() {
                 rows={5}
                 required
                 maxLength={2000}
+                value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
               />
             </div>
           </CardContent>
         </Card>
 
-        {/* Details */}
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-lg">Detalhes</CardTitle>
@@ -123,11 +190,13 @@ export default function HostNewExperience() {
                   step="0.01"
                   placeholder="150.00"
                   required
+                  value={form.price}
+                  onChange={(e) => setForm({ ...form, price: e.target.value })}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="capacity">Capacidade (pessoas) *</Label>
+                <Label htmlFor="capacity">Capacidade *</Label>
                 <Input
                   id="capacity"
                   type="number"
@@ -135,21 +204,25 @@ export default function HostNewExperience() {
                   max="500"
                   placeholder="12"
                   required
+                  value={form.capacity}
+                  onChange={(e) => setForm({ ...form, capacity: e.target.value })}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="duration">Duração *</Label>
-                <Select required>
+                <Label>Duração *</Label>
+                <Select
+                  value={form.duration}
+                  onValueChange={(v) => setForm({ ...form, duration: v as Duration })}
+                  required
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="meio-dia">Meio dia</SelectItem>
-                    <SelectItem value="dia-inteiro">Dia inteiro</SelectItem>
-                    <SelectItem value="diaria">Diária</SelectItem>
-                    <SelectItem value="fim-de-semana">Fim de semana</SelectItem>
-                    <SelectItem value="personalizado">Personalizado</SelectItem>
+                    {durationOptions.map((d) => (
+                      <SelectItem key={d.value} value={d.value}>{d.label}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -159,34 +232,64 @@ export default function HostNewExperience() {
               <Label htmlFor="includes">O que está incluído</Label>
               <Textarea
                 id="includes"
-                placeholder="Ex: Café da manhã, Piscina natural, Wi-Fi, Trilha guiada (um por linha)"
+                placeholder="Ex: Café da manhã, Piscina natural, Wi-Fi (um por linha)"
                 rows={3}
                 maxLength={1000}
+                value={form.includes}
+                onChange={(e) => setForm({ ...form, includes: e.target.value })}
               />
-              <p className="text-xs text-muted-foreground">
-                Insira um item por linha
-              </p>
+              <p className="text-xs text-muted-foreground">Insira um item por linha</p>
             </div>
           </CardContent>
         </Card>
 
-        {/* Images */}
+        {/* Photos */}
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-lg">Fotos</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer">
-              <ImagePlus className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-              <p className="font-medium text-foreground">Clique para enviar fotos</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                JPG, PNG ou WebP • Máximo 5 fotos • Até 5MB cada
-              </p>
-            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              className="hidden"
+              onChange={handlePhotos}
+            />
+
+            {previews.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                {previews.map((src, i) => (
+                  <div key={i} className="relative aspect-video rounded-lg overflow-hidden group">
+                    <img src={src} alt="" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(i)}
+                      className="absolute top-1.5 right-1.5 p-1 bg-background/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {photos.length < 5 && (
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
+              >
+                <ImagePlus className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                <p className="font-medium text-foreground">Clique para enviar fotos</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  JPG, PNG ou WebP • Máximo 5 fotos • Até 5MB cada ({photos.length}/5)
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
-        {/* Submit */}
         <div className="flex flex-col sm:flex-row gap-3 justify-end">
           <Button
             type="button"
@@ -195,9 +298,9 @@ export default function HostNewExperience() {
           >
             Cancelar
           </Button>
-          <Button type="submit" disabled={isSubmitting} className="gap-2">
+          <Button type="submit" disabled={createExperience.isPending} className="gap-2">
             <Save className="h-4 w-4" />
-            {isSubmitting ? "Enviando..." : "Enviar para Curadoria"}
+            {createExperience.isPending ? "Enviando..." : "Enviar para Curadoria"}
           </Button>
         </div>
       </form>

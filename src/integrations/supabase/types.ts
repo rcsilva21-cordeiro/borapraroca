@@ -14,6 +14,89 @@ export type Database = {
   }
   public: {
     Tables: {
+      experience_photos: {
+        Row: {
+          created_at: string
+          experience_id: string
+          id: string
+          position: number
+          storage_path: string
+        }
+        Insert: {
+          created_at?: string
+          experience_id: string
+          id?: string
+          position?: number
+          storage_path: string
+        }
+        Update: {
+          created_at?: string
+          experience_id?: string
+          id?: string
+          position?: number
+          storage_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experience_photos_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      experiences: {
+        Row: {
+          capacity: number
+          category: Database["public"]["Enums"]["experience_category"]
+          created_at: string
+          description: string
+          duration: Database["public"]["Enums"]["experience_duration"]
+          host_id: string
+          id: string
+          includes: string[] | null
+          location: string
+          price: number
+          rating: number | null
+          status: Database["public"]["Enums"]["experience_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number
+          category: Database["public"]["Enums"]["experience_category"]
+          created_at?: string
+          description?: string
+          duration?: Database["public"]["Enums"]["experience_duration"]
+          host_id: string
+          id?: string
+          includes?: string[] | null
+          location?: string
+          price?: number
+          rating?: number | null
+          status?: Database["public"]["Enums"]["experience_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number
+          category?: Database["public"]["Enums"]["experience_category"]
+          created_at?: string
+          description?: string
+          duration?: Database["public"]["Enums"]["experience_duration"]
+          host_id?: string
+          id?: string
+          includes?: string[] | null
+          location?: string
+          price?: number
+          rating?: number | null
+          status?: Database["public"]["Enums"]["experience_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -77,6 +160,21 @@ export type Database = {
     }
     Enums: {
       app_role: "turista" | "hospedeiro" | "admin"
+      experience_category:
+        | "Hospedagem"
+        | "Trilhas"
+        | "Gastronomia"
+        | "Bike Tour"
+        | "Ecoturismo"
+        | "Camping"
+        | "Cavalgada"
+      experience_duration:
+        | "meio-dia"
+        | "dia-inteiro"
+        | "diaria"
+        | "fim-de-semana"
+        | "personalizado"
+      experience_status: "draft" | "pending" | "active" | "inactive"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -205,6 +303,23 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["turista", "hospedeiro", "admin"],
+      experience_category: [
+        "Hospedagem",
+        "Trilhas",
+        "Gastronomia",
+        "Bike Tour",
+        "Ecoturismo",
+        "Camping",
+        "Cavalgada",
+      ],
+      experience_duration: [
+        "meio-dia",
+        "dia-inteiro",
+        "diaria",
+        "fim-de-semana",
+        "personalizado",
+      ],
+      experience_status: ["draft", "pending", "active", "inactive"],
     },
   },
 } as const
