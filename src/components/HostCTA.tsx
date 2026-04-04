@@ -28,31 +28,29 @@ const HostCTA = () => {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/hospedeiro">
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="gap-2 font-semibold"
-                >
-                  Quero ser Hospedeiro
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to="/hospedeiro/construcao">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="gap-2 font-semibold border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
-                >
-                  <HelpCircle className="h-4 w-4" />
-                  Preciso de ajuda com minha propriedade
-                </Button>
-              </Link>
-            </div>
-            <p className="text-primary-foreground/60 text-xs mt-3">
+            <Link to="/hospedeiro">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="gap-2 font-semibold"
+              >
+                Quero ser Hospedeiro
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+            <p className="text-primary-foreground/60 text-sm mt-6">
               Tem um sítio ou fazenda e não sabe como começar no turismo rural? A gente te ajuda!
             </p>
+            <Link to="/hospedeiro/construcao" className="mt-2 inline-block">
+              <Button
+                variant="outline"
+                size="default"
+                className="gap-2 font-semibold border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              >
+                <HelpCircle className="h-4 w-4" />
+                Preciso de ajuda com minha propriedade
+              </Button>
+            </Link>
           </div>
           <div className="flex-1 hidden lg:block">
             <div className="bg-primary-foreground/10 rounded-xl p-8 text-center">
