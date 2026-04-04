@@ -9,6 +9,7 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Auth from "./pages/Auth.tsx";
 import ExperienceDetail from "./pages/ExperienceDetail.tsx";
+import MinhasReservas from "./pages/MinhasReservas.tsx";
 import HostLayout from "./components/host/HostLayout.tsx";
 import HostDashboard from "./pages/host/HostDashboard.tsx";
 import HostNewExperience from "./pages/host/HostNewExperience.tsx";
@@ -29,6 +30,14 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/entrar" element={<Auth />} />
             <Route path="/experiencia/:id" element={<ExperienceDetail />} />
+            <Route
+              path="/minhas-reservas"
+              element={
+                <ProtectedRoute>
+                  <MinhasReservas />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Host Panel — requires hospedeiro role */}
             <Route

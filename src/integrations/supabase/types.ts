@@ -14,6 +14,53 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          booking_date: string
+          created_at: string
+          experience_id: string
+          guests: number
+          id: string
+          message: string | null
+          status: Database["public"]["Enums"]["booking_status"]
+          total_price: number
+          tourist_id: string
+          updated_at: string
+        }
+        Insert: {
+          booking_date: string
+          created_at?: string
+          experience_id: string
+          guests?: number
+          id?: string
+          message?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_price: number
+          tourist_id: string
+          updated_at?: string
+        }
+        Update: {
+          booking_date?: string
+          created_at?: string
+          experience_id?: string
+          guests?: number
+          id?: string
+          message?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_price?: number
+          tourist_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       experience_photos: {
         Row: {
           created_at: string
@@ -160,6 +207,7 @@ export type Database = {
     }
     Enums: {
       app_role: "turista" | "hospedeiro" | "admin"
+      booking_status: "pending" | "confirmed" | "cancelled" | "completed"
       experience_category:
         | "Hospedagem"
         | "Trilhas"
@@ -303,6 +351,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["turista", "hospedeiro", "admin"],
+      booking_status: ["pending", "confirmed", "cancelled", "completed"],
       experience_category: [
         "Hospedagem",
         "Trilhas",

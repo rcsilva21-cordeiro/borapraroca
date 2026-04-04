@@ -45,6 +45,11 @@ const Navbar = () => {
                   <User className="h-4 w-4" />
                   <span>{profile?.full_name || user.email}</span>
                 </div>
+                <Link to="/minhas-reservas">
+                  <Button variant="outline" size="sm">
+                    Minhas Reservas
+                  </Button>
+                </Link>
                 {hasRole("hospedeiro") && (
                   <Link to="/hospedeiro">
                     <Button variant="outline" size="sm">
@@ -101,6 +106,11 @@ const Navbar = () => {
                       <User className="h-4 w-4" />
                       <span>{profile?.full_name || user.email}</span>
                     </div>
+                    <Link to="/minhas-reservas" className="flex-1" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Minhas Reservas
+                      </Button>
+                    </Link>
                     {hasRole("hospedeiro") && (
                       <Link to="/hospedeiro" className="flex-1" onClick={() => setIsOpen(false)}>
                         <Button variant="outline" size="sm" className="w-full">
