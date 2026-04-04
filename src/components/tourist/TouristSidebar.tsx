@@ -1,4 +1,4 @@
-import { LayoutDashboard, PlusCircle, List, User, LogOut, HardHat, CalendarCheck, DollarSign } from "lucide-react";
+import { LayoutDashboard, CalendarCheck, Heart, DollarSign, LogOut } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -7,16 +7,13 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Painel", url: "/hospedeiro", icon: LayoutDashboard },
-  { title: "Reservas", url: "/hospedeiro/reservas", icon: CalendarCheck },
-  { title: "Nova Experiência", url: "/hospedeiro/nova", icon: PlusCircle },
-  { title: "Minhas Experiências", url: "/hospedeiro/experiencias", icon: List },
-  { title: "Financeiro", url: "/hospedeiro/financeiro", icon: DollarSign },
-  { title: "Meu Perfil", url: "/hospedeiro/perfil", icon: User },
-  { title: "Em Construção", url: "/hospedeiro/construcao", icon: HardHat },
+  { title: "Painel", url: "/turista", icon: LayoutDashboard },
+  { title: "Minhas Reservas", url: "/turista/reservas", icon: CalendarCheck },
+  { title: "Favoritos", url: "/turista/favoritos", icon: Heart },
+  { title: "Financeiro", url: "/turista/financeiro", icon: DollarSign },
 ];
 
-export function HostSidebar() {
+export function TouristSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
 

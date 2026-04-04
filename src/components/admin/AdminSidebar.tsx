@@ -1,4 +1,4 @@
-import { LayoutDashboard, PlusCircle, List, User, LogOut, HardHat, CalendarCheck, DollarSign } from "lucide-react";
+import { LayoutDashboard, CheckCircle, Users, DollarSign, LogOut } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -7,16 +7,13 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Painel", url: "/hospedeiro", icon: LayoutDashboard },
-  { title: "Reservas", url: "/hospedeiro/reservas", icon: CalendarCheck },
-  { title: "Nova Experiência", url: "/hospedeiro/nova", icon: PlusCircle },
-  { title: "Minhas Experiências", url: "/hospedeiro/experiencias", icon: List },
-  { title: "Financeiro", url: "/hospedeiro/financeiro", icon: DollarSign },
-  { title: "Meu Perfil", url: "/hospedeiro/perfil", icon: User },
-  { title: "Em Construção", url: "/hospedeiro/construcao", icon: HardHat },
+  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Experiências", url: "/admin/experiencias", icon: CheckCircle },
+  { title: "Usuários", url: "/admin/usuarios", icon: Users },
+  { title: "Financeiro", url: "/admin/financeiro", icon: DollarSign },
 ];
 
-export function HostSidebar() {
+export function AdminSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
 
@@ -26,10 +23,10 @@ export function HostSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 py-6">
             <a href="/" className="flex items-center gap-2">
-              <CalendarCheck className="h-5 w-5 text-primary shrink-0" />
+              <LayoutDashboard className="h-5 w-5 text-primary shrink-0" />
               {!collapsed && (
                 <span className="font-display text-lg font-bold text-foreground">
-                  Bora<span className="text-primary">PraRoça</span>
+                  Admin <span className="text-primary">BPR</span>
                 </span>
               )}
             </a>
