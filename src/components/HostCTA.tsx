@@ -39,7 +39,8 @@ const HostCTA = () => {
               </Button>
             </Link>
             <p className="text-primary-foreground/60 text-sm mt-6">
-              Tem um sítio ou fazenda e não sabe como começar no turismo rural? A gente te ajuda!
+              Tem um sítio ou fazenda e não sabe como começar a sua Experiência Rural?
+              <br />A gente te ajuda! Clique abaixo!
             </p>
             <Link to="/hospedeiro/construcao" className="mt-2 inline-block">
               <Button
