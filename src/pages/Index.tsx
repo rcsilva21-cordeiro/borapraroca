@@ -48,8 +48,8 @@ const Index = () => {
     };
   });
 
-  // Use real data if available, otherwise fall back to static
-  const experiences = realExperiences.length > 0 ? realExperiences : staticExperiences;
+  // Combine real DB experiences + static seed (avoiding duplicates)
+  const experiences = [...realExperiences, ...staticExperiences];
 
   const filtered =
     activeCategory === "Todas"
