@@ -1,17 +1,9 @@
-import { LayoutDashboard, PlusCircle, List, User, LogOut, HardHat, CalendarCheck } from "lucide-react";
+import { LayoutDashboard, PlusCircle, List, User, LogOut, HardHat, CalendarCheck, DollarSign } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
-import { useLocation } from "react-router-dom";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarFooter,
-  useSidebar,
+  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
+  SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  SidebarFooter, useSidebar,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -19,14 +11,14 @@ const menuItems = [
   { title: "Reservas", url: "/hospedeiro/reservas", icon: CalendarCheck },
   { title: "Nova Experiência", url: "/hospedeiro/nova", icon: PlusCircle },
   { title: "Minhas Experiências", url: "/hospedeiro/experiencias", icon: List },
+  { title: "Financeiro", url: "/hospedeiro/financeiro", icon: DollarSign },
   { title: "Meu Perfil", url: "/hospedeiro/perfil", icon: User },
-  { title: "Experiência em Construção", url: "/hospedeiro/construcao", icon: HardHat },
+  { title: "Em Construção", url: "/hospedeiro/construcao", icon: HardHat },
 ];
 
 export function HostSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const location = useLocation();
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border">
@@ -42,18 +34,12 @@ export function HostSidebar() {
               )}
             </a>
           </SidebarGroupLabel>
-
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end
-                      className="hover:bg-muted/50"
-                      activeClassName="bg-primary/10 text-primary font-medium"
-                    >
+                    <NavLink to={item.url} end className="hover:bg-muted/50" activeClassName="bg-primary/10 text-primary font-medium">
                       <item.icon className="mr-2 h-4 w-4 shrink-0" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
@@ -64,7 +50,6 @@ export function HostSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
       <SidebarFooter className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
