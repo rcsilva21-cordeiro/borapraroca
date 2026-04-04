@@ -2,7 +2,9 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Star, Users, Clock, Calendar, Heart, Share2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { experiences } from "@/data/experiences";
+import { Skeleton } from "@/components/ui/skeleton";
+import { experiences as staticExperiences } from "@/data/experiences";
+import { useExperienceById, getPhotoUrl } from "@/hooks/useExperiences";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
@@ -20,7 +22,65 @@ const ExperienceDetail = () => {
   const [bookingDate, setBookingDate] = useState("");
   const [guests, setGuests] = useState(1);
 
-  const exp = experiences.find((e) => e.id === Number(id));
+  // Check if id is a UUID (from DB) or a number (static)
+  const isUUID = id && /^[0-9a-f]{8}-/.test(id);
+  const { data: dbExp, isLoading } = useExperienceById(isUUID ? id : undefined);
+
+  // Resolve experience: DB first, then static fallback
+  const staticExp = !isUUID ? staticExperiences.find((e) => e.id === Number(id)) : null;
+
+  const exp = dbExp
+    ? {
+        id: dbExp.id,
+        title: dbExp.title,
+        description: dbExp.description,
+        location: dbExp.location,
+        category: dbExp.category,
+        price: Number(dbExp.price),
+        capacity: dbExp.capacity,
+        rating: dbExp.rating ?? 0,
+        duration: dbExp.duration,
+        includes: dbExp.includes ?? [],
+        image: dbExp.experience_photos?.sort((a, b) => a.position - b.position)[0]
+          ? getPhotoUrl(dbExp.experience_photos.sort((a, b) => a.position - b.position)[0].storage_path)
+          : "/placeholder.svg",
+        isFromDB: true,
+      }
+    : staticExp
+    ? {
+        id: String(staticExp.id),
+        title: staticExp.title,
+        description: staticExp.description || "",
+        location: staticExp.location,
+        category: staticExp.category,
+        price: staticExp.price,
+        capacity: staticExp.capacity,
+        rating: staticExp.rating,
+        duration: staticExp.category === "Hospedagem" ? "diaria" : "meio-dia",
+        includes: [] as string[],
+        image: staticExp.image,
+        isFromDB: false,
+      }
+    : null;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-24 container mx-auto px-4 lg:px-8 space-y-6">
+          <Skeleton className="w-full aspect-[21/9] rounded-2xl" />
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-4">
+              <Skeleton className="h-8 w-2/3" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+            <Skeleton className="h-80 rounded-2xl" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!exp) {
     return (
@@ -33,14 +93,24 @@ const ExperienceDetail = () => {
     );
   }
 
+  const durationLabels: Record<string, string> = {
+    "meio-dia": "Meio dia",
+    "dia-inteiro": "Dia inteiro",
+    diaria: "Diária",
+    "fim-de-semana": "Fim de semana",
+    personalizado: "Personalizado",
+  };
+
   const highlights = [
     { icon: <Users className="h-5 w-5" />, label: "Capacidade", value: `Até ${exp.capacity} pessoas` },
-    { icon: <Clock className="h-5 w-5" />, label: "Duração", value: exp.category === "Hospedagem" ? "Diária" : "Meio dia" },
+    { icon: <Clock className="h-5 w-5" />, label: "Duração", value: durationLabels[exp.duration] || exp.duration },
     { icon: <Calendar className="h-5 w-5" />, label: "Disponibilidade", value: "Todos os dias" },
-    { icon: <Star className="h-5 w-5 text-accent fill-accent" />, label: "Avaliação", value: `${exp.rating.toFixed(1)} (${Math.floor(Math.random() * 80 + 20)} avaliações)` },
+    { icon: <Star className="h-5 w-5 text-accent fill-accent" />, label: "Avaliação", value: `${exp.rating.toFixed(1)}` },
   ];
 
-  const included = exp.category === "Hospedagem"
+  const included = exp.includes && exp.includes.length > 0
+    ? exp.includes
+    : exp.category === "Hospedagem"
     ? ["Café da manhã colonial", "Estacionamento", "Wi-Fi", "Piscina natural", "Trilha guiada"]
     : ["Equipamento incluso", "Guia especializado", "Seguro atividade", "Lanche e hidratação", "Fotos da experiência"];
 
@@ -48,46 +118,40 @@ const ExperienceDetail = () => {
 
   const handleReserve = async () => {
     if (!user) {
-      toast({
-        title: "Faça login primeiro",
-        description: "Você precisa estar logado para reservar.",
-      });
+      toast({ title: "Faça login primeiro", description: "Você precisa estar logado para reservar." });
       navigate("/entrar");
       return;
     }
 
-    if (!bookingDate) {
+    if (!exp.isFromDB) {
       toast({
-        title: "Selecione uma data",
-        description: "Escolha a data desejada para a experiência.",
+        title: "Experiência de demonstração",
+        description: "Esta é uma experiência ilustrativa. Aguarde novas experiências reais serem cadastradas!",
         variant: "destructive",
       });
+      return;
+    }
+
+    if (!bookingDate) {
+      toast({ title: "Selecione uma data", description: "Escolha a data desejada para a experiência.", variant: "destructive" });
       return;
     }
 
     try {
       await createBooking.mutateAsync({
-        experience_id: String(exp.id),
+        experience_id: exp.id,
         booking_date: bookingDate,
         guests,
         total_price: totalPrice,
         status: "pending",
       });
-      toast({
-        title: "Reserva solicitada! 🎉",
-        description: "O hospedeiro irá confirmar sua reserva em breve.",
-      });
+      toast({ title: "Reserva solicitada! 🎉", description: "O hospedeiro irá confirmar sua reserva em breve." });
       navigate("/minhas-reservas");
     } catch (error: any) {
-      toast({
-        title: "Erro ao reservar",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Erro ao reservar", description: error.message, variant: "destructive" });
     }
   };
 
-  // Min date = tomorrow
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const minDate = tomorrow.toISOString().split("T")[0];
@@ -170,9 +234,6 @@ const ExperienceDetail = () => {
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   {exp.description || `Venha viver uma experiência única em ${exp.location}. ${exp.title} oferece uma imersão completa na vida rural brasileira, com todo o conforto e autenticidade que você merece.`}
                 </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Uma oportunidade de se reconectar com a natureza, saborear a culinária regional e criar memórias inesquecíveis com sua família e amigos.
-                </p>
               </div>
 
               <div>
@@ -218,6 +279,12 @@ const ExperienceDetail = () => {
                   </div>
                 </div>
 
+                {!exp.isFromDB && (
+                  <p className="text-xs text-amber-600 bg-amber-50 rounded-lg p-2 text-center">
+                    ⚠️ Experiência ilustrativa — reservas disponíveis apenas para experiências reais
+                  </p>
+                )}
+
                 <div className="space-y-3">
                   <div className="bg-background rounded-lg p-3 border border-border">
                     <label className="text-xs text-muted-foreground block mb-1">Data</label>
@@ -243,7 +310,6 @@ const ExperienceDetail = () => {
                   </div>
                 </div>
 
-                {/* Price summary */}
                 {bookingDate && (
                   <div className="space-y-2 pt-2 border-t border-border">
                     <div className="flex justify-between text-sm">
