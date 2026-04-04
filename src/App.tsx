@@ -12,6 +12,7 @@ import HostDashboard from "./pages/host/HostDashboard.tsx";
 import HostNewExperience from "./pages/host/HostNewExperience.tsx";
 import HostExperiences from "./pages/host/HostExperiences.tsx";
 import HostProfile from "./pages/host/HostProfile.tsx";
+import HostExperienceBuilding from "./pages/host/HostExperienceBuilding.tsx";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="nova" element={<HostNewExperience />} />
             <Route path="experiencias" element={<HostExperiences />} />
             <Route path="perfil" element={<HostProfile />} />
+            <Route path="construcao" element={<HostExperienceBuilding />} />
           </Route>
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

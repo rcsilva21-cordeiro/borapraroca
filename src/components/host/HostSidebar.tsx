@@ -1,4 +1,4 @@
-import { LayoutDashboard, PlusCircle, List, User, Settings, LogOut, TreePine } from "lucide-react";
+import { LayoutDashboard, PlusCircle, List, User, Settings, LogOut, TreePine, HardHat } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import {
@@ -19,6 +19,7 @@ const menuItems = [
   { title: "Nova Experiência", url: "/hospedeiro/nova", icon: PlusCircle },
   { title: "Minhas Experiências", url: "/hospedeiro/experiencias", icon: List },
   { title: "Meu Perfil", url: "/hospedeiro/perfil", icon: User },
+  { title: "Experiência em Construção", url: "/hospedeiro/construcao", icon: HardHat },
 ];
 
 export function HostSidebar() {
