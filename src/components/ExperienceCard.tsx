@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
 interface ExperienceCardProps {
-  id: number;
+  id: string | number;
   image: string;
   title: string;
   location: string;
@@ -51,7 +51,7 @@ const ExperienceCard = ({
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
               <Star className="h-3.5 w-3.5 text-earth-gold fill-earth-gold" />
-              {rating.toFixed(1)}
+              {(rating ?? 0).toFixed(1)}
             </span>
             <span className="flex items-center gap-1">
               <Users className="h-3.5 w-3.5" />

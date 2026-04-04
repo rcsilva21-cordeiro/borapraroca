@@ -42,6 +42,22 @@ export function useActiveExperiences() {
   });
 }
 
+export function useExperienceById(id: string | undefined) {
+  return useQuery({
+    queryKey: ["experience", id],
+    enabled: !!id,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("experiences")
+        .select("*, experience_photos(*)")
+        .eq("id", id!)
+        .single();
+      if (error) throw error;
+      return data as ExperienceWithPhotos;
+    },
+  });
+}
+
 export function useCreateExperience() {
   const qc = useQueryClient();
   return useMutation({
