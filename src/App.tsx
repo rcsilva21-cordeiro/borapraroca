@@ -12,6 +12,7 @@ import HostDashboard from "./pages/host/HostDashboard.tsx";
 import HostNewExperience from "./pages/host/HostNewExperience.tsx";
 import HostExperiences from "./pages/host/HostExperiences.tsx";
 import HostProfile from "./pages/host/HostProfile.tsx";
+import HostExperienceBuilding from "./pages/host/HostExperienceBuilding.tsx";
 
 const queryClient = new QueryClient();
 
