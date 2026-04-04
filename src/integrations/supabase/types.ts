@@ -174,6 +174,47 @@ export type Database = {
         }
         Relationships: []
       }
+      transactions: {
+        Row: {
+          amount: number
+          booking_id: string | null
+          created_at: string
+          description: string
+          id: string
+          status: Database["public"]["Enums"]["transaction_status"]
+          type: Database["public"]["Enums"]["transaction_type"]
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          booking_id?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          status?: Database["public"]["Enums"]["transaction_status"]
+          type: Database["public"]["Enums"]["transaction_type"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          booking_id?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          status?: Database["public"]["Enums"]["transaction_status"]
+          type?: Database["public"]["Enums"]["transaction_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -224,6 +265,8 @@ export type Database = {
         | "fim-de-semana"
         | "personalizado"
       experience_status: "draft" | "pending" | "active" | "inactive"
+      transaction_status: "pending" | "completed" | "failed"
+      transaction_type: "payment" | "commission" | "payout"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -370,6 +413,8 @@ export const Constants = {
         "personalizado",
       ],
       experience_status: ["draft", "pending", "active", "inactive"],
+      transaction_status: ["pending", "completed", "failed"],
+      transaction_type: ["payment", "commission", "payout"],
     },
   },
 } as const
