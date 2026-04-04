@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Auth from "./pages/Auth.tsx";
@@ -22,23 +24,31 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/entrar" element={<Auth />} />
-          <Route path="/experiencia/:id" element={<ExperienceDetail />} />
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/entrar" element={<Auth />} />
+            <Route path="/experiencia/:id" element={<ExperienceDetail />} />
 
-          {/* Host Panel */}
-          <Route path="/hospedeiro" element={<HostLayout />}>
-            <Route index element={<HostDashboard />} />
-            <Route path="nova" element={<HostNewExperience />} />
-            <Route path="experiencias" element={<HostExperiences />} />
-            <Route path="perfil" element={<HostProfile />} />
-            <Route path="construcao" element={<HostExperienceBuilding />} />
-          </Route>
+            {/* Host Panel — requires hospedeiro role */}
+            <Route
+              path="/hospedeiro"
+              element={
+                <ProtectedRoute requiredRole="hospedeiro">
+                  <HostLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<HostDashboard />} />
+              <Route path="nova" element={<HostNewExperience />} />
+              <Route path="experiencias" element={<HostExperiences />} />
+              <Route path="perfil" element={<HostProfile />} />
+              <Route path="construcao" element={<HostExperienceBuilding />} />
+            </Route>
 
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

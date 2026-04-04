@@ -1,26 +1,68 @@
 import { useState } from "react";
-import { TreePine, Mail, Lock, User, ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { TreePine, Mail, Lock, User, ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (user) navigate("/", { replace: true });
+  }, [user, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: isLogin ? "Bem-vindo de volta! 🌿" : "Conta criada com sucesso! 🎉",
-      description: isLogin
-        ? "Redirecionando para as experiências..."
-        : "Agora você pode explorar todas as experiências rurais.",
-    });
-    setTimeout(() => navigate("/"), 1500);
+    setIsLoading(true);
+
+    try {
+      if (isLogin) {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: form.email,
+          password: form.password,
+        });
+        if (error) throw error;
+        toast({
+          title: "Bem-vindo de volta! 🌿",
+          description: "Redirecionando para as experiências...",
+        });
+        navigate("/");
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email: form.email,
+          password: form.password,
+          options: {
+            data: { full_name: form.name },
+            emailRedirectTo: window.location.origin,
+          },
+        });
+        if (error) throw error;
+        toast({
+          title: "Conta criada com sucesso! 🎉",
+          description: "Verifique seu email para confirmar o cadastro.",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message === "Invalid login credentials"
+          ? "Email ou senha incorretos."
+          : error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -92,6 +134,7 @@ const Auth = () => {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="pl-10"
                   required
+                  disabled={isLoading}
                 />
               </div>
             )}
@@ -104,17 +147,20 @@ const Auth = () => {
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 className="pl-10"
                 required
+                disabled={isLoading}
               />
             </div>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type={showPassword ? "text" : "password"}
-                placeholder="Sua senha"
+                placeholder="Sua senha (mín. 6 caracteres)"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 className="pl-10 pr-10"
                 required
+                minLength={6}
+                disabled={isLoading}
               />
               <button
                 type="button"
@@ -133,7 +179,10 @@ const Auth = () => {
               </div>
             )}
 
-            <Button type="submit" className="w-full" size="lg">
+            <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : null}
               {isLogin ? "Entrar" : "Criar conta"}
             </Button>
           </form>
