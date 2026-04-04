@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      booking_guests: {
+        Row: {
+          age_range_id: string
+          booking_id: string
+          created_at: string
+          id: string
+          label: string
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          age_range_id: string
+          booking_id: string
+          created_at?: string
+          id?: string
+          label: string
+          quantity?: number
+          unit_price?: number
+        }
+        Update: {
+          age_range_id?: string
+          booking_id?: string
+          created_at?: string
+          id?: string
+          label?: string
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_guests_age_range_id_fkey"
+            columns: ["age_range_id"]
+            isOneToOne: false
+            referencedRelation: "experience_age_ranges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_guests_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           booking_date: string
@@ -54,6 +99,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "bookings_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      experience_age_ranges: {
+        Row: {
+          created_at: string
+          experience_id: string
+          id: string
+          label: string
+          max_age: number
+          min_age: number
+          position: number
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          experience_id: string
+          id?: string
+          label: string
+          max_age?: number
+          min_age?: number
+          position?: number
+          price?: number
+        }
+        Update: {
+          created_at?: string
+          experience_id?: string
+          id?: string
+          label?: string
+          max_age?: number
+          min_age?: number
+          position?: number
+          price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experience_age_ranges_experience_id_fkey"
             columns: ["experience_id"]
             isOneToOne: false
             referencedRelation: "experiences"

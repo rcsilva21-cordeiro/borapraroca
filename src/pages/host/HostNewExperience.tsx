@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useCreateExperience } from "@/hooks/useExperiences";
+import { useInsertAgeRanges, type AgeRangeInput } from "@/hooks/useAgeRanges";
+import AgeRangesEditor, { getDefaultRanges } from "@/components/host/AgeRangesEditor";
 import { ImagePlus, Save, X } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -36,6 +38,7 @@ export default function HostNewExperience() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const createExperience = useCreateExperience();
+  const insertAgeRanges = useInsertAgeRanges();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
@@ -48,8 +51,18 @@ export default function HostNewExperience() {
     duration: "" as Duration | "",
     includes: "",
   });
+  const [ageRanges, setAgeRanges] = useState<AgeRangeInput[]>([]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  // When price changes, auto-populate default ranges if empty
+  const handlePriceChange = (value: string) => {
+    setForm({ ...form, price: value });
+    const price = parseFloat(value);
+    if (price > 0 && ageRanges.length === 0) {
+      setAgeRanges(getDefaultRanges(price));
+    }
+  };
 
   const handlePhotos = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -73,7 +86,7 @@ export default function HostNewExperience() {
     if (!form.category || !form.duration) return;
 
     try {
-      await createExperience.mutateAsync({
+      const exp = await createExperience.mutateAsync({
         title: form.title,
         category: form.category as Category,
         location: form.location,
@@ -85,6 +98,15 @@ export default function HostNewExperience() {
         status: "pending",
         photos,
       });
+
+      // Save age ranges
+      if (ageRanges.length > 0) {
+        await insertAgeRanges.mutateAsync({
+          experienceId: exp.id,
+          ranges: ageRanges,
+        });
+      }
+
       toast({
         title: "Experiência enviada! 🎉",
         description: "Sua experiência foi enviada para análise da plataforma.",
@@ -182,7 +204,7 @@ export default function HostNewExperience() {
           <CardContent className="space-y-4">
             <div className="grid sm:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="price">Preço (R$) *</Label>
+                <Label htmlFor="price">Preço base / adulto (R$) *</Label>
                 <Input
                   id="price"
                   type="number"
@@ -191,7 +213,7 @@ export default function HostNewExperience() {
                   placeholder="150.00"
                   required
                   value={form.price}
-                  onChange={(e) => setForm({ ...form, price: e.target.value })}
+                  onChange={(e) => handlePriceChange(e.target.value)}
                 />
               </div>
 
@@ -240,6 +262,16 @@ export default function HostNewExperience() {
               />
               <p className="text-xs text-muted-foreground">Insira um item por linha</p>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Age Ranges */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="font-display text-lg">Crianças e Faixas Etárias</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AgeRangesEditor ranges={ageRanges} onChange={setAgeRanges} />
           </CardContent>
         </Card>
 
