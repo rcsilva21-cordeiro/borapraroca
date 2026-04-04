@@ -33,6 +33,7 @@ const App = () => (
             <Route path="nova" element={<HostNewExperience />} />
             <Route path="experiencias" element={<HostExperiences />} />
             <Route path="perfil" element={<HostProfile />} />
+            <Route path="construcao" element={<HostExperienceBuilding />} />
           </Route>
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
