@@ -43,9 +43,9 @@ const HostCTA = () => {
             </p>
             <Link to="/hospedeiro/construcao" className="mt-2 inline-block">
               <Button
-                variant="outline"
-                size="default"
-                className="gap-2 font-semibold border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                variant="secondary"
+                size="lg"
+                className="gap-2 font-semibold"
               >
                 <HelpCircle className="h-4 w-4" />
                 Preciso de ajuda com minha propriedade
