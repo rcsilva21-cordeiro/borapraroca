@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Star, Users, Clock, Calendar, Heart, Share2, Check } from "lucide-react";
+import { ArrowLeft, MapPin, Star, Users, Clock, Calendar, Heart, Share2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { experiences } from "@/data/experiences";
@@ -7,12 +7,18 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCreateBooking } from "@/hooks/useBookings";
 
 const ExperienceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const createBooking = useCreateBooking();
   const [isFav, setIsFav] = useState(false);
+  const [bookingDate, setBookingDate] = useState("");
+  const [guests, setGuests] = useState(1);
 
   const exp = experiences.find((e) => e.id === Number(id));
 
@@ -31,19 +37,60 @@ const ExperienceDetail = () => {
     { icon: <Users className="h-5 w-5" />, label: "Capacidade", value: `Até ${exp.capacity} pessoas` },
     { icon: <Clock className="h-5 w-5" />, label: "Duração", value: exp.category === "Hospedagem" ? "Diária" : "Meio dia" },
     { icon: <Calendar className="h-5 w-5" />, label: "Disponibilidade", value: "Todos os dias" },
-    { icon: <Star className="h-5 w-5 text-earth-gold fill-earth-gold" />, label: "Avaliação", value: `${exp.rating.toFixed(1)} (${Math.floor(Math.random() * 80 + 20)} avaliações)` },
+    { icon: <Star className="h-5 w-5 text-accent fill-accent" />, label: "Avaliação", value: `${exp.rating.toFixed(1)} (${Math.floor(Math.random() * 80 + 20)} avaliações)` },
   ];
 
   const included = exp.category === "Hospedagem"
     ? ["Café da manhã colonial", "Estacionamento", "Wi-Fi", "Piscina natural", "Trilha guiada"]
     : ["Equipamento incluso", "Guia especializado", "Seguro atividade", "Lanche e hidratação", "Fotos da experiência"];
 
-  const handleReserve = () => {
-    toast({
-      title: "Reserva solicitada! 🎉",
-      description: "Faça login para confirmar sua reserva.",
-    });
+  const totalPrice = exp.price * guests;
+
+  const handleReserve = async () => {
+    if (!user) {
+      toast({
+        title: "Faça login primeiro",
+        description: "Você precisa estar logado para reservar.",
+      });
+      navigate("/entrar");
+      return;
+    }
+
+    if (!bookingDate) {
+      toast({
+        title: "Selecione uma data",
+        description: "Escolha a data desejada para a experiência.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await createBooking.mutateAsync({
+        experience_id: String(exp.id),
+        booking_date: bookingDate,
+        guests,
+        total_price: totalPrice,
+        status: "pending",
+      });
+      toast({
+        title: "Reserva solicitada! 🎉",
+        description: "O hospedeiro irá confirmar sua reserva em breve.",
+      });
+      navigate("/minhas-reservas");
+    } catch (error: any) {
+      toast({
+        title: "Erro ao reservar",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
+
+  // Min date = tomorrow
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minDate = tomorrow.toISOString().split("T")[0];
 
   return (
     <div className="min-h-screen bg-background">
@@ -108,7 +155,6 @@ const ExperienceDetail = () => {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main */}
             <div className="lg:col-span-2 space-y-8">
-              {/* Highlights */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {highlights.map((h) => (
                   <div key={h.label} className="bg-card rounded-xl p-4 border border-border/50 text-center">
@@ -119,7 +165,6 @@ const ExperienceDetail = () => {
                 ))}
               </div>
 
-              {/* Description */}
               <div>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-4">Sobre a experiência</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
@@ -130,7 +175,6 @@ const ExperienceDetail = () => {
                 </p>
               </div>
 
-              {/* What's included */}
               <div>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-4">O que está incluso</h2>
                 <div className="grid sm:grid-cols-2 gap-3">
@@ -145,7 +189,6 @@ const ExperienceDetail = () => {
                 </div>
               </div>
 
-              {/* Host */}
               <div className="bg-card rounded-xl p-6 border border-border/50">
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">Sobre o Hospedeiro</h2>
                 <div className="flex items-center gap-4">
@@ -178,11 +221,21 @@ const ExperienceDetail = () => {
                 <div className="space-y-3">
                   <div className="bg-background rounded-lg p-3 border border-border">
                     <label className="text-xs text-muted-foreground block mb-1">Data</label>
-                    <input type="date" className="w-full bg-transparent text-foreground text-sm outline-none" />
+                    <input
+                      type="date"
+                      min={minDate}
+                      value={bookingDate}
+                      onChange={(e) => setBookingDate(e.target.value)}
+                      className="w-full bg-transparent text-foreground text-sm outline-none"
+                    />
                   </div>
                   <div className="bg-background rounded-lg p-3 border border-border">
                     <label className="text-xs text-muted-foreground block mb-1">Participantes</label>
-                    <select className="w-full bg-transparent text-foreground text-sm outline-none">
+                    <select
+                      value={guests}
+                      onChange={(e) => setGuests(Number(e.target.value))}
+                      className="w-full bg-transparent text-foreground text-sm outline-none"
+                    >
                       {Array.from({ length: exp.capacity }, (_, i) => (
                         <option key={i + 1} value={i + 1}>{i + 1} {i === 0 ? "pessoa" : "pessoas"}</option>
                       ))}
@@ -190,8 +243,32 @@ const ExperienceDetail = () => {
                   </div>
                 </div>
 
-                <Button className="w-full" size="lg" onClick={handleReserve}>
-                  Reservar agora
+                {/* Price summary */}
+                {bookingDate && (
+                  <div className="space-y-2 pt-2 border-t border-border">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        R$ {exp.price} × {guests} {guests === 1 ? "pessoa" : "pessoas"}
+                      </span>
+                      <span className="text-foreground">R$ {totalPrice.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between font-semibold">
+                      <span className="text-foreground">Total</span>
+                      <span className="text-primary font-display text-lg">R$ {totalPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
+                )}
+
+                <Button
+                  className="w-full"
+                  size="lg"
+                  onClick={handleReserve}
+                  disabled={createBooking.isPending}
+                >
+                  {createBooking.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : null}
+                  {createBooking.isPending ? "Reservando..." : "Reservar agora"}
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center">
