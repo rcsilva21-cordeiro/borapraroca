@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Menu, X, TreePine } from "lucide-react";
+import { Menu, X, TreePine, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, profile, signOut, hasRole } = useAuth();
 
   const navLinks = [
     { label: "Experiências", href: "#experiencias" },
@@ -37,16 +39,38 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <Link to="/entrar">
-              <Button variant="ghost" size="sm">
-                Entrar
-              </Button>
-            </Link>
-            <Link to="/entrar">
-              <Button size="sm">
-                Cadastrar
-              </Button>
-            </Link>
+            {user ? (
+              <>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <User className="h-4 w-4" />
+                  <span>{profile?.full_name || user.email}</span>
+                </div>
+                {hasRole("hospedeiro") && (
+                  <Link to="/hospedeiro">
+                    <Button variant="outline" size="sm">
+                      Painel Hospedeiro
+                    </Button>
+                  </Link>
+                )}
+                <Button variant="ghost" size="sm" onClick={signOut}>
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Sair
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/entrar">
+                  <Button variant="ghost" size="sm">
+                    Entrar
+                  </Button>
+                </Link>
+                <Link to="/entrar">
+                  <Button size="sm">
+                    Cadastrar
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -71,16 +95,38 @@ const Navbar = () => {
                 </a>
               ))}
               <div className="flex gap-3 pt-2">
-                <Link to="/entrar" className="flex-1">
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Entrar
-                  </Button>
-                </Link>
-                <Link to="/entrar" className="flex-1">
-                  <Button size="sm" className="w-full">
-                    Cadastrar
-                  </Button>
-                </Link>
+                {user ? (
+                  <>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground py-2">
+                      <User className="h-4 w-4" />
+                      <span>{profile?.full_name || user.email}</span>
+                    </div>
+                    {hasRole("hospedeiro") && (
+                      <Link to="/hospedeiro" className="flex-1" onClick={() => setIsOpen(false)}>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Painel Hospedeiro
+                        </Button>
+                      </Link>
+                    )}
+                    <Button variant="ghost" size="sm" onClick={signOut} className="flex-1">
+                      <LogOut className="h-4 w-4 mr-1" />
+                      Sair
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/entrar" className="flex-1" onClick={() => setIsOpen(false)}>
+                      <Button variant="ghost" size="sm" className="w-full">
+                        Entrar
+                      </Button>
+                    </Link>
+                    <Link to="/entrar" className="flex-1" onClick={() => setIsOpen(false)}>
+                      <Button size="sm" className="w-full">
+                        Cadastrar
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
