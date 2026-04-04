@@ -34,7 +34,7 @@ export function HostSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 py-6">
             <a href="/" className="flex items-center gap-2">
-              <TreePine className="h-5 w-5 text-primary shrink-0" />
+              <CalendarCheck className="h-5 w-5 text-primary shrink-0" />
               {!collapsed && (
                 <span className="font-display text-lg font-bold text-foreground">
                   Bora<span className="text-primary">PraRoça</span>

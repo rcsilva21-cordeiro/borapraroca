@@ -50,6 +50,7 @@ const App = () => (
               }
             >
               <Route index element={<HostDashboard />} />
+              <Route path="reservas" element={<HostBookings />} />
               <Route path="nova" element={<HostNewExperience />} />
               <Route path="experiencias" element={<HostExperiences />} />
               <Route path="perfil" element={<HostProfile />} />
