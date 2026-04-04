@@ -16,6 +16,7 @@ import HostNewExperience from "./pages/host/HostNewExperience.tsx";
 import HostExperiences from "./pages/host/HostExperiences.tsx";
 import HostProfile from "./pages/host/HostProfile.tsx";
 import HostExperienceBuilding from "./pages/host/HostExperienceBuilding.tsx";
+import HostBookings from "./pages/host/HostBookings.tsx";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
               }
             >
               <Route index element={<HostDashboard />} />
+              <Route path="reservas" element={<HostBookings />} />
               <Route path="nova" element={<HostNewExperience />} />
               <Route path="experiencias" element={<HostExperiences />} />
               <Route path="perfil" element={<HostProfile />} />

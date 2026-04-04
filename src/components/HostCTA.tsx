@@ -1,6 +1,10 @@
-import { ArrowRight, Home, TrendingUp, Shield, HelpCircle } from "lucide-react";
+import { ArrowRight, Home, TrendingUp, Shield, HelpCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const benefits = [
   { icon: <Home className="h-5 w-5" />, text: "Cadastre sua propriedade ou atividade gratuitamente" },
@@ -9,6 +13,39 @@ const benefits = [
 ];
 
 const HostCTA = () => {
+  const { user, hasRole } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+
+  const handleBecomeHost = async () => {
+    if (!user) {
+      navigate("/entrar");
+      return;
+    }
+
+    if (hasRole("hospedeiro")) {
+      navigate("/hospedeiro");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.rpc("become_host", { _user_id: user.id });
+      if (error) throw error;
+      toast({
+        title: "Parabéns! 🎉",
+        description: "Você agora é um Hospedeiro! Redirecionando para o painel...",
+      });
+      // Reload to refresh roles
+      setTimeout(() => window.location.href = "/hospedeiro", 1000);
+    } catch (error: any) {
+      toast({ title: "Erro", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="hospedeiro" className="py-20 lg:py-28">
       <div className="container mx-auto px-4 lg:px-8">
@@ -28,16 +65,17 @@ const HostCTA = () => {
                 </div>
               ))}
             </div>
-            <Link to="/hospedeiro">
-              <Button
-                variant="secondary"
-                size="lg"
-                className="gap-2 font-semibold"
-              >
-                Quero ser Hospedeiro
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
+            <Button
+              variant="secondary"
+              size="lg"
+              className="gap-2 font-semibold"
+              onClick={handleBecomeHost}
+              disabled={loading}
+            >
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {hasRole("hospedeiro") ? "Acessar Painel" : "Quero ser Hospedeiro"}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
             <p className="text-primary-foreground/60 text-sm mt-6">
               Tem um sítio ou fazenda e não sabe como começar a sua Experiência Rural?
               <br />A gente te ajuda! Clique abaixo!
