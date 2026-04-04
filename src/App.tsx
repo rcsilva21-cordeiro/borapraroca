@@ -30,6 +30,14 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/entrar" element={<Auth />} />
             <Route path="/experiencia/:id" element={<ExperienceDetail />} />
+            <Route
+              path="/minhas-reservas"
+              element={
+                <ProtectedRoute>
+                  <MinhasReservas />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Host Panel — requires hospedeiro role */}
             <Route
