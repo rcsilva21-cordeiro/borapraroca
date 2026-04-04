@@ -19,6 +19,7 @@ const menuItems = [
   { title: "Nova Experiência", url: "/hospedeiro/nova", icon: PlusCircle },
   { title: "Minhas Experiências", url: "/hospedeiro/experiencias", icon: List },
   { title: "Meu Perfil", url: "/hospedeiro/perfil", icon: User },
+  { title: "Experiência em Construção", url: "/hospedeiro/construcao", icon: HardHat },
 ];
 
 export function HostSidebar() {
