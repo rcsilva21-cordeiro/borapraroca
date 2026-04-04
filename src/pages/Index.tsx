@@ -15,7 +15,9 @@ import ExperienceCard from "@/components/ExperienceCard";
 import HowItWorks from "@/components/HowItWorks";
 import HostCTA from "@/components/HostCTA";
 import Footer from "@/components/Footer";
-import { experiences, categories, type Category } from "@/data/experiences";
+import { experiences as staticExperiences, categories, type Category } from "@/data/experiences";
+import { useActiveExperiences, getPhotoUrl } from "@/hooks/useExperiences";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const categoryIcons: Record<string, React.ReactNode> = {
   Hospedagem: <Home className="h-7 w-7" />,
@@ -29,6 +31,25 @@ const categoryIcons: Record<string, React.ReactNode> = {
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState<Category>("Todas");
+  const { data: dbExperiences, isLoading } = useActiveExperiences();
+
+  // Map DB experiences to card-compatible format
+  const realExperiences = (dbExperiences ?? []).map((exp) => {
+    const coverPhoto = exp.experience_photos?.sort((a, b) => a.position - b.position)[0];
+    return {
+      id: exp.id,
+      image: coverPhoto ? getPhotoUrl(coverPhoto.storage_path) : "/placeholder.svg",
+      title: exp.title,
+      location: exp.location,
+      category: exp.category as Category,
+      rating: exp.rating ?? 0,
+      price: Number(exp.price),
+      capacity: exp.capacity,
+    };
+  });
+
+  // Use real data if available, otherwise fall back to static
+  const experiences = realExperiences.length > 0 ? realExperiences : staticExperiences;
 
   const filtered =
     activeCategory === "Todas"
@@ -98,13 +119,28 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filtered.map((exp) => (
-              <ExperienceCard key={exp.id} {...exp} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="rounded-xl overflow-hidden bg-card border border-border/50">
+                  <Skeleton className="aspect-[4/3] w-full" />
+                  <div className="p-5 space-y-3">
+                    <Skeleton className="h-5 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filtered.map((exp) => (
+                <ExperienceCard key={exp.id} {...exp} />
+              ))}
+            </div>
+          )}
 
-          {filtered.length === 0 && (
+          {!isLoading && filtered.length === 0 && (
             <p className="text-center text-muted-foreground py-12">
               Nenhuma experiência encontrada nesta categoria.
             </p>
