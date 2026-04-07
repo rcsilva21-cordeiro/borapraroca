@@ -63,8 +63,14 @@ const Index = () => {
     [dbExperiences]
   );
 
-  // Use real experiences if available, otherwise fall back to static
-  const experiences = realExperiences.length > 0 ? realExperiences : staticExperiences;
+  // Real first, fill with static fakes up to 8
+  const experiences = useMemo(() => {
+    if (realExperiences.length >= 8) return realExperiences;
+    const fakesToAdd = staticExperiences
+      .filter((s) => !realExperiences.some((r) => r.id === s.id))
+      .slice(0, 8 - realExperiences.length);
+    return [...realExperiences, ...fakesToAdd];
+  }, [realExperiences]);
 
   const filtered =
     activeCategory === "Todas"
