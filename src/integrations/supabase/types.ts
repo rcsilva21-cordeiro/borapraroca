@@ -344,6 +344,10 @@ export type Database = {
         | "Ecoturismo"
         | "Camping"
         | "Cavalgada"
+        | "aventura"
+        | "agroturismo"
+        | "retiro_bem_estar"
+        | "pesca_esportiva"
       experience_duration:
         | "meio-dia"
         | "dia-inteiro"
@@ -490,6 +494,10 @@ export const Constants = {
         "Ecoturismo",
         "Camping",
         "Cavalgada",
+        "aventura",
+        "agroturismo",
+        "retiro_bem_estar",
+        "pesca_esportiva",
       ],
       experience_duration: [
         "meio-dia",
