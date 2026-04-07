@@ -48,6 +48,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/entrar" element={<Auth />} />
+            <Route path="/experiencias" element={<Experiencias />} />
             <Route path="/experiencia/:id" element={<ExperienceDetail />} />
 
             {/* Legacy redirect */}
