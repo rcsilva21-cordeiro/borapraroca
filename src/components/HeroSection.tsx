@@ -1,8 +1,22 @@
-import { Search, MapPin } from "lucide-react";
+import { useState } from "react";
+import { Search, MapPin, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
+import { categories, type Category } from "@/data/experiences";
 
 const HeroSection = () => {
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState<Category | "">("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (search.trim()) params.set("search", search.trim());
+    if (category) params.set("category", category);
+    navigate(`/experiencias?${params.toString()}`);
+  };
+
   return (
     <section className="relative min-h-[90vh] flex items-end pb-20 lg:pb-28">
       <img
@@ -29,7 +43,7 @@ const HeroSection = () => {
           </p>
 
           <div
-            className="bg-background/95 backdrop-blur-sm rounded-xl p-3 flex flex-col sm:flex-row gap-3 max-w-xl shadow-xl animate-fade-up"
+            className="bg-background/95 backdrop-blur-sm rounded-xl p-3 flex flex-col sm:flex-row gap-3 max-w-2xl shadow-xl animate-fade-up"
             style={{ animationDelay: "0.4s" }}
           >
             <div className="flex items-center gap-2 flex-1 px-3">
@@ -37,10 +51,30 @@ const HeroSection = () => {
               <input
                 type="text"
                 placeholder="Para onde você quer ir?"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 className="w-full bg-transparent text-foreground placeholder:text-muted-foreground outline-none text-sm py-2"
               />
             </div>
-            <Button className="gap-2 px-6">
+            <div className="relative">
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value as Category | "")}
+                className="appearance-none bg-secondary text-foreground text-sm rounded-lg px-4 py-2 pr-8 outline-none cursor-pointer h-full"
+              >
+                <option value="">Todas categorias</option>
+                {categories
+                  .filter((c) => c !== "Todas")
+                  .map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+              </select>
+              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+            </div>
+            <Button className="gap-2 px-6" onClick={handleSearch}>
               <Search className="h-4 w-4" />
               Buscar
             </Button>

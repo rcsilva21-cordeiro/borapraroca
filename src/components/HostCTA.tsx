@@ -5,6 +5,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const benefits = [
   { icon: <Home className="h-5 w-5" />, text: "Cadastre sua propriedade ou atividade gratuitamente" },
@@ -12,11 +14,31 @@ const benefits = [
   { icon: <Shield className="h-5 w-5" />, text: "Curadoria e suporte da plataforma" },
 ];
 
+function usePlatformStats() {
+  return useQuery({
+    queryKey: ["platform-stats"],
+    queryFn: async () => {
+      const [expRes, hostRes, bookingRes] = await Promise.all([
+        supabase.from("experiences").select("id", { count: "exact", head: true }).eq("status", "active"),
+        supabase.from("user_roles").select("id", { count: "exact", head: true }).eq("role", "hospedeiro"),
+        supabase.from("bookings").select("id", { count: "exact", head: true }).in("status", ["confirmed", "completed"]),
+      ]);
+      return {
+        experiences: expRes.count ?? 0,
+        hosts: hostRes.count ?? 0,
+        bookings: bookingRes.count ?? 0,
+      };
+    },
+    staleTime: 60_000,
+  });
+}
+
 const HostCTA = () => {
   const { user, hasRole } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const { data: stats, isLoading: statsLoading } = usePlatformStats();
 
   const handleBecomeHost = async () => {
     if (!user) {
@@ -37,7 +59,6 @@ const HostCTA = () => {
         title: "Parabéns! 🎉",
         description: "Você agora é um Hospedeiro! Redirecionando para o painel...",
       });
-      // Reload to refresh roles
       setTimeout(() => window.location.href = "/hospedeiro", 1000);
     } catch (error: any) {
       toast({ title: "Erro", description: error.message, variant: "destructive" });
@@ -45,6 +66,8 @@ const HostCTA = () => {
       setLoading(false);
     }
   };
+
+  const showStats = !statsLoading && stats && (stats.experiences > 0 || stats.hosts > 0 || stats.bookings > 0);
 
   return (
     <section id="hospedeiro" className="py-20 lg:py-28">
@@ -93,18 +116,52 @@ const HostCTA = () => {
           </div>
           <div className="flex-1 hidden lg:block">
             <div className="bg-primary-foreground/10 rounded-xl p-8 text-center">
-              <p className="font-display text-5xl font-bold text-primary-foreground mb-2">500+</p>
-              <p className="text-primary-foreground/70 text-sm">hospedeiros já cadastrados</p>
-              <div className="mt-6 grid grid-cols-2 gap-4">
-                <div>
-                  <p className="font-display text-2xl font-bold text-earth-gold">4.8</p>
-                  <p className="text-primary-foreground/60 text-xs">avaliação média</p>
+              {statsLoading ? (
+                <div className="space-y-4">
+                  <Skeleton className="h-12 w-32 mx-auto bg-primary-foreground/20" />
+                  <Skeleton className="h-4 w-48 mx-auto bg-primary-foreground/10" />
+                  <div className="mt-6 grid grid-cols-2 gap-4">
+                    <Skeleton className="h-16 bg-primary-foreground/10 rounded-lg" />
+                    <Skeleton className="h-16 bg-primary-foreground/10 rounded-lg" />
+                  </div>
                 </div>
+              ) : showStats ? (
+                <>
+                  <p className="font-display text-5xl font-bold text-primary-foreground mb-2">
+                    {stats!.hosts}
+                  </p>
+                  <p className="text-primary-foreground/70 text-sm">
+                    {stats!.hosts === 1 ? "hospedeiro cadastrado" : "hospedeiros cadastrados"}
+                  </p>
+                  <div className="mt-6 grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="font-display text-2xl font-bold text-earth-gold">
+                        {stats!.experiences}
+                      </p>
+                      <p className="text-primary-foreground/60 text-xs">
+                        {stats!.experiences === 1 ? "experiência ativa" : "experiências ativas"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-display text-2xl font-bold text-earth-gold">
+                        {stats!.bookings}
+                      </p>
+                      <p className="text-primary-foreground/60 text-xs">
+                        {stats!.bookings === 1 ? "reserva realizada" : "reservas realizadas"}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : (
                 <div>
-                  <p className="font-display text-2xl font-bold text-earth-gold">12k+</p>
-                  <p className="text-primary-foreground/60 text-xs">experiências realizadas</p>
+                  <p className="font-display text-2xl font-bold text-earth-gold mb-2">
+                    Seja o primeiro!
+                  </p>
+                  <p className="text-primary-foreground/70 text-sm">
+                    Cadastre sua experiência e comece a receber turistas
+                  </p>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

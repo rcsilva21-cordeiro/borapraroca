@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import ExperienceDetail from "./pages/ExperienceDetail";
+import Experiencias from "./pages/Experiencias";
 
 // Host
 import HostLayout from "./components/host/HostLayout";
@@ -47,6 +48,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/entrar" element={<Auth />} />
+            <Route path="/experiencias" element={<Experiencias />} />
             <Route path="/experiencia/:id" element={<ExperienceDetail />} />
 
             {/* Legacy redirect */}

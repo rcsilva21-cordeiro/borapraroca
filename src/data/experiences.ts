@@ -14,7 +14,11 @@ export type Category =
   | "Bike Tour"
   | "Ecoturismo"
   | "Camping"
-  | "Cavalgada";
+  | "Cavalgada"
+  | "Aventura"
+  | "Agroturismo"
+  | "Retiro/Bem-estar"
+  | "Pesca Esportiva";
 
 export interface Experience {
   id: number;
@@ -120,4 +124,8 @@ export const categories: Category[] = [
   "Ecoturismo",
   "Camping",
   "Cavalgada",
+  "Aventura",
+  "Agroturismo",
+  "Retiro/Bem-estar",
+  "Pesca Esportiva",
 ];
