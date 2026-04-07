@@ -38,11 +38,15 @@ const Experiencias = () => {
   );
 
   const allExperiences = useMemo(() => {
-    if (realExperiences.length >= 8) return realExperiences;
-    const fakesToAdd = (staticExperiences as any[]).filter(
-      (s) => !realExperiences.some((r) => r.id === s.id)
-    ).slice(0, 8 - realExperiences.length);
-    return [...realExperiences, ...fakesToAdd];
+    if (realExperiences.length >= 12) return realExperiences;
+    const coveredCategories = new Set(realExperiences.map((r) => r.category));
+    const seen = new Set<string>();
+    const uncoveredFakes = (staticExperiences as any[]).filter((s) => {
+      if (coveredCategories.has(s.category) || seen.has(s.category)) return false;
+      seen.add(s.category);
+      return true;
+    });
+    return [...realExperiences, ...uncoveredFakes];
   }, [realExperiences]);
 
   const filtered = useMemo(() => {
