@@ -67,7 +67,7 @@ const Index = () => {
   const experiences = useMemo(() => {
     if (realExperiences.length >= 8) return realExperiences;
     const fakesToAdd = staticExperiences
-      .filter((s) => !realExperiences.some((r) => r.id === s.id))
+      .filter((s) => !realExperiences.some((r) => String(r.id) === String(s.id)))
       .slice(0, 8 - realExperiences.length);
     return [...realExperiences, ...fakesToAdd];
   }, [realExperiences]);
