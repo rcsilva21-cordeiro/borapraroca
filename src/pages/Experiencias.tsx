@@ -37,7 +37,13 @@ const Experiencias = () => {
     [dbExperiences]
   );
 
-  const allExperiences = realExperiences.length > 0 ? realExperiences : (staticExperiences as any[]);
+  const allExperiences = useMemo(() => {
+    if (realExperiences.length >= 8) return realExperiences;
+    const fakesToAdd = (staticExperiences as any[]).filter(
+      (s) => !realExperiences.some((r) => r.id === s.id)
+    ).slice(0, 8 - realExperiences.length);
+    return [...realExperiences, ...fakesToAdd];
+  }, [realExperiences]);
 
   const filtered = useMemo(() => {
     let list = allExperiences;
