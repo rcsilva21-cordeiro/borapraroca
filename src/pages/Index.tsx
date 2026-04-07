@@ -63,13 +63,22 @@ const Index = () => {
     [dbExperiences]
   );
 
-  // Real first, fill with static fakes up to 8
+  // Real first, then one fake per category not covered, up to 12
   const experiences = useMemo(() => {
-    if (realExperiences.length >= 8) return realExperiences;
-    const fakesToAdd = staticExperiences
-      .filter((s) => !realExperiences.some((r) => String(r.id) === String(s.id)))
-      .slice(0, 8 - realExperiences.length);
-    return [...realExperiences, ...fakesToAdd];
+    if (realExperiences.length >= 12) return realExperiences;
+    const coveredCategories = new Set(realExperiences.map((r) => r.category));
+    // First pick one fake per uncovered category
+    const uncoveredFakes = staticExperiences.filter(
+      (s) => !coveredCategories.has(s.category)
+    );
+    // Deduplicate by category — one per category
+    const seen = new Set<string>();
+    const uniqueFakes = uncoveredFakes.filter((s) => {
+      if (seen.has(s.category)) return false;
+      seen.add(s.category);
+      return true;
+    });
+    return [...realExperiences, ...uniqueFakes];
   }, [realExperiences]);
 
   const filtered =
