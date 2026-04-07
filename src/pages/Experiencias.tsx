@@ -37,7 +37,7 @@ const Experiencias = () => {
     [dbExperiences]
   );
 
-  const allExperiences = realExperiences.length > 0 ? realExperiences : staticExperiences;
+  const allExperiences = realExperiences.length > 0 ? realExperiences : (staticExperiences as any[]);
 
   const filtered = useMemo(() => {
     let list = allExperiences;
