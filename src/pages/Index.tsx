@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Home,
   Mountain,
@@ -7,6 +7,10 @@ import {
   TreePine,
   Tent,
   Footprints,
+  Compass,
+  Sprout,
+  Heart,
+  Fish,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -27,29 +31,40 @@ const categoryIcons: Record<string, React.ReactNode> = {
   Ecoturismo: <TreePine className="h-7 w-7" />,
   Camping: <Tent className="h-7 w-7" />,
   Cavalgada: <Footprints className="h-7 w-7" />,
+  Aventura: <Compass className="h-7 w-7" />,
+  Agroturismo: <Sprout className="h-7 w-7" />,
+  "Retiro/Bem-estar": <Heart className="h-7 w-7" />,
+  "Pesca Esportiva": <Fish className="h-7 w-7" />,
 };
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState<Category>("Todas");
   const { data: dbExperiences, isLoading } = useActiveExperiences();
 
-  // Map DB experiences to card-compatible format
-  const realExperiences = (dbExperiences ?? []).map((exp) => {
-    const coverPhoto = exp.experience_photos?.sort((a, b) => a.position - b.position)[0];
-    return {
-      id: exp.id,
-      image: coverPhoto ? getPhotoUrl(coverPhoto.storage_path) : "/placeholder.svg",
-      title: exp.title,
-      location: exp.location,
-      category: exp.category as Category,
-      rating: exp.rating ?? 0,
-      price: Number(exp.price),
-      capacity: exp.capacity,
-    };
-  });
+  const realExperiences = useMemo(
+    () =>
+      (dbExperiences ?? []).map((exp) => {
+        const coverPhoto = exp.experience_photos?.sort(
+          (a, b) => a.position - b.position
+        )[0];
+        return {
+          id: exp.id,
+          image: coverPhoto
+            ? getPhotoUrl(coverPhoto.storage_path)
+            : "/placeholder.svg",
+          title: exp.title,
+          location: exp.location,
+          category: exp.category as Category,
+          rating: exp.rating ?? 0,
+          price: Number(exp.price),
+          capacity: exp.capacity,
+        };
+      }),
+    [dbExperiences]
+  );
 
-  // Combine real DB experiences + static seed (avoiding duplicates)
-  const experiences = [...realExperiences, ...staticExperiences];
+  // Use real experiences if available, otherwise fall back to static
+  const experiences = realExperiences.length > 0 ? realExperiences : staticExperiences;
 
   const filtered =
     activeCategory === "Todas"
@@ -79,7 +94,7 @@ const Index = () => {
               Encontre a experiência perfeita para o seu estilo
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             {categoryCounts.map((cat) => (
               <div key={cat.name} onClick={() => setActiveCategory(cat.name as Category)}>
                 <CategoryCard
@@ -121,7 +136,7 @@ const Index = () => {
 
           {isLoading ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {Array.from({ length: 4 }).map((_, i) => (
+              {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="rounded-xl overflow-hidden bg-card border border-border/50">
                   <Skeleton className="aspect-[4/3] w-full" />
                   <div className="p-5 space-y-3">
