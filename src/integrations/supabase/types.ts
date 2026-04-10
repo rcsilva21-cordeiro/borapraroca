@@ -230,6 +230,35 @@ export type Database = {
         }
         Relationships: []
       }
+      favorites: {
+        Row: {
+          created_at: string
+          experience_id: string
+          id: string
+          tourist_id: string
+        }
+        Insert: {
+          created_at?: string
+          experience_id: string
+          id?: string
+          tourist_id: string
+        }
+        Update: {
+          created_at?: string
+          experience_id?: string
+          id?: string
+          tourist_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -259,6 +288,44 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      reviews: {
+        Row: {
+          comment: string
+          created_at: string
+          experience_id: string
+          id: string
+          rating: number
+          tourist_id: string
+          tourist_name: string
+        }
+        Insert: {
+          comment?: string
+          created_at?: string
+          experience_id: string
+          id?: string
+          rating: number
+          tourist_id: string
+          tourist_name?: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          experience_id?: string
+          id?: string
+          rating?: number
+          tourist_id?: string
+          tourist_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       transactions: {
         Row: {
