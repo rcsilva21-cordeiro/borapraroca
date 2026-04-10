@@ -36,7 +36,22 @@ const ExperienceDetail = () => {
   const reviewStats = useReviewStats(isUUID ? id : undefined);
 
   const [rangeGuests, setRangeGuests] = useState<Record<string, number>>({});
+
+  const staticExp = !isUUID ? staticExperiences.find((e) => e.id === Number(id)) : null;
+
   const hasAgeRanges = ageRanges && ageRanges.length > 0;
+
+  // Always show age ranges: use DB ranges if available, otherwise generate defaults from base price
+  const defaultRanges = useMemo(() => {
+    const price = dbExp ? Number(dbExp.price) : (staticExp?.price ?? 0);
+    return [
+      { id: "default-adulto", label: "Adulto", min_age: 12, max_age: 99, price, position: 0 },
+      { id: "default-crianca", label: "Criança", min_age: 6, max_age: 11, price: Math.round(price * 0.5), position: 1 },
+      { id: "default-infantil", label: "Infantil", min_age: 0, max_age: 5, price: 0, position: 2 },
+    ];
+  }, [dbExp, staticExp]);
+
+  const effectiveRanges = hasAgeRanges ? ageRanges : defaultRanges;
 
   const updateRangeGuests = (rangeId: string, delta: number) => {
     setRangeGuests((prev) => ({ ...prev, [rangeId]: Math.max(0, (prev[rangeId] || 0) + delta) }));
@@ -44,11 +59,8 @@ const ExperienceDetail = () => {
 
   const totalRangeGuests = useMemo(() => Object.values(rangeGuests).reduce((s, q) => s + q, 0), [rangeGuests]);
   const totalRangePrice = useMemo(() => {
-    if (!hasAgeRanges) return 0;
-    return ageRanges.reduce((s, r) => s + (rangeGuests[r.id] || 0) * Number(r.price), 0);
-  }, [ageRanges, rangeGuests, hasAgeRanges]);
-
-  const staticExp = !isUUID ? staticExperiences.find((e) => e.id === Number(id)) : null;
+    return effectiveRanges.reduce((s, r) => s + (rangeGuests[r.id] || 0) * Number(r.price), 0);
+  }, [effectiveRanges, rangeGuests]);
 
   // Build photo URLs
   const photoUrls = useMemo(() => {
@@ -145,8 +157,8 @@ const ExperienceDetail = () => {
     ? ["Café da manhã colonial", "Estacionamento", "Wi-Fi", "Piscina natural", "Trilha guiada"]
     : ["Equipamento incluso", "Guia especializado", "Seguro atividade", "Lanche e hidratação", "Fotos da experiência"];
 
-  const effectiveGuests = hasAgeRanges ? totalRangeGuests : guests;
-  const totalPrice = hasAgeRanges ? totalRangePrice : exp.price * guests;
+  const effectiveGuests = totalRangeGuests;
+  const totalPrice = totalRangePrice;
 
   const handleReserve = async () => {
     if (!user) {
@@ -271,24 +283,22 @@ const ExperienceDetail = () => {
                 </p>
               </div>
 
-              {hasAgeRanges && (
-                <div>
-                  <h2 className="font-display text-2xl font-bold text-foreground mb-4">Preços por faixa etária</h2>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {ageRanges!.map((r) => (
-                      <div key={r.id} className="flex items-center justify-between bg-card rounded-lg p-3 border border-border/50">
-                        <div>
-                          <span className="text-sm font-medium text-foreground">{r.label}</span>
-                          <span className="text-xs text-muted-foreground ml-2">({r.min_age}–{r.max_age} anos)</span>
-                        </div>
-                        <span className="font-semibold text-primary">
-                          {Number(r.price) === 0 ? "Gratuito" : `R$ ${Number(r.price).toFixed(2)}`}
-                        </span>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-foreground mb-4">Preços por faixa etária</h2>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {effectiveRanges.map((r) => (
+                    <div key={r.id} className="flex items-center justify-between bg-card rounded-lg p-3 border border-border/50">
+                      <div>
+                        <span className="text-sm font-medium text-foreground">{r.label}</span>
+                        <span className="text-xs text-muted-foreground ml-2">({r.min_age}–{r.max_age} anos)</span>
                       </div>
-                    ))}
-                  </div>
+                      <span className="font-semibold text-primary">
+                        {Number(r.price) === 0 ? "Gratuito" : `R$ ${Number(r.price).toFixed(2)}`}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
 
               <div>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-4">O que está incluso</h2>
@@ -344,10 +354,9 @@ const ExperienceDetail = () => {
                     <input type="date" min={minDate} value={bookingDate} onChange={(e) => setBookingDate(e.target.value)} className="w-full bg-transparent text-foreground text-sm outline-none" />
                   </div>
 
-                  {hasAgeRanges ? (
-                    <div className="space-y-2">
+                  <div className="space-y-2">
                       <label className="text-xs text-muted-foreground block">Participantes</label>
-                      {ageRanges!.map((r) => (
+                      {effectiveRanges.map((r) => (
                         <div key={r.id} className="bg-background rounded-lg p-3 border border-border flex items-center justify-between">
                           <div>
                             <p className="text-sm font-medium text-foreground">{r.label}</p>
@@ -365,33 +374,16 @@ const ExperienceDetail = () => {
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    <div className="bg-background rounded-lg p-3 border border-border">
-                      <label className="text-xs text-muted-foreground block mb-1">Participantes</label>
-                      <select value={guests} onChange={(e) => setGuests(Number(e.target.value))} className="w-full bg-transparent text-foreground text-sm outline-none">
-                        {Array.from({ length: exp.capacity }, (_, i) => (
-                          <option key={i + 1} value={i + 1}>{i + 1} {i === 0 ? "pessoa" : "pessoas"}</option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
                 </div>
 
                 {bookingDate && effectiveGuests > 0 && (
                   <div className="space-y-2 pt-2 border-t border-border">
-                    {hasAgeRanges ? (
-                      ageRanges!.filter((r) => (rangeGuests[r.id] || 0) > 0).map((r) => (
-                        <div key={r.id} className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">{r.label} × {rangeGuests[r.id]}</span>
-                          <span className="text-foreground">{Number(r.price) === 0 ? "Grátis" : `R$ ${((rangeGuests[r.id] || 0) * Number(r.price)).toFixed(2)}`}</span>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">R$ {exp.price} × {guests} {guests === 1 ? "pessoa" : "pessoas"}</span>
-                        <span className="text-foreground">R$ {totalPrice.toFixed(2)}</span>
+                    {effectiveRanges.filter((r) => (rangeGuests[r.id] || 0) > 0).map((r) => (
+                      <div key={r.id} className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">{r.label} × {rangeGuests[r.id]}</span>
+                        <span className="text-foreground">{Number(r.price) === 0 ? "Grátis" : `R$ ${((rangeGuests[r.id] || 0) * Number(r.price)).toFixed(2)}`}</span>
                       </div>
-                    )}
+                    ))}
                     <div className="flex justify-between font-semibold">
                       <span className="text-foreground">Total</span>
                       <span className="text-primary font-display text-lg">R$ {totalPrice.toFixed(2)}</span>
