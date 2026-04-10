@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
 import { useReviews, useMyReview, useCreateReview, useReviewStats } from "@/hooks/useReviews";
-import { useProfile } from "@/contexts/ProfileContext";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ReviewSectionProps {
   experienceId: string;
