@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface PhotoGalleryProps {
   photos: string[];
   alt: string;
+  category?: string;
 }
 
 const categoryPlaceholders: Record<string, string> = {
@@ -25,7 +27,7 @@ export function getPlaceholderForCategory(category: string) {
   return categoryPlaceholders[category] || "/placeholder.svg";
 }
 
-export default function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
+export default function PhotoGallery({ photos, alt, category }: PhotoGalleryProps) {
   const [selected, setSelected] = useState(0);
 
   if (photos.length === 0) return null;
@@ -35,6 +37,9 @@ export default function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
       {/* Main photo */}
       <div className="relative rounded-2xl overflow-hidden w-full" style={{ height: 450 }}>
         <img src={photos[selected]} alt={alt} className="w-full h-full object-cover object-center" />
+        {category && (
+          <Badge className="absolute bottom-4 left-4 bg-primary/90 text-primary-foreground border-0">{category}</Badge>
+        )}
         {photos.length > 1 && (
           <>
             <Button
