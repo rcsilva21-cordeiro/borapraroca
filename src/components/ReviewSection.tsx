@@ -85,12 +85,14 @@ export default function ReviewSection({ experienceId, isRealExperience }: Review
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-2xl font-bold text-foreground">Avaliações</h2>
-        <div className="flex items-center gap-2">
-          <StarRating value={Math.round(average)} readonly />
-          <span className="font-semibold text-foreground">{average.toFixed(1)}</span>
-          <span className="text-sm text-muted-foreground">({count})</span>
-        </div>
+         <h2 className="font-display text-2xl font-bold text-foreground">Avaliações</h2>
+         {hasReviews && (
+           <div className="flex items-center gap-2">
+             <StarRating value={Math.round(average)} readonly />
+             <span className="font-semibold text-foreground">{average.toFixed(1)}</span>
+             <span className="text-sm text-muted-foreground">({count})</span>
+           </div>
+         )}
       </div>
 
       {!hasReviews && (
