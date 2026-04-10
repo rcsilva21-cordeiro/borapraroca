@@ -157,8 +157,8 @@ const ExperienceDetail = () => {
     ? ["Café da manhã colonial", "Estacionamento", "Wi-Fi", "Piscina natural", "Trilha guiada"]
     : ["Equipamento incluso", "Guia especializado", "Seguro atividade", "Lanche e hidratação", "Fotos da experiência"];
 
-  const effectiveGuests = hasAgeRanges ? totalRangeGuests : guests;
-  const totalPrice = hasAgeRanges ? totalRangePrice : exp.price * guests;
+  const effectiveGuests = totalRangeGuests;
+  const totalPrice = totalRangePrice;
 
   const handleReserve = async () => {
     if (!user) {
