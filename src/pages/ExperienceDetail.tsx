@@ -1,57 +1,64 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Star, Users, Clock, Calendar, Heart, Share2, Check, Loader2, Minus, Plus } from "lucide-react";
+import { ArrowLeft, MapPin, Star, Users, Clock, Calendar, Heart, Check, Loader2, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { experiences as staticExperiences } from "@/data/experiences";
 import { useExperienceById, getPhotoUrl } from "@/hooks/useExperiences";
-import { useExperienceAgeRanges, useInsertBookingGuests, type AgeRange } from "@/hooks/useAgeRanges";
+import { useExperienceAgeRanges, useInsertBookingGuests } from "@/hooks/useAgeRanges";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useReviewStats } from "@/hooks/useReviews";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PhotoGallery, { getPlaceholderForCategory } from "@/components/PhotoGallery";
+import ReviewSection from "@/components/ReviewSection";
+import ShareButton from "@/components/ShareButton";
 import { useState, useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCreateBooking } from "@/hooks/useBookings";
+import { toast } from "sonner";
 
 const ExperienceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { toast: legacyToast } = useToast();
   const { user } = useAuth();
   const createBooking = useCreateBooking();
   const insertBookingGuests = useInsertBookingGuests();
-  const [isFav, setIsFav] = useState(false);
+  const { toggleFavorite, isFavorite } = useFavorites();
   const [bookingDate, setBookingDate] = useState("");
   const [guests, setGuests] = useState(1);
 
   const isUUID = id && /^[0-9a-f]{8}-/.test(id);
   const { data: dbExp, isLoading } = useExperienceById(isUUID ? id : undefined);
   const { data: ageRanges } = useExperienceAgeRanges(isUUID ? id : undefined);
+  const reviewStats = useReviewStats(isUUID ? id : undefined);
 
-  // Guest quantities per age range
   const [rangeGuests, setRangeGuests] = useState<Record<string, number>>({});
-
   const hasAgeRanges = ageRanges && ageRanges.length > 0;
 
   const updateRangeGuests = (rangeId: string, delta: number) => {
-    setRangeGuests((prev) => {
-      const current = prev[rangeId] || 0;
-      const next = Math.max(0, current + delta);
-      return { ...prev, [rangeId]: next };
-    });
+    setRangeGuests((prev) => ({ ...prev, [rangeId]: Math.max(0, (prev[rangeId] || 0) + delta) }));
   };
 
-  const totalRangeGuests = useMemo(
-    () => Object.values(rangeGuests).reduce((sum, q) => sum + q, 0),
-    [rangeGuests]
-  );
-
+  const totalRangeGuests = useMemo(() => Object.values(rangeGuests).reduce((s, q) => s + q, 0), [rangeGuests]);
   const totalRangePrice = useMemo(() => {
     if (!hasAgeRanges) return 0;
-    return ageRanges.reduce((sum, r) => sum + (rangeGuests[r.id] || 0) * Number(r.price), 0);
+    return ageRanges.reduce((s, r) => s + (rangeGuests[r.id] || 0) * Number(r.price), 0);
   }, [ageRanges, rangeGuests, hasAgeRanges]);
 
   const staticExp = !isUUID ? staticExperiences.find((e) => e.id === Number(id)) : null;
+
+  // Build photo URLs
+  const photoUrls = useMemo(() => {
+    if (dbExp?.experience_photos && dbExp.experience_photos.length > 0) {
+      return dbExp.experience_photos
+        .sort((a, b) => a.position - b.position)
+        .map((p) => getPhotoUrl(p.storage_path));
+    }
+    return [];
+  }, [dbExp]);
 
   const exp = dbExp
     ? {
@@ -62,12 +69,10 @@ const ExperienceDetail = () => {
         category: dbExp.category,
         price: Number(dbExp.price),
         capacity: dbExp.capacity,
-        rating: dbExp.rating ?? 0,
+        rating: reviewStats.hasReviews ? reviewStats.average : (dbExp.rating ?? 5),
         duration: dbExp.duration,
         includes: dbExp.includes ?? [],
-        image: dbExp.experience_photos?.sort((a, b) => a.position - b.position)[0]
-          ? getPhotoUrl(dbExp.experience_photos.sort((a, b) => a.position - b.position)[0].storage_path)
-          : "/placeholder.svg",
+        image: photoUrls[0] || getPlaceholderForCategory(dbExp.category),
         isFromDB: true,
       }
     : staticExp
@@ -97,7 +102,6 @@ const ExperienceDetail = () => {
             <div className="lg:col-span-2 space-y-4">
               <Skeleton className="h-8 w-2/3" />
               <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
             </div>
             <Skeleton className="h-80 rounded-2xl" />
           </div>
@@ -116,6 +120,9 @@ const ExperienceDetail = () => {
       </div>
     );
   }
+
+  const allPhotos = photoUrls.length > 0 ? photoUrls : [exp.image];
+  const isFav = isUUID ? isFavorite(exp.id) : false;
 
   const durationLabels: Record<string, string> = {
     "meio-dia": "Meio dia",
@@ -143,30 +150,22 @@ const ExperienceDetail = () => {
 
   const handleReserve = async () => {
     if (!user) {
-      toast({ title: "Faça login primeiro", description: "Você precisa estar logado para reservar." });
+      legacyToast({ title: "Faça login primeiro", description: "Você precisa estar logado para reservar." });
       navigate("/entrar");
       return;
     }
-
     if (!exp.isFromDB) {
-      toast({
-        title: "Experiência de demonstração",
-        description: "Esta é uma experiência ilustrativa. Aguarde novas experiências reais serem cadastradas!",
-        variant: "destructive",
-      });
+      legacyToast({ title: "Experiência de demonstração", description: "Esta é uma experiência ilustrativa.", variant: "destructive" });
       return;
     }
-
     if (!bookingDate) {
-      toast({ title: "Selecione uma data", description: "Escolha a data desejada para a experiência.", variant: "destructive" });
+      legacyToast({ title: "Selecione uma data", variant: "destructive" });
       return;
     }
-
     if (effectiveGuests === 0) {
-      toast({ title: "Selecione participantes", description: "Adicione pelo menos 1 participante.", variant: "destructive" });
+      legacyToast({ title: "Selecione participantes", variant: "destructive" });
       return;
     }
-
     try {
       const booking = await createBooking.mutateAsync({
         experience_id: exp.id,
@@ -175,35 +174,37 @@ const ExperienceDetail = () => {
         total_price: totalPrice,
         status: "pending",
       });
-
-      // Save guest breakdown if age ranges used
       if (hasAgeRanges && booking) {
-        const guestsData = ageRanges
+        const guestsData = ageRanges!
           .filter((r) => (rangeGuests[r.id] || 0) > 0)
-          .map((r) => ({
-            age_range_id: r.id,
-            label: r.label,
-            quantity: rangeGuests[r.id],
-            unit_price: Number(r.price),
-          }));
+          .map((r) => ({ age_range_id: r.id, label: r.label, quantity: rangeGuests[r.id], unit_price: Number(r.price) }));
         if (guestsData.length > 0) {
-          await insertBookingGuests.mutateAsync({
-            bookingId: booking.id,
-            guests: guestsData,
-          });
+          await insertBookingGuests.mutateAsync({ bookingId: booking.id, guests: guestsData });
         }
       }
-
-      toast({ title: "Reserva solicitada! 🎉", description: "O hospedeiro irá confirmar sua reserva em breve." });
+      legacyToast({ title: "Reserva solicitada! 🎉", description: "O hospedeiro irá confirmar sua reserva em breve." });
       navigate("/minhas-reservas");
     } catch (error: any) {
-      toast({ title: "Erro ao reservar", description: error.message, variant: "destructive" });
+      legacyToast({ title: "Erro ao reservar", description: error.message, variant: "destructive" });
     }
   };
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const minDate = tomorrow.toISOString().split("T")[0];
+
+  const handleFavoriteClick = () => {
+    if (!user) {
+      toast.info("Faça login para favoritar");
+      return;
+    }
+    if (!isUUID) {
+      toast.info("Disponível apenas para experiências reais");
+      return;
+    }
+    toggleFavorite(exp.id);
+    toast.success(isFav ? "Removido dos favoritos" : "Adicionado aos favoritos ❤️");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -215,49 +216,36 @@ const ExperienceDetail = () => {
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Link to="/" className="hover:text-foreground transition-colors">Início</Link>
             <span>/</span>
-            <Link to="/#experiencias" className="hover:text-foreground transition-colors">Experiências</Link>
+            <Link to="/experiencias" className="hover:text-foreground transition-colors">Experiências</Link>
             <span>/</span>
             <span className="text-foreground">{exp.title}</span>
           </div>
         </div>
 
-        {/* Hero Image */}
-        <div className="container mx-auto px-4 lg:px-8 mb-8">
-          <div className="relative rounded-2xl overflow-hidden aspect-[21/9]">
-            <img src={exp.image} alt={exp.title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-hero" />
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+        {/* Photo Gallery */}
+        <div className="container mx-auto px-4 lg:px-8 mb-4">
+          <div className="relative">
+            <PhotoGallery photos={allPhotos} alt={exp.title} />
+            {/* Overlay info on main photo */}
+            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between pointer-events-none" style={{ top: "auto" }}>
               <div>
                 <Badge className="bg-primary/90 text-primary-foreground border-0 mb-3">{exp.category}</Badge>
-                <h1 className="font-display text-3xl lg:text-5xl font-bold text-white mb-2">{exp.title}</h1>
+                <h1 className="font-display text-3xl lg:text-5xl font-bold text-white mb-2 drop-shadow-lg">{exp.title}</h1>
                 <div className="flex items-center gap-2 text-white/80">
                   <MapPin className="h-4 w-4" />
-                  <span>{exp.location}</span>
+                  <span className="drop-shadow">{exp.location}</span>
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 pointer-events-auto">
                 <Button
                   variant="secondary"
                   size="icon"
                   className="rounded-full bg-white/20 backdrop-blur-sm border-0 text-white hover:bg-white/30"
-                  onClick={() => {
-                    setIsFav(!isFav);
-                    toast({ title: isFav ? "Removido dos favoritos" : "Adicionado aos favoritos ❤️" });
-                  }}
+                  onClick={handleFavoriteClick}
                 >
                   <Heart className={`h-5 w-5 ${isFav ? "fill-red-500 text-red-500" : ""}`} />
                 </Button>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full bg-white/20 backdrop-blur-sm border-0 text-white hover:bg-white/30"
-                  onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    toast({ title: "Link copiado! 📋" });
-                  }}
-                >
-                  <Share2 className="h-5 w-5" />
-                </Button>
+                <ShareButton title={exp.title} />
               </div>
             </div>
           </div>
@@ -280,17 +268,16 @@ const ExperienceDetail = () => {
 
               <div>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-4">Sobre a experiência</h2>
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  {exp.description || `Venha viver uma experiência única em ${exp.location}. ${exp.title} oferece uma imersão completa na vida rural brasileira, com todo o conforto e autenticidade que você merece.`}
+                <p className="text-muted-foreground leading-relaxed">
+                  {exp.description || `Venha viver uma experiência única em ${exp.location}. ${exp.title} oferece uma imersão completa na vida rural brasileira.`}
                 </p>
               </div>
 
-              {/* Age Ranges Info */}
               {hasAgeRanges && (
                 <div>
                   <h2 className="font-display text-2xl font-bold text-foreground mb-4">Preços por faixa etária</h2>
                   <div className="grid sm:grid-cols-2 gap-3">
-                    {ageRanges.map((r) => (
+                    {ageRanges!.map((r) => (
                       <div key={r.id} className="flex items-center justify-between bg-card rounded-lg p-3 border border-border/50">
                         <div>
                           <span className="text-sm font-medium text-foreground">{r.label}</span>
@@ -319,13 +306,14 @@ const ExperienceDetail = () => {
                 </div>
               </div>
 
+              {/* Reviews Section */}
+              <ReviewSection experienceId={exp.id} isRealExperience={exp.isFromDB} />
+
               <div className="bg-card rounded-xl p-6 border border-border/50">
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">Sobre o Hospedeiro</h2>
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="font-display text-xl font-bold text-primary">
-                      {exp.title.charAt(0)}
-                    </span>
+                    <span className="font-display text-xl font-bold text-primary">{exp.title.charAt(0)}</span>
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Hospedeiro verificado</p>
@@ -342,9 +330,7 @@ const ExperienceDetail = () => {
                   <span className="text-sm text-muted-foreground">A partir de</span>
                   <div className="flex items-baseline gap-1">
                     <span className="font-display text-4xl font-bold text-primary">R$ {exp.price}</span>
-                    <span className="text-muted-foreground text-sm">
-                      / {exp.category === "Hospedagem" ? "noite" : "pessoa"}
-                    </span>
+                    <span className="text-muted-foreground text-sm">/ {exp.category === "Hospedagem" ? "noite" : "pessoa"}</span>
                   </div>
                 </div>
 
@@ -357,48 +343,24 @@ const ExperienceDetail = () => {
                 <div className="space-y-3">
                   <div className="bg-background rounded-lg p-3 border border-border">
                     <label className="text-xs text-muted-foreground block mb-1">Data</label>
-                    <input
-                      type="date"
-                      min={minDate}
-                      value={bookingDate}
-                      onChange={(e) => setBookingDate(e.target.value)}
-                      className="w-full bg-transparent text-foreground text-sm outline-none"
-                    />
+                    <input type="date" min={minDate} value={bookingDate} onChange={(e) => setBookingDate(e.target.value)} className="w-full bg-transparent text-foreground text-sm outline-none" />
                   </div>
 
-                  {/* Age range guest selectors */}
                   {hasAgeRanges ? (
                     <div className="space-y-2">
                       <label className="text-xs text-muted-foreground block">Participantes</label>
-                      {ageRanges.map((r) => (
+                      {ageRanges!.map((r) => (
                         <div key={r.id} className="bg-background rounded-lg p-3 border border-border flex items-center justify-between">
                           <div>
                             <p className="text-sm font-medium text-foreground">{r.label}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {r.min_age}–{r.max_age} anos • {Number(r.price) === 0 ? "Gratuito" : `R$ ${Number(r.price).toFixed(2)}`}
-                            </p>
+                            <p className="text-xs text-muted-foreground">{r.min_age}–{r.max_age} anos • {Number(r.price) === 0 ? "Gratuito" : `R$ ${Number(r.price).toFixed(2)}`}</p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              className="h-7 w-7"
-                              onClick={() => updateRangeGuests(r.id, -1)}
-                              disabled={(rangeGuests[r.id] || 0) === 0}
-                            >
+                            <Button type="button" variant="outline" size="icon" className="h-7 w-7" onClick={() => updateRangeGuests(r.id, -1)} disabled={(rangeGuests[r.id] || 0) === 0}>
                               <Minus className="h-3 w-3" />
                             </Button>
-                            <span className="w-6 text-center text-sm font-medium text-foreground">
-                              {rangeGuests[r.id] || 0}
-                            </span>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              className="h-7 w-7"
-                              onClick={() => updateRangeGuests(r.id, 1)}
-                            >
+                            <span className="w-6 text-center text-sm font-medium text-foreground">{rangeGuests[r.id] || 0}</span>
+                            <Button type="button" variant="outline" size="icon" className="h-7 w-7" onClick={() => updateRangeGuests(r.id, 1)}>
                               <Plus className="h-3 w-3" />
                             </Button>
                           </div>
@@ -408,11 +370,7 @@ const ExperienceDetail = () => {
                   ) : (
                     <div className="bg-background rounded-lg p-3 border border-border">
                       <label className="text-xs text-muted-foreground block mb-1">Participantes</label>
-                      <select
-                        value={guests}
-                        onChange={(e) => setGuests(Number(e.target.value))}
-                        className="w-full bg-transparent text-foreground text-sm outline-none"
-                      >
+                      <select value={guests} onChange={(e) => setGuests(Number(e.target.value))} className="w-full bg-transparent text-foreground text-sm outline-none">
                         {Array.from({ length: exp.capacity }, (_, i) => (
                           <option key={i + 1} value={i + 1}>{i + 1} {i === 0 ? "pessoa" : "pessoas"}</option>
                         ))}
@@ -424,25 +382,15 @@ const ExperienceDetail = () => {
                 {bookingDate && effectiveGuests > 0 && (
                   <div className="space-y-2 pt-2 border-t border-border">
                     {hasAgeRanges ? (
-                      <>
-                        {ageRanges
-                          .filter((r) => (rangeGuests[r.id] || 0) > 0)
-                          .map((r) => (
-                            <div key={r.id} className="flex justify-between text-sm">
-                              <span className="text-muted-foreground">
-                                {r.label} × {rangeGuests[r.id]}
-                              </span>
-                              <span className="text-foreground">
-                                {Number(r.price) === 0 ? "Grátis" : `R$ ${((rangeGuests[r.id] || 0) * Number(r.price)).toFixed(2)}`}
-                              </span>
-                            </div>
-                          ))}
-                      </>
+                      ageRanges!.filter((r) => (rangeGuests[r.id] || 0) > 0).map((r) => (
+                        <div key={r.id} className="flex justify-between text-sm">
+                          <span className="text-muted-foreground">{r.label} × {rangeGuests[r.id]}</span>
+                          <span className="text-foreground">{Number(r.price) === 0 ? "Grátis" : `R$ ${((rangeGuests[r.id] || 0) * Number(r.price)).toFixed(2)}`}</span>
+                        </div>
+                      ))
                     ) : (
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          R$ {exp.price} × {guests} {guests === 1 ? "pessoa" : "pessoas"}
-                        </span>
+                        <span className="text-muted-foreground">R$ {exp.price} × {guests} {guests === 1 ? "pessoa" : "pessoas"}</span>
                         <span className="text-foreground">R$ {totalPrice.toFixed(2)}</span>
                       </div>
                     )}
@@ -453,21 +401,11 @@ const ExperienceDetail = () => {
                   </div>
                 )}
 
-                <Button
-                  className="w-full"
-                  size="lg"
-                  onClick={handleReserve}
-                  disabled={createBooking.isPending}
-                >
-                  {createBooking.isPending ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  ) : null}
+                <Button className="w-full" size="lg" onClick={handleReserve} disabled={createBooking.isPending}>
+                  {createBooking.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                   {createBooking.isPending ? "Reservando..." : "Reservar agora"}
                 </Button>
-
-                <p className="text-xs text-muted-foreground text-center">
-                  Você não será cobrado ainda. A confirmação é feita pelo hospedeiro.
-                </p>
+                <p className="text-xs text-muted-foreground text-center">Você não será cobrado ainda. A confirmação é feita pelo hospedeiro.</p>
               </div>
             </div>
           </div>
