@@ -33,8 +33,8 @@ export default function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
   return (
     <div className="space-y-3">
       {/* Main photo */}
-      <div className="relative rounded-2xl overflow-hidden" style={{ maxHeight: 450 }}>
-        <img src={photos[selected]} alt={alt} className="w-full h-full object-cover rounded-2xl" style={{ maxHeight: 450 }} />
+      <div className="relative rounded-2xl overflow-hidden w-full" style={{ height: 450 }}>
+        <img src={photos[selected]} alt={alt} className="w-full h-full object-cover object-center" />
         {photos.length > 1 && (
           <>
             <Button
