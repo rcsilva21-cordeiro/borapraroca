@@ -223,13 +223,12 @@ const ExperienceDetail = () => {
         </div>
 
         {/* Photo Gallery */}
-         <div className="container mx-auto px-4 lg:px-8 mb-4">
-           <PhotoGallery photos={allPhotos} alt={exp.title} />
+         <div className="container mx-auto px-4 lg:px-8 mb-4 space-y-4">
+           <PhotoGallery photos={allPhotos} alt={exp.title} category={exp.category} />
 
-           {/* Title & location below gallery */}
-           <div className="flex items-start justify-between mt-4">
+           {/* Title & location below thumbnails */}
+           <div className="flex items-start justify-between">
              <div>
-               <Badge className="bg-primary/90 text-primary-foreground border-0 mb-2">{exp.category}</Badge>
                <h1 className="font-display text-3xl lg:text-5xl font-bold text-foreground mb-1">{exp.title}</h1>
                <div className="flex items-center gap-2 text-muted-foreground">
                  <MapPin className="h-4 w-4" />
