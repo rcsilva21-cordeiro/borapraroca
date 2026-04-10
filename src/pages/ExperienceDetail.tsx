@@ -36,7 +36,19 @@ const ExperienceDetail = () => {
   const reviewStats = useReviewStats(isUUID ? id : undefined);
 
   const [rangeGuests, setRangeGuests] = useState<Record<string, number>>({});
+
+  // Always show age ranges: use DB ranges if available, otherwise generate defaults from base price
+  const defaultRanges = useMemo(() => {
+    const price = dbExp ? Number(dbExp.price) : (staticExp?.price ?? 0);
+    return [
+      { id: "default-adulto", label: "Adulto", min_age: 12, max_age: 99, price, position: 0 },
+      { id: "default-crianca", label: "Criança", min_age: 6, max_age: 11, price: Math.round(price * 0.5), position: 1 },
+      { id: "default-infantil", label: "Infantil", min_age: 0, max_age: 5, price: 0, position: 2 },
+    ];
+  }, [dbExp, staticExp]);
+
   const hasAgeRanges = ageRanges && ageRanges.length > 0;
+  const effectiveRanges = hasAgeRanges ? ageRanges : defaultRanges;
 
   const updateRangeGuests = (rangeId: string, delta: number) => {
     setRangeGuests((prev) => ({ ...prev, [rangeId]: Math.max(0, (prev[rangeId] || 0) + delta) }));
