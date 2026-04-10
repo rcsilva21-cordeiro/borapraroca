@@ -213,7 +213,7 @@ const ExperienceDetail = () => {
     if (!isUUID) {
       toast.info("Disponível apenas para experiências reais");
       return;
-                    ))}
+    }
     toggleFavorite(exp.id);
     toast.success(isFav ? "Removido dos favoritos" : "Adicionado aos favoritos ❤️");
   };
