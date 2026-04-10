@@ -223,33 +223,32 @@ const ExperienceDetail = () => {
         </div>
 
         {/* Photo Gallery */}
-        <div className="container mx-auto px-4 lg:px-8 mb-4">
-          <div className="relative">
-            <PhotoGallery photos={allPhotos} alt={exp.title} />
-            {/* Overlay info on main photo */}
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between pointer-events-none" style={{ top: "auto" }}>
-              <div>
-                <Badge className="bg-primary/90 text-primary-foreground border-0 mb-3">{exp.category}</Badge>
-                <h1 className="font-display text-3xl lg:text-5xl font-bold text-white mb-2 drop-shadow-lg">{exp.title}</h1>
-                <div className="flex items-center gap-2 text-white/80">
-                  <MapPin className="h-4 w-4" />
-                  <span className="drop-shadow">{exp.location}</span>
-                </div>
-              </div>
-              <div className="flex gap-2 pointer-events-auto">
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full bg-white/20 backdrop-blur-sm border-0 text-white hover:bg-white/30"
-                  onClick={handleFavoriteClick}
-                >
-                  <Heart className={`h-5 w-5 ${isFav ? "fill-red-500 text-red-500" : ""}`} />
-                </Button>
-                <ShareButton title={exp.title} />
-              </div>
-            </div>
-          </div>
-        </div>
+         <div className="container mx-auto px-4 lg:px-8 mb-4">
+           <PhotoGallery photos={allPhotos} alt={exp.title} />
+
+           {/* Title & location below gallery */}
+           <div className="flex items-start justify-between mt-4">
+             <div>
+               <Badge className="bg-primary/90 text-primary-foreground border-0 mb-2">{exp.category}</Badge>
+               <h1 className="font-display text-3xl lg:text-5xl font-bold text-foreground mb-1">{exp.title}</h1>
+               <div className="flex items-center gap-2 text-muted-foreground">
+                 <MapPin className="h-4 w-4" />
+                 <span>{exp.location}</span>
+               </div>
+             </div>
+             <div className="flex gap-2 mt-2">
+               <Button
+                 variant="secondary"
+                 size="icon"
+                 className="rounded-full"
+                 onClick={handleFavoriteClick}
+               >
+                 <Heart className={`h-5 w-5 ${isFav ? "fill-red-500 text-red-500" : ""}`} />
+               </Button>
+               <ShareButton title={exp.title} />
+             </div>
+           </div>
+         </div>
 
         {/* Content */}
         <div className="container mx-auto px-4 lg:px-8 pb-20">
