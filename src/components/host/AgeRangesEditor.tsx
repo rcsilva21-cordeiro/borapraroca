@@ -11,8 +11,8 @@ interface Props {
 
 const DEFAULT_RANGES: AgeRangeInput[] = [
   { label: "Adulto", min_age: 12, max_age: 99, price: 0, position: 0 },
-  { label: "Criança (4-11)", min_age: 4, max_age: 11, price: 0, position: 1 },
-  { label: "Criança (0-3)", min_age: 0, max_age: 3, price: 0, position: 2 },
+  { label: "Criança", min_age: 6, max_age: 11, price: 0, position: 1 },
+  { label: "Infantil", min_age: 0, max_age: 5, price: 0, position: 2 },
 ];
 
 export function getDefaultRanges(adultPrice: number): AgeRangeInput[] {
