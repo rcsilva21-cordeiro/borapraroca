@@ -147,6 +147,41 @@ export type Database = {
           },
         ]
       }
+      experience_availability: {
+        Row: {
+          available_slots: number
+          blocked: boolean
+          created_at: string
+          date: string
+          experience_id: string
+          id: string
+        }
+        Insert: {
+          available_slots?: number
+          blocked?: boolean
+          created_at?: string
+          date: string
+          experience_id: string
+          id?: string
+        }
+        Update: {
+          available_slots?: number
+          blocked?: boolean
+          created_at?: string
+          date?: string
+          experience_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experience_availability_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       experience_photos: {
         Row: {
           created_at: string
@@ -258,6 +293,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      host_benefits: {
+        Row: {
+          created_at: string
+          free_until: string
+          host_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          free_until: string
+          host_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          free_until?: string
+          host_id?: string
+          id?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
