@@ -283,24 +283,22 @@ const ExperienceDetail = () => {
                 </p>
               </div>
 
-              {hasAgeRanges && (
-                <div>
-                  <h2 className="font-display text-2xl font-bold text-foreground mb-4">Preços por faixa etária</h2>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {ageRanges!.map((r) => (
-                      <div key={r.id} className="flex items-center justify-between bg-card rounded-lg p-3 border border-border/50">
-                        <div>
-                          <span className="text-sm font-medium text-foreground">{r.label}</span>
-                          <span className="text-xs text-muted-foreground ml-2">({r.min_age}–{r.max_age} anos)</span>
-                        </div>
-                        <span className="font-semibold text-primary">
-                          {Number(r.price) === 0 ? "Gratuito" : `R$ ${Number(r.price).toFixed(2)}`}
-                        </span>
+              <div>
+                <h2 className="font-display text-2xl font-bold text-foreground mb-4">Preços por faixa etária</h2>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {effectiveRanges.map((r) => (
+                    <div key={r.id} className="flex items-center justify-between bg-card rounded-lg p-3 border border-border/50">
+                      <div>
+                        <span className="text-sm font-medium text-foreground">{r.label}</span>
+                        <span className="text-xs text-muted-foreground ml-2">({r.min_age}–{r.max_age} anos)</span>
                       </div>
-                    ))}
-                  </div>
+                      <span className="font-semibold text-primary">
+                        {Number(r.price) === 0 ? "Gratuito" : `R$ ${Number(r.price).toFixed(2)}`}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
 
               <div>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-4">O que está incluso</h2>
