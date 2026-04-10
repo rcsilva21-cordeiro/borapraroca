@@ -40,8 +40,14 @@ function StarRating({ value, onChange, readonly = false }: { value: number; onCh
 
 export default function ReviewSection({ experienceId, isRealExperience }: ReviewSectionProps) {
   const { user } = useAuth();
-  const { profile } = useProfile();
-  const { data: reviews = [] } = useReviews(isRealExperience ? experienceId : undefined);
+  const { data: profile } = useQuery({
+    queryKey: ["profile", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data } = await supabase.from("profiles").select("full_name").eq("user_id", user!.id).single();
+      return data;
+    },
+  });
   const { data: myReview } = useMyReview(isRealExperience ? experienceId : undefined);
   const { average, count, hasReviews } = useReviewStats(isRealExperience ? experienceId : undefined);
   const createReview = useCreateReview();
