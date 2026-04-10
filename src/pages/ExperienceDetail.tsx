@@ -37,6 +37,10 @@ const ExperienceDetail = () => {
 
   const [rangeGuests, setRangeGuests] = useState<Record<string, number>>({});
 
+  const staticExp = !isUUID ? staticExperiences.find((e) => e.id === Number(id)) : null;
+
+  const hasAgeRanges = ageRanges && ageRanges.length > 0;
+
   // Always show age ranges: use DB ranges if available, otherwise generate defaults from base price
   const defaultRanges = useMemo(() => {
     const price = dbExp ? Number(dbExp.price) : (staticExp?.price ?? 0);
@@ -47,7 +51,6 @@ const ExperienceDetail = () => {
     ];
   }, [dbExp, staticExp]);
 
-  const hasAgeRanges = ageRanges && ageRanges.length > 0;
   const effectiveRanges = hasAgeRanges ? ageRanges : defaultRanges;
 
   const updateRangeGuests = (rangeId: string, delta: number) => {
@@ -56,11 +59,8 @@ const ExperienceDetail = () => {
 
   const totalRangeGuests = useMemo(() => Object.values(rangeGuests).reduce((s, q) => s + q, 0), [rangeGuests]);
   const totalRangePrice = useMemo(() => {
-    if (!hasAgeRanges) return 0;
-    return ageRanges.reduce((s, r) => s + (rangeGuests[r.id] || 0) * Number(r.price), 0);
-  }, [ageRanges, rangeGuests, hasAgeRanges]);
-
-  const staticExp = !isUUID ? staticExperiences.find((e) => e.id === Number(id)) : null;
+    return effectiveRanges.reduce((s, r) => s + (rangeGuests[r.id] || 0) * Number(r.price), 0);
+  }, [effectiveRanges, rangeGuests]);
 
   // Build photo URLs
   const photoUrls = useMemo(() => {
