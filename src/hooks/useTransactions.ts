@@ -20,12 +20,12 @@ export function useUserTransactions() {
     enabled: !!user,
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("transactions" as any)
+        .from("transactions")
         .select("*")
         .eq("user_id", user!.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as unknown as Transaction[];
+      return data as Transaction[];
     },
   });
 }
@@ -35,11 +35,11 @@ export function useAllTransactions() {
     queryKey: ["all-transactions"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("transactions" as any)
+        .from("transactions")
         .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as unknown as Transaction[];
+      return data as Transaction[];
     },
   });
 }
