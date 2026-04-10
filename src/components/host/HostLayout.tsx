@@ -1,5 +1,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { HostSidebar } from "./HostSidebar";
+import { HostBenefitsBanner } from "./HostBenefitsBanner";
+import { BookingRealtimeListener } from "./BookingRealtimeListener";
 import { Outlet } from "react-router-dom";
 
 export default function HostLayout() {
@@ -14,7 +16,9 @@ export default function HostLayout() {
               Painel do Hospedeiro
             </h1>
           </header>
-          <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto">
+          <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto space-y-6">
+            <HostBenefitsBanner />
+            <BookingRealtimeListener />
             <Outlet />
           </main>
         </div>

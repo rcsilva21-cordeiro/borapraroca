@@ -21,6 +21,7 @@ import HostProfile from "./pages/host/HostProfile";
 import HostExperienceBuilding from "./pages/host/HostExperienceBuilding";
 import HostBookings from "./pages/host/HostBookings";
 import HostFinancial from "./pages/host/HostFinancial";
+import HostAvailability from "./pages/host/HostAvailability";
 
 // Tourist
 import TouristLayout from "./components/tourist/TouristLayout";
