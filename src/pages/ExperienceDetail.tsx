@@ -385,7 +385,6 @@ const ExperienceDetail = () => {
                         <span className="text-muted-foreground">{r.label} × {rangeGuests[r.id]}</span>
                         <span className="text-foreground">{Number(r.price) === 0 ? "Grátis" : `R$ ${((rangeGuests[r.id] || 0) * Number(r.price)).toFixed(2)}`}</span>
                       </div>
-                    ))
                     )}
                     <div className="flex justify-between font-semibold">
                       <span className="text-foreground">Total</span>
