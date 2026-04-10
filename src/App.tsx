@@ -84,6 +84,7 @@ const App = () => (
               <Route path="nova" element={<HostNewExperience />} />
               <Route path="experiencias" element={<HostExperiences />} />
               <Route path="financeiro" element={<HostFinancial />} />
+              <Route path="disponibilidade" element={<HostAvailability />} />
               <Route path="perfil" element={<HostProfile />} />
               <Route path="construcao" element={<HostExperienceBuilding />} />
             </Route>
