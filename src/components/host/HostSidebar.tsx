@@ -1,4 +1,4 @@
-import { LayoutDashboard, PlusCircle, List, User, LogOut, HardHat, CalendarCheck, DollarSign } from "lucide-react";
+import { LayoutDashboard, PlusCircle, List, User, LogOut, HardHat, CalendarCheck, DollarSign, CalendarDays } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -11,6 +11,7 @@ const menuItems = [
   { title: "Reservas", url: "/hospedeiro/reservas", icon: CalendarCheck },
   { title: "Nova Experiência", url: "/hospedeiro/nova", icon: PlusCircle },
   { title: "Minhas Experiências", url: "/hospedeiro/experiencias", icon: List },
+  { title: "Disponibilidade", url: "/hospedeiro/disponibilidade", icon: CalendarDays },
   { title: "Financeiro", url: "/hospedeiro/financeiro", icon: DollarSign },
   { title: "Meu Perfil", url: "/hospedeiro/perfil", icon: User },
   { title: "Em Construção", url: "/hospedeiro/construcao", icon: HardHat },

@@ -1,30 +1,48 @@
-import { PlusCircle, Eye, Star, Calendar, CalendarCheck, Loader2 } from "lucide-react";
+import { PlusCircle, Eye, Star, Calendar, DollarSign, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
-import { useHostExperiences } from "@/hooks/useExperiences";
 import { useHostBookings } from "@/hooks/useBookings";
+import { useHostDashboardStats } from "@/hooks/useHostDashboardStats";
 import { format } from "date-fns";
 
 export default function HostDashboard() {
-  const { data: experiences, isLoading: loadingExp } = useHostExperiences();
   const { data: bookings, isLoading: loadingBook } = useHostBookings();
-
-  const activeCount = experiences?.filter((e) => e.status === "active").length ?? 0;
-  const pendingBookings = bookings?.filter((b) => b.status === "pending").length ?? 0;
-  const totalBookings = bookings?.length ?? 0;
-  const avgRating = experiences && experiences.length > 0
-    ? (experiences.reduce((sum, e) => sum + (e.rating ?? 0), 0) / experiences.length).toFixed(1)
-    : "—";
+  const { data: stats, isLoading: loadingStats } = useHostDashboardStats();
 
   const recentBookings = (bookings ?? []).slice(0, 5);
-  const isLoading = loadingExp || loadingBook;
+  const isLoading = loadingBook || loadingStats;
 
-  const stats = [
-    { label: "Experiências Ativas", value: String(activeCount), icon: Eye, color: "text-primary" },
-    { label: "Reservas Pendentes", value: String(pendingBookings), icon: CalendarCheck, color: "text-amber-600" },
-    { label: "Total de Reservas", value: String(totalBookings), icon: Calendar, color: "text-sky-600" },
-    { label: "Avaliação Média", value: avgRating, icon: Star, color: "text-earth-gold" },
+  const statCards = [
+    {
+      label: "Reservas Confirmadas",
+      value: stats ? String(stats.confirmedBookings) : null,
+      icon: Calendar,
+      color: "text-primary",
+    },
+    {
+      label: "Faturamento Total",
+      value: stats ? `R$ ${stats.totalRevenue.toFixed(2)}` : null,
+      icon: DollarSign,
+      color: "text-emerald-600",
+    },
+    {
+      label: "Avaliação Média",
+      value: stats
+        ? stats.avgRating !== null
+          ? stats.avgRating.toFixed(1)
+          : "—"
+        : null,
+      icon: Star,
+      color: "text-accent",
+    },
+    {
+      label: "Experiências Ativas",
+      value: stats ? String(stats.activeExperiences) : null,
+      icon: Eye,
+      color: "text-primary",
+    },
   ];
 
   const statusLabels: Record<string, { label: string; className: string }> = {
@@ -55,7 +73,7 @@ export default function HostDashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
+        {statCards.map((stat) => (
           <Card key={stat.label}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -64,8 +82,8 @@ export default function HostDashboard() {
               <stat.icon className={`h-4 w-4 ${stat.color}`} />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+              {loadingStats ? (
+                <Skeleton className="h-8 w-20" />
               ) : (
                 <p className="font-display text-2xl font-bold">{stat.value}</p>
               )}
@@ -78,16 +96,18 @@ export default function HostDashboard() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="font-display text-lg">Reservas Recentes</CardTitle>
-          {totalBookings > 0 && (
+          {(bookings?.length ?? 0) > 0 && (
             <Link to="/hospedeiro/reservas">
               <Button variant="ghost" size="sm" className="text-primary">Ver todas</Button>
             </Link>
           )}
         </CardHeader>
         <CardContent>
-          {isLoading ? (
-            <div className="flex justify-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          {loadingBook ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-16 w-full" />
+              ))}
             </div>
           ) : recentBookings.length > 0 ? (
             <div className="space-y-4">

@@ -21,6 +21,7 @@ import HostProfile from "./pages/host/HostProfile";
 import HostExperienceBuilding from "./pages/host/HostExperienceBuilding";
 import HostBookings from "./pages/host/HostBookings";
 import HostFinancial from "./pages/host/HostFinancial";
+import HostAvailability from "./pages/host/HostAvailability";
 
 // Tourist
 import TouristLayout from "./components/tourist/TouristLayout";
@@ -83,6 +84,7 @@ const App = () => (
               <Route path="nova" element={<HostNewExperience />} />
               <Route path="experiencias" element={<HostExperiences />} />
               <Route path="financeiro" element={<HostFinancial />} />
+              <Route path="disponibilidade" element={<HostAvailability />} />
               <Route path="perfil" element={<HostProfile />} />
               <Route path="construcao" element={<HostExperienceBuilding />} />
             </Route>
