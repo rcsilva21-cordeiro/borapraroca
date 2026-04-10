@@ -33,8 +33,8 @@ export default function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
   return (
     <div className="space-y-3">
       {/* Main photo */}
-      <div className="relative rounded-2xl overflow-hidden aspect-[21/9]">
-        <img src={photos[selected]} alt={alt} className="w-full h-full object-cover" />
+      <div className="relative rounded-2xl overflow-hidden" style={{ maxHeight: 450 }}>
+        <img src={photos[selected]} alt={alt} className="w-full h-full object-cover rounded-2xl" style={{ maxHeight: 450 }} />
         {photos.length > 1 && (
           <>
             <Button
@@ -64,7 +64,7 @@ export default function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
             <button
               key={i}
               onClick={() => setSelected(i)}
-              className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+              className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${
                 i === selected ? "border-primary ring-2 ring-primary/30" : "border-transparent opacity-70 hover:opacity-100"
               }`}
             >
