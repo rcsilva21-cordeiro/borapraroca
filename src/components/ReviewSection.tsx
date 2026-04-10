@@ -48,6 +48,7 @@ export default function ReviewSection({ experienceId, isRealExperience }: Review
       return data;
     },
   });
+  const { data: reviews = [] } = useReviews(isRealExperience ? experienceId : undefined);
   const { data: myReview } = useMyReview(isRealExperience ? experienceId : undefined);
   const { average, count, hasReviews } = useReviewStats(isRealExperience ? experienceId : undefined);
   const createReview = useCreateReview();
