@@ -1,4 +1,4 @@
-import { TreePine } from "lucide-react";
+import { TreePine, Instagram } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -12,9 +12,18 @@ const Footer = () => {
                 Bora<span className="text-primary">PraRoça</span>
               </span>
             </div>
-            <p className="text-background/50 text-sm leading-relaxed">
+            <p className="text-background/50 text-sm leading-relaxed mb-4">
               Conectando turistas a experiências rurais autênticas em todo o Brasil.
             </p>
+            
+              href="https://instagram.com/boraparoca"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-background/50 hover:text-primary transition-colors"
+            >
+              <Instagram className="h-5 w-5" />
+              <span className="text-sm">@boraparoca</span>
+            </a>
           </div>
           <div>
             <h4 className="font-display font-semibold text-background mb-4">Experiências</h4>
