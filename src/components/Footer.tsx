@@ -15,7 +15,7 @@ const Footer = () => {
             <p className="text-background/50 text-sm leading-relaxed mb-4">
               Conectando turistas a experiências rurais autênticas em todo o Brasil.
             </p>
-            
+            <a
               href="https://instagram.com/boraparoca"
               target="_blank"
               rel="noopener noreferrer"
