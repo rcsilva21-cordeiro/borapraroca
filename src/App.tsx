@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import ExperienceDetail from "./pages/ExperienceDetail";
 import Experiencias from "./pages/Experiencias";
+import ResetPassword from "./pages/ResetPassword";
 
 // Host
 import HostLayout from "./components/host/HostLayout";
@@ -50,6 +51,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/entrar" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/experiencias" element={<Experiencias />} />
             <Route path="/experiencia/:id" element={<ExperienceDetail />} />
 
