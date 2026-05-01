@@ -117,91 +117,155 @@ const Auth = () => {
             </span>
           </a>
 
-          <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-            {isLogin ? "Entrar na sua conta" : "Criar sua conta"}
-          </h1>
-          <p className="text-muted-foreground mb-8">
-            {isLogin
-              ? "Acesse suas experiências e reservas"
-              : "Cadastre-se e comece a explorar o campo"}
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Seu nome completo"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="pl-10"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-            )}
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="email"
-                placeholder="seu@email.com"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="pl-10"
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="Sua senha (mín. 6 caracteres)"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="pl-10 pr-10"
-                required
-                minLength={6}
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          {isForgotPassword ? (
+            <>
+              <h1 className="font-display text-3xl font-bold text-foreground mb-2">
+                Recuperar senha
+              </h1>
+              <p className="text-muted-foreground mb-8">
+                Digite seu email e enviaremos um link para redefinir sua senha.
+              </p>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setIsLoading(true);
+                  try {
+                    const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
+                      redirectTo: `${window.location.origin}/reset-password`,
+                    });
+                    if (error) throw error;
+                    toast({
+                      title: "Email enviado! 📧",
+                      description: "Verifique sua caixa de entrada para redefinir a senha.",
+                    });
+                    setIsForgotPassword(false);
+                  } catch (error: any) {
+                    toast({
+                      title: "Erro",
+                      description: error.message,
+                      variant: "destructive",
+                    });
+                  } finally {
+                    setIsLoading(false);
+                  }
+                }}
+                className="space-y-4"
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-
-            {isLogin && (
-              <div className="text-right">
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    className="pl-10"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+                <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                  {isLoading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                  Enviar link de recuperação
+                </Button>
+              </form>
+              <div className="mt-6 text-center">
                 <button
-                  type="button"
-                  onClick={() => setIsForgotPassword(true)}
-                  className="text-sm text-primary hover:underline"
+                  onClick={() => setIsForgotPassword(false)}
+                  className="text-sm text-primary font-semibold hover:underline"
                 >
-                  Esqueceu a senha?
+                  Voltar ao login
                 </button>
               </div>
-            )}
+            </>
+          ) : (
+            <>
+              <h1 className="font-display text-3xl font-bold text-foreground mb-2">
+                {isLogin ? "Entrar na sua conta" : "Criar sua conta"}
+              </h1>
+              <p className="text-muted-foreground mb-8">
+                {isLogin
+                  ? "Acesse suas experiências e reservas"
+                  : "Cadastre-se e comece a explorar o campo"}
+              </p>
 
-            <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-              {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : null}
-              {isLogin ? "Entrar" : "Criar conta"}
-            </Button>
-          </form>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {!isLogin && (
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Seu nome completo"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className="pl-10"
+                      required
+                      disabled={isLoading}
+                    />
+                  </div>
+                )}
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className="pl-10"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Sua senha (mín. 6 caracteres)"
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    className="pl-10 pr-10"
+                    required
+                    minLength={6}
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            {isLogin ? "Não tem conta?" : "Já tem uma conta?"}{" "}
-            <button
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-primary font-semibold hover:underline"
-            >
-              {isLogin ? "Cadastre-se grátis" : "Faça login"}
-            </button>
-          </div>
+                {isLogin && (
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      onClick={() => setIsForgotPassword(true)}
+                      className="text-sm text-primary hover:underline"
+                    >
+                      Esqueceu a senha?
+                    </button>
+                  </div>
+                )}
+
+                <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : null}
+                  {isLogin ? "Entrar" : "Criar conta"}
+                </Button>
+              </form>
+
+              <div className="mt-6 text-center text-sm text-muted-foreground">
+                {isLogin ? "Não tem conta?" : "Já tem uma conta?"}{" "}
+                <button
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="text-primary font-semibold hover:underline"
+                >
+                  {isLogin ? "Cadastre-se grátis" : "Faça login"}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
