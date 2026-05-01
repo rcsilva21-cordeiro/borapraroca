@@ -1,4 +1,4 @@
-import { LayoutDashboard, CheckCircle, Users, DollarSign, LogOut } from "lucide-react";
+import { LayoutDashboard, CheckCircle, Users, DollarSign, LogOut, PlusCircle } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -9,6 +9,7 @@ import {
 const menuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Experiências", url: "/admin/experiencias", icon: CheckCircle },
+  { title: "Nova Experiência", url: "/admin/nova-experiencia", icon: PlusCircle },
   { title: "Usuários", url: "/admin/usuarios", icon: Users },
   { title: "Financeiro", url: "/admin/financeiro", icon: DollarSign },
 ];
