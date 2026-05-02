@@ -71,3 +71,35 @@ export function useApproveExperience() {
     },
   });
 }
+
+export function useDeleteExperience() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      // Get photos to delete from storage
+      const { data: photos } = await supabase
+        .from("experience_photos")
+        .select("storage_path")
+        .eq("experience_id", id);
+
+      // Delete related data first
+      await supabase.from("experience_age_ranges").delete().eq("experience_id", id);
+      await supabase.from("experience_photos").delete().eq("experience_id", id);
+      await supabase.from("experience_availability").delete().eq("experience_id", id);
+
+      // Delete storage files
+      if (photos && photos.length > 0) {
+        await supabase.storage
+          .from("experience-photos")
+          .remove(photos.map((p) => p.storage_path));
+      }
+
+      // Delete experience
+      const { error } = await supabase.from("experiences").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-experiences"] });
+    },
+  });
+}
