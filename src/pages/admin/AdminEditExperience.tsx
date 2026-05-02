@@ -88,11 +88,12 @@ export default function AdminEditExperience() {
   useEffect(() => {
     if (existingAgeRanges && existingAgeRanges.length > 0 && ageRanges.length === 0 && loaded) {
       setAgeRanges(
-        existingAgeRanges.map((r) => ({
+        existingAgeRanges.map((r, i) => ({
           label: r.label,
           min_age: r.min_age,
           max_age: r.max_age,
           price: r.price,
+          position: r.position ?? i,
         }))
       );
     }
