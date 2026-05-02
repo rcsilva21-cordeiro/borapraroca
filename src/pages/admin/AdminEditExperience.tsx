@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useExperienceById, getPhotoUrl } from "@/hooks/useExperiences";
-import { useAgeRanges, useInsertAgeRanges, type AgeRangeInput } from "@/hooks/useAgeRanges";
+import { useExperienceAgeRanges, useInsertAgeRanges, type AgeRangeInput } from "@/hooks/useAgeRanges";
 import AgeRangesEditor from "@/components/host/AgeRangesEditor";
 import { ImagePlus, Save, X, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
