@@ -1,11 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle, XCircle, Pencil } from "lucide-react";
-import { useAllExperiences, useApproveExperience } from "@/hooks/useAdmin";
+import { Loader2, CheckCircle, XCircle, Pencil, Trash2 } from "lucide-react";
+import { useAllExperiences, useApproveExperience, useDeleteExperience } from "@/hooks/useAdmin";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { getPhotoUrl } from "@/hooks/useExperiences";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const statusLabels: Record<string, { label: string; className: string }> = {
   draft: { label: "Rascunho", className: "bg-muted text-muted-foreground" },
@@ -17,8 +22,10 @@ const statusLabels: Record<string, { label: string; className: string }> = {
 export default function AdminExperiences() {
   const { data: experiences, isLoading } = useAllExperiences();
   const approve = useApproveExperience();
+  const deleteExp = useDeleteExperience();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
 
   const handleAction = async (id: string, status: "active" | "inactive") => {
     try {
@@ -29,13 +36,24 @@ export default function AdminExperiences() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    try {
+      await deleteExp.mutateAsync(deleteTarget.id);
+      toast({ title: "Experiência excluída com sucesso!" });
+    } catch {
+      toast({ title: "Erro ao excluir experiência", variant: "destructive" });
+    }
+    setDeleteTarget(null);
+  };
+
   if (isLoading) return <div className="flex justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="font-display text-2xl font-bold text-foreground">Gerenciar Experiências</h2>
-        <p className="text-muted-foreground mt-1">Aprove ou desative experiências cadastradas</p>
+        <p className="text-muted-foreground mt-1">Aprove, edite ou exclua experiências cadastradas</p>
       </div>
 
       {!experiences || experiences.length === 0 ? (
@@ -51,7 +69,6 @@ export default function AdminExperiences() {
                 <CardContent className="p-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex gap-4">
-                      {/* Thumbnail */}
                       {exp.experience_photos && exp.experience_photos.length > 0 ? (
                         <img
                           src={getPhotoUrl(exp.experience_photos.sort((a: any, b: any) => a.position - b.position)[0].storage_path)}
@@ -91,6 +108,10 @@ export default function AdminExperiences() {
                           Desativar
                         </Button>
                       )}
+                      <Button size="sm" variant="destructive" onClick={() => setDeleteTarget({ id: exp.id, title: exp.title })} disabled={deleteExp.isPending}>
+                        <Trash2 className="h-4 w-4 mr-1" />
+                        Excluir
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -99,6 +120,23 @@ export default function AdminExperiences() {
           })}
         </div>
       )}
+
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir experiência?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir <strong>"{deleteTarget?.title}"</strong>? Esta ação é irreversível e removerá todas as fotos, faixas etárias e disponibilidades associadas.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
