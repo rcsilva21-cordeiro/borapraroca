@@ -79,7 +79,7 @@ export default function AdminNewExperience() {
 
   const handlePhotos = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const remaining = 5 - photos.length;
+    const remaining = 15 - photos.length;
     const toAdd = files.slice(0, remaining);
     setPhotos((prev) => [...prev, ...toAdd]);
     toAdd.forEach((f) => {
@@ -353,10 +353,10 @@ export default function AdminNewExperience() {
             <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" multiple
               className="hidden" onChange={handlePhotos} />
             {previews.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4">
                 {previews.map((src, i) => (
-                  <div key={i} className="relative aspect-video rounded-lg overflow-hidden group">
-                    <img src={src} alt="" className="w-full h-full object-cover" />
+                  <div key={i} className="relative aspect-square rounded-lg overflow-hidden group">
+                    <img src={src} alt="" className="w-full h-full object-cover object-center" />
                     <button type="button" onClick={() => removePhoto(i)}
                       className="absolute top-1.5 right-1.5 p-1 bg-background/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                       <X className="h-4 w-4" />
@@ -365,13 +365,13 @@ export default function AdminNewExperience() {
                 ))}
               </div>
             )}
-            {photos.length < 5 && (
+            {photos.length < 15 && (
               <div onClick={() => fileInputRef.current?.click()}
                 className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer">
                 <ImagePlus className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
                 <p className="font-medium text-foreground">Clique para enviar fotos</p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  JPG, PNG ou WebP • Máximo 5 fotos ({photos.length}/5)
+                  JPG, PNG ou WebP • Máximo 15 fotos ({photos.length}/15)
                 </p>
               </div>
             )}
