@@ -38,6 +38,7 @@ import AdminExperiences from "./pages/admin/AdminExperiences";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminFinancial from "./pages/admin/AdminFinancial";
 import AdminNewExperience from "./pages/admin/AdminNewExperience";
+import AdminEditExperience from "./pages/admin/AdminEditExperience";
 
 const queryClient = new QueryClient();
 
