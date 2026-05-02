@@ -38,6 +38,7 @@ import AdminExperiences from "./pages/admin/AdminExperiences";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminFinancial from "./pages/admin/AdminFinancial";
 import AdminNewExperience from "./pages/admin/AdminNewExperience";
+import AdminEditExperience from "./pages/admin/AdminEditExperience";
 
 const queryClient = new QueryClient();
 
@@ -104,6 +105,7 @@ const App = () => (
               <Route index element={<AdminDashboard />} />
               <Route path="experiencias" element={<AdminExperiences />} />
               <Route path="nova-experiencia" element={<AdminNewExperience />} />
+              <Route path="experiencia/:id" element={<AdminEditExperience />} />
               <Route path="usuarios" element={<AdminUsers />} />
               <Route path="financeiro" element={<AdminFinancial />} />
             </Route>
