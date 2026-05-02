@@ -50,17 +50,35 @@ export default function AdminExperiences() {
               <Card key={exp.id}>
                 <CardContent className="p-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-display text-lg font-semibold">{exp.title}</h3>
-                        <Badge variant="outline" className={st.className}>{st.label}</Badge>
+                    <div className="flex gap-4">
+                      {/* Thumbnail */}
+                      {exp.experience_photos && exp.experience_photos.length > 0 ? (
+                        <img
+                          src={getPhotoUrl(exp.experience_photos.sort((a: any, b: any) => a.position - b.position)[0].storage_path)}
+                          alt={exp.title}
+                          className="w-20 h-14 rounded-lg object-cover shrink-0"
+                        />
+                      ) : (
+                        <div className="w-20 h-14 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                          <span className="text-xs text-muted-foreground">Sem foto</span>
+                        </div>
+                      )}
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-display text-lg font-semibold">{exp.title}</h3>
+                          <Badge variant="outline" className={st.className}>{st.label}</Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {exp.location} · {exp.category} · R$ {Number(exp.price).toFixed(2)}
+                        </p>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{exp.description}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        {exp.location} · {exp.category} · R$ {Number(exp.price).toFixed(2)}
-                      </p>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{exp.description}</p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 shrink-0">
+                      <Button size="sm" variant="secondary" onClick={() => navigate(`/admin/experiencia/${exp.id}`)}>
+                        <Pencil className="h-4 w-4 mr-1" />
+                        Editar
+                      </Button>
                       {exp.status !== "active" && (
                         <Button size="sm" onClick={() => handleAction(exp.id, "active")} disabled={approve.isPending}>
                           <CheckCircle className="h-4 w-4 mr-1" />
