@@ -46,7 +46,7 @@ export default function AdminEditExperience() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { data: experience, isLoading } = useExperienceById(id);
-  const { data: existingAgeRanges } = useAgeRanges(id);
+  const { data: existingAgeRanges } = useExperienceAgeRanges(id);
   const insertAgeRanges = useInsertAgeRanges();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
