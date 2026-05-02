@@ -17,6 +17,7 @@ const statusLabels: Record<string, { label: string; className: string }> = {
 export default function AdminExperiences() {
   const { data: experiences, isLoading } = useAllExperiences();
   const approve = useApproveExperience();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleAction = async (id: string, status: "active" | "inactive") => {
