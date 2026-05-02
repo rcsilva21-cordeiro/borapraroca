@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle, XCircle } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, Pencil } from "lucide-react";
 import { useAllExperiences, useApproveExperience } from "@/hooks/useAdmin";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { getPhotoUrl } from "@/hooks/useExperiences";
 
 const statusLabels: Record<string, { label: string; className: string }> = {
   draft: { label: "Rascunho", className: "bg-muted text-muted-foreground" },
