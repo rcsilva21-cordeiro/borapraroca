@@ -35,8 +35,8 @@ export default function PhotoGallery({ photos, alt, category }: PhotoGalleryProp
   return (
     <div className="space-y-3">
       {/* Main photo */}
-      <div className="relative rounded-2xl overflow-hidden w-full" style={{ height: 450 }}>
-        <img src={photos[selected]} alt={alt} className="w-full h-full object-cover object-center" />
+      <div className="relative rounded-2xl overflow-hidden w-full bg-black/5" style={{ height: 450 }}>
+        <img src={photos[selected]} alt={alt} className="w-full h-full object-contain object-center" />
         {category && (
           <Badge className="absolute bottom-4 left-4 bg-primary/90 text-primary-foreground border-0">{category}</Badge>
         )}
