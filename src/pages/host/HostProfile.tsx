@@ -59,7 +59,7 @@ export default function HostProfile() {
               <div className="relative">
                 <Avatar className="h-20 w-20">
                   <AvatarFallback className="text-2xl font-display bg-primary/10 text-primary">
-                    H
+                    {(fullName || user?.email || "H").charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <button
@@ -86,16 +86,16 @@ export default function HostProfile() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nome completo *</Label>
-                <Input id="name" defaultValue="João da Silva" required maxLength={100} />
+                <Input id="name" value={fullName} onChange={(e) => setFullName(e.target.value)} required maxLength={100} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Telefone *</Label>
-                <Input id="phone" defaultValue="(11) 99999-0000" required maxLength={20} />
+                <Label htmlFor="phone">Telefone</Label>
+                <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={20} placeholder="(11) 99999-0000" />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="email" defaultValue="joao@email.com" disabled />
+              <Input id="email" type="email" value={user?.email || ""} disabled />
               <p className="text-xs text-muted-foreground">O e-mail não pode ser alterado.</p>
             </div>
           </CardContent>
