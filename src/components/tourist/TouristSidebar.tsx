@@ -1,4 +1,4 @@
-import { LayoutDashboard, CalendarCheck, Heart, DollarSign, LogOut } from "lucide-react";
+import { LayoutDashboard, CalendarCheck, Heart, DollarSign, LogOut, User } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -11,6 +11,7 @@ const menuItems = [
   { title: "Minhas Reservas", url: "/turista/reservas", icon: CalendarCheck },
   { title: "Favoritos", url: "/turista/favoritos", icon: Heart },
   { title: "Financeiro", url: "/turista/financeiro", icon: DollarSign },
+  { title: "Meu Perfil", url: "/turista/perfil", icon: User },
 ];
 
 export function TouristSidebar() {

@@ -23,6 +23,7 @@ import HostExperienceBuilding from "./pages/host/HostExperienceBuilding";
 import HostBookings from "./pages/host/HostBookings";
 import HostFinancial from "./pages/host/HostFinancial";
 import HostAvailability from "./pages/host/HostAvailability";
+import HostEditExperience from "./pages/host/HostEditExperience";
 
 // Tourist
 import TouristLayout from "./components/tourist/TouristLayout";
@@ -30,6 +31,7 @@ import TouristDashboard from "./pages/tourist/TouristDashboard";
 import TouristBookings from "./pages/tourist/TouristBookings";
 import TouristFavorites from "./pages/tourist/TouristFavorites";
 import TouristFinancial from "./pages/tourist/TouristFinancial";
+import TouristProfile from "./pages/tourist/TouristProfile";
 
 // Admin
 import AdminLayout from "./components/admin/AdminLayout";
@@ -72,6 +74,7 @@ const App = () => (
               <Route path="reservas" element={<TouristBookings />} />
               <Route path="favoritos" element={<TouristFavorites />} />
               <Route path="financeiro" element={<TouristFinancial />} />
+              <Route path="perfil" element={<TouristProfile />} />
             </Route>
 
             {/* Host Panel */}
@@ -87,6 +90,7 @@ const App = () => (
               <Route path="reservas" element={<HostBookings />} />
               <Route path="nova" element={<HostNewExperience />} />
               <Route path="experiencias" element={<HostExperiences />} />
+              <Route path="experiencia/:id" element={<HostEditExperience />} />
               <Route path="financeiro" element={<HostFinancial />} />
               <Route path="disponibilidade" element={<HostAvailability />} />
               <Route path="perfil" element={<HostProfile />} />
