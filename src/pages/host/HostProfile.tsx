@@ -6,22 +6,38 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import { Save, Camera } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function HostProfile() {
   const { toast } = useToast();
+  const { user, profile } = useAuth();
   const [saving, setSaving] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const handleSave = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (profile) {
+      setFullName(profile.full_name || "");
+      setPhone(profile.phone || "");
+    }
+  }, [profile]);
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
     setSaving(true);
-    setTimeout(() => {
-      setSaving(false);
-      toast({
-        title: "Perfil atualizado!",
-        description: "Suas informações foram salvas com sucesso.",
-      });
-    }, 1000);
+    const { error } = await supabase
+      .from("profiles")
+      .update({ full_name: fullName, phone })
+      .eq("user_id", user.id);
+    setSaving(false);
+    if (error) {
+      toast({ title: "Erro ao salvar", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Perfil atualizado!", description: "Suas informações foram salvas." });
+    }
   };
 
   return (
@@ -43,7 +59,7 @@ export default function HostProfile() {
               <div className="relative">
                 <Avatar className="h-20 w-20">
                   <AvatarFallback className="text-2xl font-display bg-primary/10 text-primary">
-                    H
+                    {(fullName || user?.email || "H").charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <button
@@ -70,16 +86,16 @@ export default function HostProfile() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nome completo *</Label>
-                <Input id="name" defaultValue="João da Silva" required maxLength={100} />
+                <Input id="name" value={fullName} onChange={(e) => setFullName(e.target.value)} required maxLength={100} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Telefone *</Label>
-                <Input id="phone" defaultValue="(11) 99999-0000" required maxLength={20} />
+                <Label htmlFor="phone">Telefone</Label>
+                <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={20} placeholder="(11) 99999-0000" />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="email" defaultValue="joao@email.com" disabled />
+              <Input id="email" type="email" value={user?.email || ""} disabled />
               <p className="text-xs text-muted-foreground">O e-mail não pode ser alterado.</p>
             </div>
           </CardContent>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,7 @@ export default function HostExperiences() {
   const { data: experiences, isLoading } = useHostExperiences();
   const deleteExperience = useDeleteExperience();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleDelete = async (id: string, title: string) => {
     if (!confirm(`Tem certeza que deseja excluir "${title}"?`)) return;
@@ -119,7 +120,7 @@ export default function HostExperiences() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem disabled>
+                            <DropdownMenuItem onClick={() => navigate(`/hospedeiro/experiencia/${exp.id}`)}>
                               <Edit className="mr-2 h-4 w-4" /> Editar
                             </DropdownMenuItem>
                             <DropdownMenuItem
