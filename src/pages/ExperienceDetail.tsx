@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { experiences as staticExperiences } from "@/data/experiences";
 import { useExperienceById, getPhotoUrl } from "@/hooks/useExperiences";
 import { useExperienceAgeRanges, useInsertBookingGuests } from "@/hooks/useAgeRanges";
+import { useAvailability } from "@/hooks/useAvailability";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useReviewStats } from "@/hooks/useReviews";
 import Navbar from "@/components/Navbar";
@@ -33,7 +34,18 @@ const ExperienceDetail = () => {
   const isUUID = id && /^[0-9a-f]{8}-/.test(id);
   const { data: dbExp, isLoading } = useExperienceById(isUUID ? id : undefined);
   const { data: ageRanges } = useExperienceAgeRanges(isUUID ? id : undefined);
+  const { data: availability } = useAvailability(isUUID ? id : undefined);
   const reviewStats = useReviewStats(isUUID ? id : undefined);
+
+  const unavailableDates = useMemo(() => {
+    const set = new Set<string>();
+    (availability || []).forEach((a) => {
+      if (a.blocked || a.available_slots <= 0) set.add(a.date);
+    });
+    return set;
+  }, [availability]);
+
+  const isDateUnavailable = (date: string) => unavailableDates.has(date);
 
   const [rangeGuests, setRangeGuests] = useState<Record<string, number>>({});
 
@@ -172,6 +184,10 @@ const ExperienceDetail = () => {
     }
     if (!bookingDate) {
       legacyToast({ title: "Selecione uma data", variant: "destructive" });
+      return;
+    }
+    if (isDateUnavailable(bookingDate)) {
+      legacyToast({ title: "Data indisponível", description: "Esta data não está disponível para reserva.", variant: "destructive" });
       return;
     }
     if (effectiveGuests === 0) {
@@ -351,7 +367,29 @@ const ExperienceDetail = () => {
                 <div className="space-y-3">
                   <div className="bg-background rounded-lg p-3 border border-border">
                     <label className="text-xs text-muted-foreground block mb-1">Data</label>
-                    <input type="date" min={minDate} value={bookingDate} onChange={(e) => setBookingDate(e.target.value)} className="w-full bg-transparent text-foreground text-sm outline-none" />
+                    <input
+                      type="date"
+                      min={minDate}
+                      value={bookingDate}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (v && isDateUnavailable(v)) {
+                          toast.error("Esta data está indisponível ou esgotada");
+                          setBookingDate("");
+                          return;
+                        }
+                        setBookingDate(v);
+                      }}
+                      className="w-full bg-transparent text-foreground text-sm outline-none"
+                    />
+                    {bookingDate && isDateUnavailable(bookingDate) && (
+                      <p className="text-xs text-destructive mt-1">Data indisponível</p>
+                    )}
+                    {unavailableDates.size > 0 && (
+                      <p className="text-[10px] text-muted-foreground mt-1">
+                        Algumas datas podem estar bloqueadas pelo hospedeiro.
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
