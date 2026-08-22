@@ -1,1 +1,70 @@
-{}
+{
+  "brand": { "part1": "Bora", "part2": "PraRoça" },
+  "actions": {
+    "save": "Guardar",
+    "saving": "Guardando...",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "create": "Crear",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "backToSite": "Volver al sitio",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "viewAll": "Ver todas",
+    "viewDetails": "Ver detalles",
+    "signIn": "Ingresar",
+    "signUp": "Registrarse",
+    "signOut": "Salir",
+    "share": "Compartir",
+    "copyLink": "Copiar enlace",
+    "remove": "Quitar",
+    "add": "Agregar",
+    "loading": "Cargando..."
+  },
+  "roles": {
+    "tourist": "Turista",
+    "host": "Anfitrión",
+    "admin": "Administrador"
+  },
+  "status": {
+    "pending": "Pendiente",
+    "confirmed": "Confirmada",
+    "cancelled": "Cancelada",
+    "completed": "Completada",
+    "active": "Activa",
+    "inactive": "Inactiva",
+    "paid": "Pagado",
+    "draft": "Borrador"
+  },
+  "language": {
+    "label": "Idioma",
+    "choose": "Elegir idioma"
+  },
+  "misc": {
+    "people": "personas",
+    "person": "persona",
+    "perPerson": "por persona",
+    "date": "Fecha",
+    "total": "Total",
+    "noResults": "No se encontraron resultados.",
+    "requiredFields": "Completa todos los campos obligatorios."
+  },
+  "categories": {
+    "Fazenda": "Granja",
+    "Cachoeira": "Cascada",
+    "Gastronomia": "Gastronomía",
+    "Trilha": "Senderismo",
+    "Aventura": "Aventura",
+    "Agroturismo": "Agroturismo",
+    "Retiro/Bem-estar": "Retiro/Bienestar",
+    "Pesca Esportiva": "Pesca Deportiva"
+  },
+  "ageRanges": {
+    "adult": "Adulto",
+    "child": "Niño",
+    "infant": "Infantil"
+  }
+}
