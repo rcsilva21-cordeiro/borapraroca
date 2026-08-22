@@ -6,10 +6,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import { Save } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function TouristProfile() {
+  const { t } = useTranslation("tourist");
   const { toast } = useToast();
   const { user, profile } = useAuth();
   const [saving, setSaving] = useState(false);
@@ -33,9 +35,9 @@ export default function TouristProfile() {
       .eq("user_id", user.id);
     setSaving(false);
     if (error) {
-      toast({ title: "Erro ao salvar", description: error.message, variant: "destructive" });
+      toast({ title: t("profile.saveErrorToast"), description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Perfil atualizado!", description: "Suas informações foram salvas." });
+      toast({ title: t("profile.updatedToast"), description: t("profile.updatedToastDesc") });
     }
   };
 
@@ -44,8 +46,8 @@ export default function TouristProfile() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground">Meu Perfil</h2>
-        <p className="text-muted-foreground mt-1">Mantenha seus dados atualizados.</p>
+        <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground">{t("profile.title")}</h2>
+        <p className="text-muted-foreground mt-1">{t("profile.subtitle")}</p>
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
@@ -56,7 +58,7 @@ export default function TouristProfile() {
                 <AvatarFallback className="text-2xl font-display bg-primary/10 text-primary">{initial}</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium text-foreground">{fullName || "Turista"}</p>
+                <p className="font-medium text-foreground">{fullName || t("profile.defaultName")}</p>
                 <p className="text-sm text-muted-foreground">{user?.email}</p>
               </div>
             </div>
@@ -64,20 +66,20 @@ export default function TouristProfile() {
         </Card>
 
         <Card>
-          <CardHeader><CardTitle className="font-display text-lg">Dados Pessoais</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="font-display text-lg">{t("profile.personalData")}</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nome completo *</Label>
+              <Label htmlFor="name">{t("profile.fullName")}</Label>
               <Input id="name" value={fullName} onChange={(e) => setFullName(e.target.value)} required maxLength={100} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Telefone</Label>
-              <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={20} placeholder="(11) 99999-0000" />
+              <Label htmlFor="phone">{t("profile.phone")}</Label>
+              <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={20} placeholder={t("profile.phonePlaceholder")} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">E-mail</Label>
+              <Label htmlFor="email">{t("profile.email")}</Label>
               <Input id="email" type="email" value={user?.email || ""} disabled />
-              <p className="text-xs text-muted-foreground">O e-mail não pode ser alterado.</p>
+              <p className="text-xs text-muted-foreground">{t("profile.emailHint")}</p>
             </div>
           </CardContent>
         </Card>
@@ -85,7 +87,7 @@ export default function TouristProfile() {
         <div className="flex justify-end">
           <Button type="submit" disabled={saving} className="gap-2">
             <Save className="h-4 w-4" />
-            {saving ? "Salvando..." : "Salvar Alterações"}
+            {saving ? t("profile.saving") : t("profile.saveChanges")}
           </Button>
         </div>
       </form>

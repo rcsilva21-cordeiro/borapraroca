@@ -1,1 +1,75 @@
-{}
+{
+  "layout": {
+    "title": "Minha Área"
+  },
+  "sidebar": {
+    "dashboard": "Painel",
+    "bookings": "Minhas Reservas",
+    "favorites": "Favoritos",
+    "financial": "Financeiro",
+    "profile": "Meu Perfil",
+    "backToSite": "Voltar ao site"
+  },
+  "dashboard": {
+    "title": "Minha Área 🌿",
+    "subtitle": "Suas reservas e experiências favoritas",
+    "bookings": "Reservas",
+    "confirmed": "Confirmadas",
+    "totalSpent": "Total Gasto",
+    "viewBookings": "Ver Reservas",
+    "favorites": "Favoritos"
+  },
+  "bookings": {
+    "title": "Minhas Reservas",
+    "subtitle": "Acompanhe suas experiências reservadas",
+    "confirmCancel": "Tem certeza que deseja cancelar esta reserva?",
+    "cancelledToast": "Reserva cancelada",
+    "cancelErrorToast": "Erro ao cancelar",
+    "emptyTitle": "Nenhuma reserva ainda",
+    "emptySubtitle": "Explore nossas experiências!",
+    "emptySubtitleAlt": "Explore nossas experiências e reserve sua próxima aventura rural!",
+    "viewExperiences": "Ver experiências",
+    "person_one": "{{count}} pessoa",
+    "person_other": "{{count}} pessoas",
+    "total": "Total",
+    "cancel": "Cancelar"
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "subtitle": "Experiências que você curtiu",
+    "emptyTitle": "Nenhum favorito",
+    "emptySubtitle": "Favorite experiências para encontrá-las aqui",
+    "explore": "Explorar experiências",
+    "viewDetails": "Ver detalhes"
+  },
+  "financial": {
+    "title": "Meu Financeiro",
+    "totalSpent": "Total Gasto",
+    "history": "Histórico de Pagamentos",
+    "empty": "Nenhuma transação registrada.",
+    "paid": "Pago",
+    "pending": "Pendente"
+  },
+  "profile": {
+    "title": "Meu Perfil",
+    "subtitle": "Mantenha seus dados atualizados.",
+    "defaultName": "Turista",
+    "personalData": "Dados Pessoais",
+    "fullName": "Nome completo *",
+    "phone": "Telefone",
+    "phonePlaceholder": "(11) 99999-0000",
+    "email": "E-mail",
+    "emailHint": "O e-mail não pode ser alterado.",
+    "saveChanges": "Salvar Alterações",
+    "saving": "Salvando...",
+    "saveErrorToast": "Erro ao salvar",
+    "updatedToast": "Perfil atualizado!",
+    "updatedToastDesc": "Suas informações foram salvas."
+  },
+  "status": {
+    "pending": "Pendente",
+    "confirmed": "Confirmada",
+    "cancelled": "Cancelada",
+    "completed": "Concluída"
+  }
+}

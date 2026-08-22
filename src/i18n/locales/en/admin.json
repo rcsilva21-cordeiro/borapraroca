@@ -1,1 +1,202 @@
-{}
+{
+  "layout": {
+    "title": "Admin Panel"
+  },
+  "sidebar": {
+    "brandPrefix": "Admin",
+    "dashboard": "Dashboard",
+    "experiences": "Experiences",
+    "newExperience": "New Experience",
+    "users": "Users",
+    "financial": "Financial"
+  },
+  "dashboard": {
+    "title": "Admin Panel 🏛️",
+    "subtitle": "Overview of the BoraPraRoça platform",
+    "stats": {
+      "users": "Users",
+      "activeExperiences": "Active Experiences",
+      "pendingApproval": "Pending Approval",
+      "totalBookings": "Total Bookings",
+      "revenue": "Revenue (commissions)"
+    },
+    "recentBookings": {
+      "title": "Recent Bookings",
+      "empty": "No bookings yet.",
+      "guestsAndTotal": "{{guests}} guest(s) · R$ {{total}}"
+    }
+  },
+  "experiences": {
+    "title": "Manage Experiences",
+    "subtitle": "Approve, edit or delete registered experiences",
+    "empty": "No experiences registered.",
+    "noPhoto": "No photo",
+    "locationCategoryPrice": "{{location}} · {{category}} · R$ {{price}}",
+    "actions": {
+      "approve": "Approve",
+      "deactivate": "Deactivate"
+    },
+    "toasts": {
+      "approved": "Experience approved!",
+      "deactivated": "Experience deactivated",
+      "updateError": "Error updating",
+      "deleted": "Experience deleted successfully!",
+      "deleteError": "Error deleting experience"
+    },
+    "deleteDialog": {
+      "title": "Delete experience?",
+      "description": "Are you sure you want to delete <strong>\"{{title}}\"</strong>? This action is irreversible and will remove all associated photos, age ranges and availabilities."
+    }
+  },
+  "newExperience": {
+    "title": "Create Experience (Admin)",
+    "subtitle": "Create an experience on behalf of an existing host or register a new one.",
+    "host": {
+      "cardTitle": "Host",
+      "existingUser": "Existing user",
+      "newHost": "New host",
+      "selectHost": "Select the host",
+      "searchPlaceholder": "Search user...",
+      "noName": "No name",
+      "noPhone": "no phone",
+      "fullName": "Full name *",
+      "fullNamePlaceholder": "Maria da Silva",
+      "email": "Email *",
+      "emailPlaceholder": "maria@email.com",
+      "phone": "Phone",
+      "phonePlaceholder": "(11) 99999-9999",
+      "autoAccountNote": "An account will be created automatically. The host will be able to log in using \"Forgot my password\"."
+    },
+    "basicInfo": {
+      "cardTitle": "Basic Information",
+      "name": "Experience Name *",
+      "namePlaceholder": "e.g. Sítio Recanto das Águas",
+      "nameCounter": "{{count}}/100 (min. 10)",
+      "category": "Category *",
+      "selectPlaceholder": "Select",
+      "location": "Location *",
+      "locationPlaceholder": "e.g. Cunha, SP",
+      "description": "Description *",
+      "descriptionPlaceholder": "Describe the experience in detail...",
+      "descriptionCounter": "{{count}}/2000 (min. 50)"
+    },
+    "details": {
+      "cardTitle": "Details",
+      "price": "Base price / adult (R$) *",
+      "capacity": "Capacity *",
+      "duration": "Duration *",
+      "includes": "What's included",
+      "includesPlaceholder": "e.g. Breakfast, Natural pool (one per line)"
+    },
+    "durationOptions": {
+      "meio-dia": "Half day",
+      "dia-inteiro": "Full day",
+      "diaria": "Daily",
+      "fim-de-semana": "Weekend",
+      "personalizado": "Custom"
+    },
+    "ageRanges": {
+      "cardTitle": "Age Ranges"
+    },
+    "photos": {
+      "cardTitle": "Photos *",
+      "clickToUpload": "Click to upload photos",
+      "formatsAndLimit": "JPG, PNG or WebP • Maximum 15 photos ({{count}}/15)"
+    },
+    "creating": "Creating...",
+    "createButton": "Create Experience",
+    "toasts": {
+      "createdTitle": "Experience created! 🎉",
+      "createdWithHost": "Experience created and host account {{email}} was generated.",
+      "createdActive": "Experience created and is already active.",
+      "errorTitle": "Error"
+    }
+  },
+  "editExperience": {
+    "title": "Edit Experience",
+    "subtitle": "Edit all fields of the experience.",
+    "notFound": "Experience not found.",
+    "status": {
+      "cardTitle": "Status",
+      "draft": "Draft",
+      "pending": "Pending",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "basicInfo": {
+      "cardTitle": "Basic Information",
+      "name": "Experience Name *",
+      "nameCounter": "{{count}}/100 (min. 10)",
+      "category": "Category *",
+      "selectPlaceholder": "Select",
+      "location": "Location *",
+      "description": "Description *",
+      "descriptionCounter": "{{count}}/2000 (min. 50)"
+    },
+    "details": {
+      "cardTitle": "Details",
+      "price": "Base price / adult (R$) *",
+      "capacity": "Capacity *",
+      "duration": "Duration *",
+      "includes": "What's included",
+      "includesPlaceholder": "One item per line"
+    },
+    "durationOptions": {
+      "meio-dia": "Half day",
+      "dia-inteiro": "Full day",
+      "diaria": "Daily",
+      "fim-de-semana": "Weekend",
+      "personalizado": "Custom"
+    },
+    "ageRanges": {
+      "cardTitle": "Age Ranges"
+    },
+    "photos": {
+      "cardTitle": "Photos ({{count}}/15)",
+      "clickToUpload": "Click to upload photos",
+      "formats": "JPG, PNG or WebP • Maximum 15 photos"
+    },
+    "saving": "Saving...",
+    "saveButton": "Save Changes",
+    "toasts": {
+      "updated": "Experience updated! ✅",
+      "errorTitle": "Error"
+    }
+  },
+  "users": {
+    "title": "Manage Users",
+    "subtitle": "{{count}} registered users",
+    "noName": "No name",
+    "editDialog": {
+      "title": "Edit profile",
+      "fullName": "Full name",
+      "phone": "Phone"
+    },
+    "toasts": {
+      "saveError": "Error saving: {{message}}",
+      "updated": "Profile updated!"
+    }
+  },
+  "financial": {
+    "title": "Platform Financials",
+    "cards": {
+      "commissions": "Commissions (15%)",
+      "totalPayouts": "Total Payouts",
+      "pendingPayouts": "Pending Payouts"
+    },
+    "transactions": {
+      "cardTitle": "Transactions",
+      "empty": "No transactions recorded."
+    },
+    "types": {
+      "payment": "Payment",
+      "commission": "Commission",
+      "payout": "Payout"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "failed": "Failed"
+    }
+  }
+}

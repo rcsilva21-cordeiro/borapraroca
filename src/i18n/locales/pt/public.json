@@ -1,1 +1,251 @@
-{}
+{
+  "navbar": {
+    "links": {
+      "experiences": "Experiências",
+      "howItWorks": "Como Funciona",
+      "categories": "Categorias",
+      "becomeHost": "Seja Hospedeiro"
+    },
+    "accessAs": "Acessar como",
+    "myArea": "Minha Área",
+    "hostPanel": "Painel Hospedeiro"
+  },
+  "footer": {
+    "tagline": "Conectando turistas a experiências rurais autênticas em todo o Brasil.",
+    "experiences": {
+      "title": "Experiências",
+      "rural": "Hospedagem Rural",
+      "trails": "Trilhas & Ecoturismo",
+      "gastronomy": "Gastronomia",
+      "bikeTour": "Bike Tour"
+    },
+    "platform": {
+      "title": "Plataforma",
+      "howItWorks": "Como Funciona",
+      "becomeHost": "Seja Hospedeiro",
+      "aboutUs": "Sobre Nós",
+      "blog": "Blog"
+    },
+    "support": {
+      "title": "Suporte",
+      "help": "Central de Ajuda",
+      "terms": "Termos de Uso",
+      "privacy": "Privacidade",
+      "contact": "Contato"
+    },
+    "rights": "© 2026 BoraPraRoça. Todos os direitos reservados."
+  },
+  "hero": {
+    "titleLine1": "Viva experiências",
+    "titleLine2": "autênticas no campo",
+    "subtitle": "Descubra sítios, fazendas, trilhas, gastronomia rural e muito mais. Conecte-se com a natureza e com quem vive dela.",
+    "imageAlt": "Paisagem rural brasileira com fazenda ao pôr do sol",
+    "searchPlaceholder": "Para onde você quer ir?",
+    "allCategories": "Todas categorias",
+    "searchButton": "Buscar"
+  },
+  "howItWorks": {
+    "title": "Como funciona",
+    "subtitle": "Em três passos simples, você sai da cidade e mergulha na vida rural.",
+    "steps": {
+      "explore": { "title": "Explore", "description": "Navegue por centenas de experiências rurais autênticas em todo o Brasil." },
+      "book": { "title": "Reserve", "description": "Escolha a data, o número de pessoas e faça sua reserva com segurança." },
+      "live": { "title": "Viva", "description": "Desconecte do cotidiano e viva momentos inesquecíveis no campo." }
+    }
+  },
+  "hostCTA": {
+    "benefits": {
+      "registerFree": "Cadastre sua propriedade ou atividade gratuitamente",
+      "visibility": "Aumente sua visibilidade e faturamento",
+      "support": "Curadoria e suporte da plataforma"
+    },
+    "title": "Tem um sítio, fazenda ou experiência rural?",
+    "subtitle": "Torne-se um Hospedeiro e compartilhe o melhor do campo com turistas de todo o Brasil.",
+    "accessPanel": "Acessar Painel",
+    "wantToBeHost": "Quero ser Hospedeiro",
+    "helpText1": "Tem um sítio ou fazenda e não sabe como começar a sua Experiência Rural?",
+    "helpText2": "A gente te ajuda! Clique abaixo!",
+    "helpButton": "Preciso de ajuda com minha propriedade",
+    "hostCount_one": "hospedeiro cadastrado",
+    "hostCount_other": "hospedeiros cadastrados",
+    "activeExperiences_one": "experiência ativa",
+    "activeExperiences_other": "experiências ativas",
+    "bookingsMade_one": "reserva realizada",
+    "bookingsMade_other": "reservas realizadas",
+    "beFirst": "Seja o primeiro!",
+    "beFirstDescription": "Cadastre sua experiência e comece a receber turistas",
+    "toastSuccess": "Parabéns! 🎉",
+    "toastSuccessDescription": "Você agora é um Hospedeiro! Redirecionando para o painel...",
+    "toastError": "Erro"
+  },
+  "categoryCard": {
+    "experienceCount": "{{count}} experiências"
+  },
+  "experienceCard": {
+    "upTo": "até {{count}}",
+    "fromPrice": "a partir de",
+    "loginToFavorite": "Faça login para favoritar",
+    "availableForReal": "Disponível para experiências reais",
+    "removedFromFavorites": "Removido dos favoritos",
+    "addedToFavorites": "Adicionado aos favoritos ❤️"
+  },
+  "photoGallery": {},
+  "reviews": {
+    "title": "Avaliações",
+    "beFirstToReview": "Seja o primeiro a avaliar!",
+    "leaveYourReview": "Deixe sua avaliação",
+    "commentPlaceholder": "Conte como foi sua experiência...",
+    "submit": "Enviar avaliação",
+    "loginToReview": "Faça login para deixar sua avaliação.",
+    "alreadyReviewed": "✅ Você já avaliou esta experiência.",
+    "writeComment": "Escreva um comentário",
+    "reviewSubmitted": "Avaliação enviada! ⭐",
+    "duplicateReview": "Você já avaliou esta experiência",
+    "reviewError": "Erro ao enviar avaliação",
+    "defaultTouristName": "Turista"
+  },
+  "shareButton": {
+    "copyLink": "Copiar link",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "linkCopied": "Link copiado! 📋",
+    "shareText": "Olha essa experiência no Bora pra Roça: {{title}} - {{url}}",
+    "instagramCopied": "Link copiado! Cole no Instagram 📸"
+  },
+  "notifications": {
+    "title": "Notificações",
+    "markAll": "Marcar todas",
+    "empty": "Nenhuma notificação por enquanto."
+  },
+  "index": {
+    "exploreByCategory": "Explore por categoria",
+    "findPerfectExperience": "Encontre a experiência perfeita para o seu estilo",
+    "featuredExperiences": "Experiências em destaque",
+    "noResultsInCategory": "Nenhuma experiência encontrada nesta categoria."
+  },
+  "experiencias": {
+    "title": "Experiências",
+    "resultsFor": "Resultados para \"{{query}}\"",
+    "noResultsWithFilters": "Nenhuma experiência encontrada com esses filtros."
+  },
+  "experienceDetail": {
+    "notFound": "Experiência não encontrada",
+    "backHome": "Voltar ao início",
+    "home": "Início",
+    "experiences": "Experiências",
+    "duration": {
+      "halfDay": "Meio dia",
+      "fullDay": "Dia inteiro",
+      "daily": "Diária",
+      "weekend": "Fim de semana",
+      "custom": "Personalizado"
+    },
+    "highlights": {
+      "capacity": "Capacidade",
+      "upTo": "Até {{count}} pessoas",
+      "durationLabel": "Duração",
+      "availability": "Disponibilidade",
+      "allDays": "Todos os dias",
+      "rating": "Avaliação"
+    },
+    "aboutExperience": "Sobre a experiência",
+    "defaultDescription": "Venha viver uma experiência única em {{location}}. {{title}} oferece uma imersão completa na vida rural brasileira.",
+    "pricesByAge": "Preços por faixa etária",
+    "yearsOld": "anos",
+    "free": "Gratuito",
+    "included": "O que está incluso",
+    "defaultIncludedHosting": ["Café da manhã colonial", "Estacionamento", "Wi-Fi", "Piscina natural", "Trilha guiada"],
+    "defaultIncludedActivity": ["Equipamento incluso", "Guia especializado", "Seguro atividade", "Lanche e hidratação", "Fotos da experiência"],
+    "aboutHost": "Sobre o Hospedeiro",
+    "verifiedHost": "Hospedeiro verificado",
+    "memberSince": "Membro desde 2024 · Responde em até 1h",
+    "fromPrice": "A partir de",
+    "perNight": "noite",
+    "perPerson": "pessoa",
+    "demoWarning": "⚠️ Experiência ilustrativa — reservas disponíveis apenas para experiências reais",
+    "date": "Data",
+    "dateUnavailable": "Data indisponível",
+    "someDatesBlocked": "Algumas datas podem estar bloqueadas pelo hospedeiro.",
+    "participants": "Participantes",
+    "free2": "Grátis",
+    "total": "Total",
+    "reserveNow": "Reservar agora",
+    "reserving": "Reservando...",
+    "notChargedYet": "Você não será cobrado ainda. A confirmação é feita pelo hospedeiro.",
+    "toasts": {
+      "loginFirst": "Faça login primeiro",
+      "loginFirstDescription": "Você precisa estar logado para reservar.",
+      "demoExperience": "Experiência de demonstração",
+      "demoExperienceDescription": "Esta é uma experiência ilustrativa.",
+      "selectDate": "Selecione uma data",
+      "unavailableDate": "Data indisponível",
+      "unavailableDateDescription": "Esta data não está disponível para reserva.",
+      "selectParticipants": "Selecione participantes",
+      "bookingRequested": "Reserva solicitada! 🎉",
+      "bookingRequestedDescription": "O hospedeiro irá confirmar sua reserva em breve.",
+      "bookingError": "Erro ao reservar",
+      "loginToFavorite": "Faça login para favoritar",
+      "availableForRealOnly": "Disponível apenas para experiências reais",
+      "removedFromFavorites": "Removido dos favoritos",
+      "addedToFavorites": "Adicionado aos favoritos ❤️",
+      "unavailableOrSoldOut": "Esta data está indisponível ou esgotada"
+    }
+  },
+  "auth": {
+    "heroTitle": "Sua próxima aventura rural começa aqui",
+    "heroSubtitle": "Descubra sítios, fazendas, trilhas e experiências gastronômicas autênticas por todo o Brasil.",
+    "stats": {
+      "experiences": "Experiências",
+      "cities": "Cidades",
+      "rating": "Avaliação"
+    },
+    "backHome": "Voltar ao início",
+    "recoverPassword": "Recuperar senha",
+    "recoverPasswordDescription": "Digite seu email e enviaremos um link para redefinir sua senha.",
+    "emailPlaceholder": "seu@email.com",
+    "sendRecoveryLink": "Enviar link de recuperação",
+    "backToLogin": "Voltar ao login",
+    "loginTitle": "Entrar na sua conta",
+    "signupTitle": "Criar sua conta",
+    "loginSubtitle": "Acesse suas experiências e reservas",
+    "signupSubtitle": "Cadastre-se e comece a explorar o campo",
+    "namePlaceholder": "Seu nome completo",
+    "passwordPlaceholder": "Sua senha (mín. 6 caracteres)",
+    "forgotPassword": "Esqueceu a senha?",
+    "signIn": "Entrar",
+    "createAccount": "Criar conta",
+    "noAccount": "Não tem conta?",
+    "hasAccount": "Já tem uma conta?",
+    "signupFree": "Cadastre-se grátis",
+    "doLogin": "Faça login",
+    "toasts": {
+      "welcomeBack": "Bem-vindo de volta! 🌿",
+      "welcomeBackDescription": "Redirecionando para as experiências...",
+      "accountCreated": "Conta criada com sucesso! 🎉",
+      "accountCreatedDescription": "Verifique seu email para confirmar o cadastro.",
+      "error": "Erro",
+      "invalidCredentials": "Email ou senha incorretos.",
+      "emailSent": "Email enviado! 📧",
+      "emailSentDescription": "Verifique sua caixa de entrada para redefinir a senha."
+    }
+  },
+  "resetPassword": {
+    "backToLogin": "Voltar ao login",
+    "title": "Redefinir senha",
+    "readySubtitle": "Digite sua nova senha abaixo.",
+    "waitingSubtitle": "Aguardando validação do link de recuperação...",
+    "newPasswordPlaceholder": "Nova senha (mín. 6 caracteres)",
+    "saveNewPassword": "Salvar nova senha",
+    "expiredLink": "Se o link expirou, volte ao login e solicite um novo.",
+    "toasts": {
+      "passwordUpdated": "Senha atualizada! 🎉",
+      "passwordUpdatedDescription": "Sua senha foi alterada com sucesso.",
+      "error": "Erro"
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oops! Page not found",
+    "returnHome": "Return to Home"
+  }
+}

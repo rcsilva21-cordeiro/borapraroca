@@ -1,4 +1,5 @@
 import { LayoutDashboard, CheckCircle, Users, DollarSign, LogOut, PlusCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -6,17 +7,18 @@ import {
   SidebarFooter, useSidebar,
 } from "@/components/ui/sidebar";
 
-const menuItems = [
-  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Experiências", url: "/admin/experiencias", icon: CheckCircle },
-  { title: "Nova Experiência", url: "/admin/nova-experiencia", icon: PlusCircle },
-  { title: "Usuários", url: "/admin/usuarios", icon: Users },
-  { title: "Financeiro", url: "/admin/financeiro", icon: DollarSign },
-];
-
 export function AdminSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const { t } = useTranslation(["admin", "common"]);
+
+  const menuItems = [
+    { title: t("sidebar.dashboard"), url: "/admin", icon: LayoutDashboard },
+    { title: t("sidebar.experiences"), url: "/admin/experiencias", icon: CheckCircle },
+    { title: t("sidebar.newExperience"), url: "/admin/nova-experiencia", icon: PlusCircle },
+    { title: t("sidebar.users"), url: "/admin/usuarios", icon: Users },
+    { title: t("sidebar.financial"), url: "/admin/financeiro", icon: DollarSign },
+  ];
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border">
@@ -27,7 +29,7 @@ export function AdminSidebar() {
               <LayoutDashboard className="h-5 w-5 text-primary shrink-0" />
               {!collapsed && (
                 <span className="font-display text-lg font-bold text-foreground">
-                  Admin <span className="text-primary">BPR</span>
+                  {t("sidebar.brandPrefix")} <span className="text-primary">BPR</span>
                 </span>
               )}
             </a>
@@ -54,7 +56,7 @@ export function AdminSidebar() {
             <SidebarMenuButton asChild>
               <a href="/" className="hover:bg-muted/50 text-muted-foreground">
                 <LogOut className="mr-2 h-4 w-4 shrink-0" />
-                {!collapsed && <span>Voltar ao site</span>}
+                {!collapsed && <span>{t("common:actions.backToSite")}</span>}
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

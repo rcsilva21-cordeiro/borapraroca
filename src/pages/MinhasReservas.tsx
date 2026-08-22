@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Users, Loader2, TreePine } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useTouristBookings, useCancelBooking } from "@/hooks/useBookings";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
@@ -11,25 +12,26 @@ import type { Database } from "@/integrations/supabase/types";
 
 type BookingStatus = Database["public"]["Enums"]["booking_status"];
 
-const statusConfig: Record<BookingStatus, { label: string; className: string }> = {
-  pending: { label: "Pendente", className: "bg-accent/10 text-accent border-accent/20" },
-  confirmed: { label: "Confirmada", className: "bg-primary/10 text-primary border-primary/20" },
-  cancelled: { label: "Cancelada", className: "bg-destructive/10 text-destructive border-destructive/20" },
-  completed: { label: "Concluída", className: "bg-muted text-muted-foreground border-border" },
-};
-
 export default function MinhasReservas() {
+  const { t } = useTranslation("tourist");
   const { data: bookings, isLoading } = useTouristBookings();
   const cancelBooking = useCancelBooking();
   const { toast } = useToast();
 
+  const statusConfig: Record<BookingStatus, { label: string; className: string }> = {
+    pending: { label: t("status.pending"), className: "bg-accent/10 text-accent border-accent/20" },
+    confirmed: { label: t("status.confirmed"), className: "bg-primary/10 text-primary border-primary/20" },
+    cancelled: { label: t("status.cancelled"), className: "bg-destructive/10 text-destructive border-destructive/20" },
+    completed: { label: t("status.completed"), className: "bg-muted text-muted-foreground border-border" },
+  };
+
   const handleCancel = async (id: string) => {
-    if (!confirm("Tem certeza que deseja cancelar esta reserva?")) return;
+    if (!confirm(t("bookings.confirmCancel"))) return;
     try {
       await cancelBooking.mutateAsync(id);
-      toast({ title: "Reserva cancelada" });
+      toast({ title: t("bookings.cancelledToast") });
     } catch {
-      toast({ title: "Erro ao cancelar", variant: "destructive" });
+      toast({ title: t("bookings.cancelErrorToast"), variant: "destructive" });
     }
   };
 
@@ -39,8 +41,8 @@ export default function MinhasReservas() {
       <div className="pt-20 lg:pt-24 pb-20">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mb-8">
-            <h1 className="font-display text-3xl font-bold text-foreground">Minhas Reservas</h1>
-            <p className="text-muted-foreground mt-1">Acompanhe suas experiências reservadas</p>
+            <h1 className="font-display text-3xl font-bold text-foreground">{t("bookings.title")}</h1>
+            <p className="text-muted-foreground mt-1">{t("bookings.subtitle")}</p>
           </div>
 
           {isLoading ? (
@@ -51,13 +53,13 @@ export default function MinhasReservas() {
             <Card className="p-12 text-center">
               <TreePine className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="font-display text-xl font-semibold text-foreground mb-2">
-                Nenhuma reserva ainda
+                {t("bookings.emptyTitle")}
               </h3>
               <p className="text-muted-foreground mb-6">
-                Explore nossas experiências e reserve sua próxima aventura rural!
+                {t("bookings.emptySubtitleAlt")}
               </p>
               <Link to="/#experiencias">
-                <Button>Ver experiências</Button>
+                <Button>{t("bookings.viewExperiences")}</Button>
               </Link>
             </Card>
           ) : (
@@ -89,14 +91,14 @@ export default function MinhasReservas() {
                             </span>
                             <span className="flex items-center gap-1">
                               <Users className="h-3.5 w-3.5" />
-                              {b.guests} {b.guests === 1 ? "pessoa" : "pessoas"}
+                              {t("bookings.person", { count: b.guests })}
                             </span>
                           </div>
                         </div>
 
                         <div className="flex items-center gap-4">
                           <div className="text-right">
-                            <p className="text-sm text-muted-foreground">Total</p>
+                            <p className="text-sm text-muted-foreground">{t("bookings.total")}</p>
                             <p className="font-display text-xl font-bold text-primary">
                               R$ {Number(b.total_price).toFixed(2)}
                             </p>
@@ -108,7 +110,7 @@ export default function MinhasReservas() {
                               onClick={() => handleCancel(b.id)}
                               disabled={cancelBooking.isPending}
                             >
-                              Cancelar
+                              {t("bookings.cancel")}
                             </Button>
                           )}
                         </div>

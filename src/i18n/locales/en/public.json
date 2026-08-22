@@ -1,1 +1,251 @@
-{}
+{
+  "navbar": {
+    "links": {
+      "experiences": "Experiences",
+      "howItWorks": "How It Works",
+      "categories": "Categories",
+      "becomeHost": "Become a Host"
+    },
+    "accessAs": "Access as",
+    "myArea": "My Area",
+    "hostPanel": "Host Panel"
+  },
+  "footer": {
+    "tagline": "Connecting tourists with authentic rural experiences across Brazil.",
+    "experiences": {
+      "title": "Experiences",
+      "rural": "Rural Lodging",
+      "trails": "Trails & Ecotourism",
+      "gastronomy": "Gastronomy",
+      "bikeTour": "Bike Tour"
+    },
+    "platform": {
+      "title": "Platform",
+      "howItWorks": "How It Works",
+      "becomeHost": "Become a Host",
+      "aboutUs": "About Us",
+      "blog": "Blog"
+    },
+    "support": {
+      "title": "Support",
+      "help": "Help Center",
+      "terms": "Terms of Use",
+      "privacy": "Privacy",
+      "contact": "Contact"
+    },
+    "rights": "© 2026 BoraPraRoça. All rights reserved."
+  },
+  "hero": {
+    "titleLine1": "Live authentic",
+    "titleLine2": "experiences in the countryside",
+    "subtitle": "Discover farms, ranches, trails, rural gastronomy and much more. Connect with nature and the people who live it.",
+    "imageAlt": "Brazilian rural landscape with a farm at sunset",
+    "searchPlaceholder": "Where do you want to go?",
+    "allCategories": "All categories",
+    "searchButton": "Search"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "In three simple steps, leave the city and dive into rural life.",
+    "steps": {
+      "explore": { "title": "Explore", "description": "Browse hundreds of authentic rural experiences across Brazil." },
+      "book": { "title": "Book", "description": "Choose the date, number of people and book safely." },
+      "live": { "title": "Live", "description": "Disconnect from routine and enjoy unforgettable moments in the countryside." }
+    }
+  },
+  "hostCTA": {
+    "benefits": {
+      "registerFree": "List your property or activity for free",
+      "visibility": "Increase your visibility and revenue",
+      "support": "Platform curation and support"
+    },
+    "title": "Do you have a farm, ranch or rural experience?",
+    "subtitle": "Become a Host and share the best of the countryside with tourists from all over Brazil.",
+    "accessPanel": "Access Panel",
+    "wantToBeHost": "I want to be a Host",
+    "helpText1": "Do you have a farm or ranch and don't know how to start your Rural Experience?",
+    "helpText2": "We can help! Click below!",
+    "helpButton": "I need help with my property",
+    "hostCount_one": "host registered",
+    "hostCount_other": "hosts registered",
+    "activeExperiences_one": "active experience",
+    "activeExperiences_other": "active experiences",
+    "bookingsMade_one": "booking made",
+    "bookingsMade_other": "bookings made",
+    "beFirst": "Be the first!",
+    "beFirstDescription": "Register your experience and start receiving tourists",
+    "toastSuccess": "Congratulations! 🎉",
+    "toastSuccessDescription": "You are now a Host! Redirecting to the panel...",
+    "toastError": "Error"
+  },
+  "categoryCard": {
+    "experienceCount": "{{count}} experiences"
+  },
+  "experienceCard": {
+    "upTo": "up to {{count}}",
+    "fromPrice": "from",
+    "loginToFavorite": "Log in to add to favorites",
+    "availableForReal": "Available for real experiences",
+    "removedFromFavorites": "Removed from favorites",
+    "addedToFavorites": "Added to favorites ❤️"
+  },
+  "photoGallery": {},
+  "reviews": {
+    "title": "Reviews",
+    "beFirstToReview": "Be the first to review!",
+    "leaveYourReview": "Leave your review",
+    "commentPlaceholder": "Tell us about your experience...",
+    "submit": "Submit review",
+    "loginToReview": "Log in to leave your review.",
+    "alreadyReviewed": "✅ You have already reviewed this experience.",
+    "writeComment": "Write a comment",
+    "reviewSubmitted": "Review submitted! ⭐",
+    "duplicateReview": "You have already reviewed this experience",
+    "reviewError": "Error submitting review",
+    "defaultTouristName": "Tourist"
+  },
+  "shareButton": {
+    "copyLink": "Copy link",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "linkCopied": "Link copied! 📋",
+    "shareText": "Check out this experience on Bora pra Roça: {{title}} - {{url}}",
+    "instagramCopied": "Link copied! Paste it on Instagram 📸"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAll": "Mark all as read",
+    "empty": "No notifications yet."
+  },
+  "index": {
+    "exploreByCategory": "Explore by category",
+    "findPerfectExperience": "Find the perfect experience for your style",
+    "featuredExperiences": "Featured experiences",
+    "noResultsInCategory": "No experiences found in this category."
+  },
+  "experiencias": {
+    "title": "Experiences",
+    "resultsFor": "Results for \"{{query}}\"",
+    "noResultsWithFilters": "No experiences found with these filters."
+  },
+  "experienceDetail": {
+    "notFound": "Experience not found",
+    "backHome": "Back to home",
+    "home": "Home",
+    "experiences": "Experiences",
+    "duration": {
+      "halfDay": "Half day",
+      "fullDay": "Full day",
+      "daily": "Daily",
+      "weekend": "Weekend",
+      "custom": "Custom"
+    },
+    "highlights": {
+      "capacity": "Capacity",
+      "upTo": "Up to {{count}} people",
+      "durationLabel": "Duration",
+      "availability": "Availability",
+      "allDays": "Every day",
+      "rating": "Rating"
+    },
+    "aboutExperience": "About the experience",
+    "defaultDescription": "Come live a unique experience in {{location}}. {{title}} offers a complete immersion in Brazilian rural life.",
+    "pricesByAge": "Prices by age group",
+    "yearsOld": "years old",
+    "free": "Free",
+    "included": "What's included",
+    "defaultIncludedHosting": ["Colonial breakfast", "Parking", "Wi-Fi", "Natural pool", "Guided trail"],
+    "defaultIncludedActivity": ["Equipment included", "Specialized guide", "Activity insurance", "Snack and hydration", "Experience photos"],
+    "aboutHost": "About the Host",
+    "verifiedHost": "Verified host",
+    "memberSince": "Member since 2024 · Responds within 1h",
+    "fromPrice": "Starting at",
+    "perNight": "night",
+    "perPerson": "person",
+    "demoWarning": "⚠️ Illustrative experience — bookings available only for real experiences",
+    "date": "Date",
+    "dateUnavailable": "Unavailable date",
+    "someDatesBlocked": "Some dates may be blocked by the host.",
+    "participants": "Participants",
+    "free2": "Free",
+    "total": "Total",
+    "reserveNow": "Book now",
+    "reserving": "Booking...",
+    "notChargedYet": "You will not be charged yet. Confirmation is made by the host.",
+    "toasts": {
+      "loginFirst": "Log in first",
+      "loginFirstDescription": "You need to be logged in to book.",
+      "demoExperience": "Demo experience",
+      "demoExperienceDescription": "This is an illustrative experience.",
+      "selectDate": "Select a date",
+      "unavailableDate": "Unavailable date",
+      "unavailableDateDescription": "This date is not available for booking.",
+      "selectParticipants": "Select participants",
+      "bookingRequested": "Booking requested! 🎉",
+      "bookingRequestedDescription": "The host will confirm your booking soon.",
+      "bookingError": "Error booking",
+      "loginToFavorite": "Log in to add to favorites",
+      "availableForRealOnly": "Available only for real experiences",
+      "removedFromFavorites": "Removed from favorites",
+      "addedToFavorites": "Added to favorites ❤️",
+      "unavailableOrSoldOut": "This date is unavailable or sold out"
+    }
+  },
+  "auth": {
+    "heroTitle": "Your next rural adventure starts here",
+    "heroSubtitle": "Discover authentic farms, ranches, trails and gastronomic experiences all over Brazil.",
+    "stats": {
+      "experiences": "Experiences",
+      "cities": "Cities",
+      "rating": "Rating"
+    },
+    "backHome": "Back to home",
+    "recoverPassword": "Recover password",
+    "recoverPasswordDescription": "Enter your email and we'll send you a link to reset your password.",
+    "emailPlaceholder": "you@email.com",
+    "sendRecoveryLink": "Send recovery link",
+    "backToLogin": "Back to login",
+    "loginTitle": "Sign in to your account",
+    "signupTitle": "Create your account",
+    "loginSubtitle": "Access your experiences and bookings",
+    "signupSubtitle": "Sign up and start exploring the countryside",
+    "namePlaceholder": "Your full name",
+    "passwordPlaceholder": "Your password (min. 6 characters)",
+    "forgotPassword": "Forgot your password?",
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signupFree": "Sign up for free",
+    "doLogin": "Sign in",
+    "toasts": {
+      "welcomeBack": "Welcome back! 🌿",
+      "welcomeBackDescription": "Redirecting to experiences...",
+      "accountCreated": "Account created successfully! 🎉",
+      "accountCreatedDescription": "Check your email to confirm your registration.",
+      "error": "Error",
+      "invalidCredentials": "Incorrect email or password.",
+      "emailSent": "Email sent! 📧",
+      "emailSentDescription": "Check your inbox to reset your password."
+    }
+  },
+  "resetPassword": {
+    "backToLogin": "Back to login",
+    "title": "Reset password",
+    "readySubtitle": "Enter your new password below.",
+    "waitingSubtitle": "Waiting for recovery link validation...",
+    "newPasswordPlaceholder": "New password (min. 6 characters)",
+    "saveNewPassword": "Save new password",
+    "expiredLink": "If the link has expired, go back to login and request a new one.",
+    "toasts": {
+      "passwordUpdated": "Password updated! 🎉",
+      "passwordUpdatedDescription": "Your password has been changed successfully.",
+      "error": "Error"
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oops! Page not found",
+    "returnHome": "Return to Home"
+  }
+}
