@@ -1,22 +1,24 @@
 import { LayoutDashboard, CalendarCheck, Heart, DollarSign, LogOut, User } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
+import { useTranslation } from "react-i18next";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
   SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
   SidebarFooter, useSidebar,
 } from "@/components/ui/sidebar";
 
-const menuItems = [
-  { title: "Painel", url: "/turista", icon: LayoutDashboard },
-  { title: "Minhas Reservas", url: "/turista/reservas", icon: CalendarCheck },
-  { title: "Favoritos", url: "/turista/favoritos", icon: Heart },
-  { title: "Financeiro", url: "/turista/financeiro", icon: DollarSign },
-  { title: "Meu Perfil", url: "/turista/perfil", icon: User },
-];
-
 export function TouristSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const { t } = useTranslation("tourist");
+
+  const menuItems = [
+    { title: t("sidebar.dashboard"), url: "/turista", icon: LayoutDashboard },
+    { title: t("sidebar.bookings"), url: "/turista/reservas", icon: CalendarCheck },
+    { title: t("sidebar.favorites"), url: "/turista/favoritos", icon: Heart },
+    { title: t("sidebar.financial"), url: "/turista/financeiro", icon: DollarSign },
+    { title: t("sidebar.profile"), url: "/turista/perfil", icon: User },
+  ];
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border">
@@ -54,7 +56,7 @@ export function TouristSidebar() {
             <SidebarMenuButton asChild>
               <a href="/" className="hover:bg-muted/50 text-muted-foreground">
                 <LogOut className="mr-2 h-4 w-4 shrink-0" />
-                {!collapsed && <span>Voltar ao site</span>}
+                {!collapsed && <span>{t("sidebar.backToSite")}</span>}
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

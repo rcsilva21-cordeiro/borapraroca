@@ -1,0 +1,202 @@
+{
+  "layout": {
+    "title": "Painel Administrativo"
+  },
+  "sidebar": {
+    "brandPrefix": "Admin",
+    "dashboard": "Dashboard",
+    "experiences": "Experiências",
+    "newExperience": "Nova Experiência",
+    "users": "Usuários",
+    "financial": "Financeiro"
+  },
+  "dashboard": {
+    "title": "Painel Administrativo 🏛️",
+    "subtitle": "Visão geral da plataforma BoraPraRoça",
+    "stats": {
+      "users": "Usuários",
+      "activeExperiences": "Experiências Ativas",
+      "pendingApproval": "Pendentes Aprovação",
+      "totalBookings": "Total Reservas",
+      "revenue": "Receita (comissões)"
+    },
+    "recentBookings": {
+      "title": "Reservas Recentes",
+      "empty": "Nenhuma reserva ainda.",
+      "guestsAndTotal": "{{guests}} pessoa(s) · R$ {{total}}"
+    }
+  },
+  "experiences": {
+    "title": "Gerenciar Experiências",
+    "subtitle": "Aprove, edite ou exclua experiências cadastradas",
+    "empty": "Nenhuma experiência cadastrada.",
+    "noPhoto": "Sem foto",
+    "locationCategoryPrice": "{{location}} · {{category}} · R$ {{price}}",
+    "actions": {
+      "approve": "Aprovar",
+      "deactivate": "Desativar"
+    },
+    "toasts": {
+      "approved": "Experiência aprovada!",
+      "deactivated": "Experiência desativada",
+      "updateError": "Erro ao atualizar",
+      "deleted": "Experiência excluída com sucesso!",
+      "deleteError": "Erro ao excluir experiência"
+    },
+    "deleteDialog": {
+      "title": "Excluir experiência?",
+      "description": "Tem certeza que deseja excluir <strong>\"{{title}}\"</strong>? Esta ação é irreversível e removerá todas as fotos, faixas etárias e disponibilidades associadas."
+    }
+  },
+  "newExperience": {
+    "title": "Criar Experiência (Admin)",
+    "subtitle": "Crie uma experiência em nome de um hospedeiro existente ou cadastre um novo.",
+    "host": {
+      "cardTitle": "Hospedeiro",
+      "existingUser": "Usuário existente",
+      "newHost": "Novo hospedeiro",
+      "selectHost": "Selecione o hospedeiro",
+      "searchPlaceholder": "Buscar usuário...",
+      "noName": "Sem nome",
+      "noPhone": "sem telefone",
+      "fullName": "Nome completo *",
+      "fullNamePlaceholder": "Maria da Silva",
+      "email": "Email *",
+      "emailPlaceholder": "maria@email.com",
+      "phone": "Telefone",
+      "phonePlaceholder": "(11) 99999-9999",
+      "autoAccountNote": "Uma conta será criada automaticamente. O hospedeiro poderá acessar usando \"Esqueci minha senha\"."
+    },
+    "basicInfo": {
+      "cardTitle": "Informações Básicas",
+      "name": "Nome da Experiência *",
+      "namePlaceholder": "Ex: Sítio Recanto das Águas",
+      "nameCounter": "{{count}}/100 (mín. 10)",
+      "category": "Categoria *",
+      "selectPlaceholder": "Selecione",
+      "location": "Localização *",
+      "locationPlaceholder": "Ex: Cunha, SP",
+      "description": "Descrição *",
+      "descriptionPlaceholder": "Descreva a experiência em detalhes...",
+      "descriptionCounter": "{{count}}/2000 (mín. 50)"
+    },
+    "details": {
+      "cardTitle": "Detalhes",
+      "price": "Preço base / adulto (R$) *",
+      "capacity": "Capacidade *",
+      "duration": "Duração *",
+      "includes": "O que está incluído",
+      "includesPlaceholder": "Ex: Café da manhã, Piscina natural (um por linha)"
+    },
+    "durationOptions": {
+      "meio-dia": "Meio dia",
+      "dia-inteiro": "Dia inteiro",
+      "diaria": "Diária",
+      "fim-de-semana": "Fim de semana",
+      "personalizado": "Personalizado"
+    },
+    "ageRanges": {
+      "cardTitle": "Faixas Etárias"
+    },
+    "photos": {
+      "cardTitle": "Fotos *",
+      "clickToUpload": "Clique para enviar fotos",
+      "formatsAndLimit": "JPG, PNG ou WebP • Máximo 15 fotos ({{count}}/15)"
+    },
+    "creating": "Criando...",
+    "createButton": "Criar Experiência",
+    "toasts": {
+      "createdTitle": "Experiência criada! 🎉",
+      "createdWithHost": "Experiência criada e conta do hospedeiro {{email}} foi gerada.",
+      "createdActive": "Experiência criada e já está ativa.",
+      "errorTitle": "Erro"
+    }
+  },
+  "editExperience": {
+    "title": "Editar Experiência",
+    "subtitle": "Edite todos os campos da experiência.",
+    "notFound": "Experiência não encontrada.",
+    "status": {
+      "cardTitle": "Status",
+      "draft": "Rascunho",
+      "pending": "Pendente",
+      "active": "Ativa",
+      "inactive": "Inativa"
+    },
+    "basicInfo": {
+      "cardTitle": "Informações Básicas",
+      "name": "Nome da Experiência *",
+      "nameCounter": "{{count}}/100 (mín. 10)",
+      "category": "Categoria *",
+      "selectPlaceholder": "Selecione",
+      "location": "Localização *",
+      "description": "Descrição *",
+      "descriptionCounter": "{{count}}/2000 (mín. 50)"
+    },
+    "details": {
+      "cardTitle": "Detalhes",
+      "price": "Preço base / adulto (R$) *",
+      "capacity": "Capacidade *",
+      "duration": "Duração *",
+      "includes": "O que está incluído",
+      "includesPlaceholder": "Um item por linha"
+    },
+    "durationOptions": {
+      "meio-dia": "Meio dia",
+      "dia-inteiro": "Dia inteiro",
+      "diaria": "Diária",
+      "fim-de-semana": "Fim de semana",
+      "personalizado": "Personalizado"
+    },
+    "ageRanges": {
+      "cardTitle": "Faixas Etárias"
+    },
+    "photos": {
+      "cardTitle": "Fotos ({{count}}/15)",
+      "clickToUpload": "Clique para enviar fotos",
+      "formats": "JPG, PNG ou WebP • Máximo 15 fotos"
+    },
+    "saving": "Salvando...",
+    "saveButton": "Salvar Alterações",
+    "toasts": {
+      "updated": "Experiência atualizada! ✅",
+      "errorTitle": "Erro"
+    }
+  },
+  "users": {
+    "title": "Gerenciar Usuários",
+    "subtitle": "{{count}} usuários cadastrados",
+    "noName": "Sem nome",
+    "editDialog": {
+      "title": "Editar cadastro",
+      "fullName": "Nome completo",
+      "phone": "Telefone"
+    },
+    "toasts": {
+      "saveError": "Erro ao salvar: {{message}}",
+      "updated": "Cadastro atualizado!"
+    }
+  },
+  "financial": {
+    "title": "Financeiro da Plataforma",
+    "cards": {
+      "commissions": "Comissões (15%)",
+      "totalPayouts": "Repasses Totais",
+      "pendingPayouts": "Repasses Pendentes"
+    },
+    "transactions": {
+      "cardTitle": "Transações",
+      "empty": "Nenhuma transação registrada."
+    },
+    "types": {
+      "payment": "Pagamento",
+      "commission": "Comissão",
+      "payout": "Repasse"
+    },
+    "statuses": {
+      "pending": "Pendente",
+      "completed": "Concluído",
+      "failed": "Falhou"
+    }
+  }
+}

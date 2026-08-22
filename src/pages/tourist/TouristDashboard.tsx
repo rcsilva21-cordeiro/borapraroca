@@ -2,10 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, CalendarCheck, Heart, DollarSign } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useTouristBookings } from "@/hooks/useBookings";
 import { useUserTransactions } from "@/hooks/useTransactions";
 
 export default function TouristDashboard() {
+  const { t } = useTranslation("tourist");
   const { data: bookings, isLoading: lb } = useTouristBookings();
   const { data: transactions, isLoading: lt } = useUserTransactions();
 
@@ -20,15 +22,15 @@ export default function TouristDashboard() {
     <div className="space-y-8">
       <div>
         <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground">
-          Minha Área 🌿
+          {t("dashboard.title")}
         </h2>
-        <p className="text-muted-foreground mt-1">Suas reservas e experiências favoritas</p>
+        <p className="text-muted-foreground mt-1">{t("dashboard.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Reservas</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t("dashboard.bookings")}</CardTitle>
             <CalendarCheck className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
@@ -39,7 +41,7 @@ export default function TouristDashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Confirmadas</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t("dashboard.confirmed")}</CardTitle>
             <CalendarCheck className="h-4 w-4 text-emerald-600" />
           </CardHeader>
           <CardContent>
@@ -50,7 +52,7 @@ export default function TouristDashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Total Gasto</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t("dashboard.totalSpent")}</CardTitle>
             <DollarSign className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
@@ -62,8 +64,8 @@ export default function TouristDashboard() {
       </div>
 
       <div className="flex gap-4">
-        <Link to="/turista/reservas"><Button>Ver Reservas</Button></Link>
-        <Link to="/turista/favoritos"><Button variant="outline"><Heart className="h-4 w-4 mr-2" />Favoritos</Button></Link>
+        <Link to="/turista/reservas"><Button>{t("dashboard.viewBookings")}</Button></Link>
+        <Link to="/turista/favoritos"><Button variant="outline"><Heart className="h-4 w-4 mr-2" />{t("dashboard.favorites")}</Button></Link>
       </div>
     </div>
   );

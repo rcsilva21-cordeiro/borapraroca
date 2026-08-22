@@ -1,0 +1,70 @@
+{
+  "brand": { "part1": "Bora", "part2": "PraRoça" },
+  "actions": {
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "confirm": "Confirm",
+    "back": "Back",
+    "backToSite": "Back to site",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "viewAll": "View all",
+    "viewDetails": "View details",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "remove": "Remove",
+    "add": "Add",
+    "loading": "Loading..."
+  },
+  "roles": {
+    "tourist": "Traveler",
+    "host": "Host",
+    "admin": "Administrator"
+  },
+  "status": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "active": "Active",
+    "inactive": "Inactive",
+    "paid": "Paid",
+    "draft": "Draft"
+  },
+  "language": {
+    "label": "Language",
+    "choose": "Choose language"
+  },
+  "misc": {
+    "people": "people",
+    "person": "person",
+    "perPerson": "per person",
+    "date": "Date",
+    "total": "Total",
+    "noResults": "No results found.",
+    "requiredFields": "Please fill in all required fields."
+  },
+  "categories": {
+    "Fazenda": "Farm",
+    "Cachoeira": "Waterfall",
+    "Gastronomia": "Food & Drink",
+    "Trilha": "Hiking",
+    "Aventura": "Adventure",
+    "Agroturismo": "Agritourism",
+    "Retiro/Bem-estar": "Retreat/Wellness",
+    "Pesca Esportiva": "Sport Fishing"
+  },
+  "ageRanges": {
+    "adult": "Adult",
+    "child": "Child",
+    "infant": "Infant"
+  }
+}

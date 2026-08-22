@@ -1,0 +1,75 @@
+{
+  "layout": {
+    "title": "Mi Área"
+  },
+  "sidebar": {
+    "dashboard": "Panel",
+    "bookings": "Mis Reservas",
+    "favorites": "Favoritos",
+    "financial": "Finanzas",
+    "profile": "Mi Perfil",
+    "backToSite": "Volver al sitio"
+  },
+  "dashboard": {
+    "title": "Mi Área 🌿",
+    "subtitle": "Tus reservas y experiencias favoritas",
+    "bookings": "Reservas",
+    "confirmed": "Confirmadas",
+    "totalSpent": "Total Gastado",
+    "viewBookings": "Ver Reservas",
+    "favorites": "Favoritos"
+  },
+  "bookings": {
+    "title": "Mis Reservas",
+    "subtitle": "Sigue tus experiencias reservadas",
+    "confirmCancel": "¿Seguro que deseas cancelar esta reserva?",
+    "cancelledToast": "Reserva cancelada",
+    "cancelErrorToast": "Error al cancelar",
+    "emptyTitle": "Aún no hay reservas",
+    "emptySubtitle": "¡Explora nuestras experiencias!",
+    "emptySubtitleAlt": "¡Explora nuestras experiencias y reserva tu próxima aventura rural!",
+    "viewExperiences": "Ver experiencias",
+    "person_one": "{{count}} persona",
+    "person_other": "{{count}} personas",
+    "total": "Total",
+    "cancel": "Cancelar"
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "subtitle": "Experiencias que te gustaron",
+    "emptyTitle": "Sin favoritos",
+    "emptySubtitle": "Marca experiencias como favoritas para encontrarlas aquí",
+    "explore": "Explorar experiencias",
+    "viewDetails": "Ver detalles"
+  },
+  "financial": {
+    "title": "Mis Finanzas",
+    "totalSpent": "Total Gastado",
+    "history": "Historial de Pagos",
+    "empty": "Ninguna transacción registrada.",
+    "paid": "Pagado",
+    "pending": "Pendiente"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "subtitle": "Mantén tus datos actualizados.",
+    "defaultName": "Turista",
+    "personalData": "Datos Personales",
+    "fullName": "Nombre completo *",
+    "phone": "Teléfono",
+    "phonePlaceholder": "(11) 99999-0000",
+    "email": "Correo electrónico",
+    "emailHint": "El correo electrónico no se puede cambiar.",
+    "saveChanges": "Guardar Cambios",
+    "saving": "Guardando...",
+    "saveErrorToast": "Error al guardar",
+    "updatedToast": "¡Perfil actualizado!",
+    "updatedToastDesc": "Tu información ha sido guardada."
+  },
+  "status": {
+    "pending": "Pendiente",
+    "confirmed": "Confirmada",
+    "cancelled": "Cancelada",
+    "completed": "Completada"
+  }
+}

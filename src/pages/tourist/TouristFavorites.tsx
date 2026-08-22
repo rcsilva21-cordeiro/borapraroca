@@ -2,10 +2,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, Loader2, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useActiveExperiences, getPhotoUrl } from "@/hooks/useExperiences";
 
 export default function TouristFavorites() {
+  const { t } = useTranslation("tourist");
   const { favorites, toggleFavorite } = useFavorites();
   const { data: experiences, isLoading } = useActiveExperiences();
 
@@ -16,16 +18,16 @@ export default function TouristFavorites() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-display text-2xl font-bold text-foreground">Favoritos</h2>
-        <p className="text-muted-foreground mt-1">Experiências que você curtiu</p>
+        <h2 className="font-display text-2xl font-bold text-foreground">{t("favorites.title")}</h2>
+        <p className="text-muted-foreground mt-1">{t("favorites.subtitle")}</p>
       </div>
 
       {favoriteExps.length === 0 ? (
         <Card className="p-12 text-center">
           <Heart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="font-display text-xl font-semibold mb-2">Nenhum favorito</h3>
-          <p className="text-muted-foreground mb-6">Favorite experiências para encontrá-las aqui</p>
-          <Link to="/experiencias"><Button>Explorar experiências</Button></Link>
+          <h3 className="font-display text-xl font-semibold mb-2">{t("favorites.emptyTitle")}</h3>
+          <p className="text-muted-foreground mb-6">{t("favorites.emptySubtitle")}</p>
+          <Link to="/experiencias"><Button>{t("favorites.explore")}</Button></Link>
         </Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -45,7 +47,7 @@ export default function TouristFavorites() {
                   <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1"><MapPin className="h-3.5 w-3.5" />{exp.location}</p>
                   <div className="flex justify-between items-center mt-3">
                     <span className="font-display font-bold text-primary">R$ {Number(exp.price).toFixed(2)}</span>
-                    <Link to={`/experiencia/${exp.id}`}><Button size="sm" variant="outline">Ver detalhes</Button></Link>
+                    <Link to={`/experiencia/${exp.id}`}><Button size="sm" variant="outline">{t("favorites.viewDetails")}</Button></Link>
                   </div>
                 </CardContent>
               </Card>

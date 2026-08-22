@@ -1,0 +1,331 @@
+{
+  "layout": {
+    "title": "Painel do Hospedeiro"
+  },
+  "sidebar": {
+    "dashboard": "Painel",
+    "bookings": "Reservas",
+    "newExperience": "Nova Experiência",
+    "myExperiences": "Minhas Experiências",
+    "availability": "Disponibilidade",
+    "financial": "Financeiro",
+    "profile": "Meu Perfil",
+    "underConstruction": "Em Construção",
+    "backToSite": "Voltar ao site"
+  },
+  "benefitsBanner": {
+    "expiringSoon": "⚠️ Seu período gratuito expira em {{count}} dia. Aproveite!",
+    "expiringSoon_other": "⚠️ Seu período gratuito expira em {{count}} dias. Aproveite!",
+    "welcome": "🎉 Bem-vindo ao Bora pra Roça! Você tem taxa zero pelos primeiros 3 meses. Seu período gratuito vai até {{date}}."
+  },
+  "ageRangesEditor": {
+    "title": "Faixas Etárias e Preços",
+    "addRange": "Adicionar faixa",
+    "hint": "Defina as faixas etárias e o preço por pessoa. Coloque R$ 0 para gratuito.",
+    "labelName": "Nome",
+    "labelFrom": "De",
+    "labelTo": "Até",
+    "labelPrice": "Preço R$",
+    "namePlaceholder": "Ex: Adulto",
+    "empty": "Nenhuma faixa etária definida. O preço base será usado para todos os participantes."
+  },
+  "bookingRealtime": {
+    "defaultTouristName": "Um turista",
+    "newBooking": "Nova reserva recebida! {{touristName}} reservou {{experienceTitle}}"
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo, Hospedeiro! 👋",
+    "subtitle": "Gerencie suas experiências e acompanhe suas reservas.",
+    "newExperience": "Nova Experiência",
+    "stats": {
+      "confirmedBookings": "Reservas Confirmadas",
+      "totalRevenue": "Faturamento Total",
+      "avgRating": "Avaliação Média",
+      "activeExperiences": "Experiências Ativas"
+    },
+    "recentBookings": {
+      "title": "Reservas Recentes",
+      "viewAll": "Ver todas",
+      "peopleCount_one": "{{count}} pessoa",
+      "peopleCount_other": "{{count}} pessoas",
+      "empty": "Nenhuma reserva recebida ainda. Cadastre experiências para começar!"
+    }
+  },
+  "bookings": {
+    "title": "Reservas Recebidas",
+    "subtitle": "Gerencie as solicitações de reserva das suas experiências.",
+    "toast": {
+      "confirmedTitle": "Reserva confirmada! ✅",
+      "confirmedDescription": "O turista será notificado da confirmação.",
+      "cancelledTitle": "Reserva recusada",
+      "cancelledDescription": "A reserva foi recusada.",
+      "errorTitle": "Erro"
+    },
+    "pendingTitle": "Aguardando sua confirmação ({{count}})",
+    "peopleCount_one": "{{count}} pessoa",
+    "peopleCount_other": "{{count}} pessoas",
+    "message": "Mensagem: \"{{message}}\" · ",
+    "total": "Total: {{amount}}",
+    "confirm": "Confirmar",
+    "decline": "Recusar",
+    "historyTitle": "Histórico de reservas",
+    "empty": {
+      "title": "Nenhuma reserva ainda",
+      "description": "Quando turistas reservarem suas experiências, elas aparecerão aqui."
+    }
+  },
+  "experiences": {
+    "status": {
+      "active": "Ativa",
+      "pending": "Em Análise",
+      "draft": "Rascunho",
+      "inactive": "Inativa"
+    },
+    "title": "Minhas Experiências",
+    "subtitle": "Gerencie e acompanhe suas experiências cadastradas.",
+    "newExperience": "Nova Experiência",
+    "upTo": "Até {{capacity}}",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "price": "Preço: ",
+    "category": "Categoria: ",
+    "deleteConfirm": "Tem certeza que deseja excluir \"{{title}}\"?",
+    "toast": {
+      "deletedTitle": "Experiência excluída",
+      "deletedDescription": "\"{{title}}\" foi removida.",
+      "deleteErrorTitle": "Erro ao excluir"
+    },
+    "empty": "Você ainda não cadastrou nenhuma experiência.",
+    "createFirst": "Cadastrar primeira experiência"
+  },
+  "newExperience": {
+    "categoryOptions": {
+      "Hospedagem": "Hospedagem",
+      "Trilhas": "Trilhas",
+      "Gastronomia": "Gastronomia",
+      "Bike Tour": "Bike Tour",
+      "Ecoturismo": "Ecoturismo",
+      "Camping": "Camping",
+      "Cavalgada": "Cavalgada"
+    },
+    "durationOptions": {
+      "meio-dia": "Meio dia",
+      "dia-inteiro": "Dia inteiro",
+      "diaria": "Diária",
+      "fim-de-semana": "Fim de semana",
+      "personalizado": "Personalizado"
+    },
+    "errors": {
+      "titleMin": "O título deve ter pelo menos 10 caracteres",
+      "descriptionMin": "A descrição deve ter pelo menos 50 caracteres",
+      "priceMin": "O preço deve ser maior que zero",
+      "photosRequired": "Envie pelo menos 1 foto"
+    },
+    "title": "Nova Experiência",
+    "subtitle": "Preencha os dados da sua experiência. Após o envio, ela passará pela curadoria da plataforma.",
+    "basicInfo": "Informações Básicas",
+    "nameLabel": "Nome da Experiência *",
+    "namePlaceholder": "Ex: Sítio Recanto das Águas",
+    "charCountMin10": "{{count}}/100 (mín. 10)",
+    "categoryLabel": "Categoria *",
+    "selectPlaceholder": "Selecione",
+    "locationLabel": "Localização *",
+    "locationPlaceholder": "Ex: Cunha, SP",
+    "descriptionLabel": "Descrição *",
+    "descriptionPlaceholder": "Descreva sua experiência em detalhes...",
+    "charCountMin50": "{{count}}/2000 (mín. 50)",
+    "details": "Detalhes",
+    "priceLabel": "Preço base / adulto (R$) *",
+    "capacityLabel": "Capacidade *",
+    "durationLabel": "Duração *",
+    "includesLabel": "O que está incluído",
+    "includesPlaceholder": "Ex: Café da manhã, Piscina natural, Wi-Fi (um por linha)",
+    "includesHint": "Insira um item por linha",
+    "ageRangesTitle": "Crianças e Faixas Etárias",
+    "photosTitle": "Fotos *",
+    "uploadPhotos": "Clique para enviar fotos",
+    "uploadHint": "JPG, PNG ou WebP • Máximo 5 fotos • Até 5MB cada ({{count}}/5)",
+    "cancel": "Cancelar",
+    "submitting": "Enviando...",
+    "submit": "Enviar para Curadoria",
+    "toast": {
+      "successTitle": "Experiência enviada! 🎉",
+      "successDescription": "Sua experiência foi enviada para análise da plataforma.",
+      "errorTitle": "Erro ao criar experiência"
+    },
+    "preview": {
+      "title": "Preview",
+      "namePlaceholder": "Nome da experiência",
+      "descriptionPlaceholder": "Descrição da experiência..."
+    }
+  },
+  "editExperience": {
+    "statusOptions": {
+      "draft": "Rascunho",
+      "active": "Ativa",
+      "inactive": "Inativa"
+    },
+    "title": "Editar Experiência",
+    "subtitle": "Atualize os dados da sua experiência.",
+    "notFound": "Experiência não encontrada.",
+    "back": "Voltar",
+    "statusSection": "Status",
+    "basicInfo": "Informações Básicas",
+    "nameLabel": "Nome da Experiência *",
+    "charCountMin10": "{{count}}/100 (mín. 10)",
+    "categoryLabel": "Categoria *",
+    "selectPlaceholder": "Selecione",
+    "locationLabel": "Localização *",
+    "descriptionLabel": "Descrição *",
+    "charCountMin50": "{{count}}/2000 (mín. 50)",
+    "details": "Detalhes",
+    "priceLabel": "Preço base / adulto (R$) *",
+    "capacityLabel": "Capacidade *",
+    "durationLabel": "Duração *",
+    "includesLabel": "O que está incluído",
+    "includesPlaceholder": "Um item por linha",
+    "ageRangesTitle": "Faixas Etárias",
+    "photosTitle": "Fotos ({{count}}/15)",
+    "uploadPhotos": "Clique para enviar fotos",
+    "uploadHint": "JPG, PNG ou WebP • Máximo 15 fotos",
+    "cancel": "Cancelar",
+    "saving": "Salvando...",
+    "save": "Salvar Alterações",
+    "toast": {
+      "successTitle": "Experiência atualizada! ✅",
+      "errorTitle": "Erro"
+    }
+  },
+  "availability": {
+    "title": "Disponibilidade",
+    "subtitle": "Clique nas datas para alternar: disponível (verde) → bloqueada (vermelho) → sem configuração.",
+    "selectExperience": "Selecione a Experiência",
+    "selectPlaceholder": "Escolha uma experiência",
+    "calendar": "Calendário",
+    "legend": {
+      "available": "Disponível",
+      "blocked": "Bloqueada",
+      "unconfigured": "Sem configuração"
+    },
+    "toast": {
+      "markedAvailable": "Data marcada como disponível",
+      "markedBlocked": "Data bloqueada",
+      "reset": "Data resetada",
+      "error": "Erro ao atualizar disponibilidade"
+    }
+  },
+  "financial": {
+    "title": "Meu Financeiro",
+    "cards": {
+      "totalPayouts": "Repasses Totais",
+      "pendingPayouts": "Repasses Pendentes",
+      "platformCommission": "Comissão Plataforma"
+    },
+    "history": "Histórico",
+    "empty": "Nenhuma transação. Confirme reservas para gerar repasses!",
+    "typeLabels": {
+      "payout": "Repasse",
+      "commission": "Comissão"
+    },
+    "statusLabels": {
+      "completed": "Concluído",
+      "pending": "Pendente"
+    }
+  },
+  "profile": {
+    "title": "Meu Perfil",
+    "subtitle": "Mantenha seus dados atualizados para os turistas.",
+    "avatar": {
+      "label": "Foto de perfil",
+      "hint": "JPG ou PNG, até 2MB"
+    },
+    "personalInfo": "Dados Pessoais",
+    "nameLabel": "Nome completo *",
+    "phoneLabel": "Telefone",
+    "phonePlaceholder": "(11) 99999-0000",
+    "emailLabel": "E-mail",
+    "emailHint": "O e-mail não pode ser alterado.",
+    "propertySection": "Sobre a Propriedade",
+    "propertyNameLabel": "Nome da propriedade",
+    "propertyNamePlaceholder": "Ex: Fazenda Boa Vista",
+    "addressLabel": "Endereço completo",
+    "addressPlaceholder": "Rua, número, bairro, cidade, estado",
+    "bioLabel": "Sobre você / sua propriedade",
+    "bioPlaceholder": "Conte um pouco sobre sua história e o que oferece...",
+    "saving": "Salvando...",
+    "save": "Salvar Alterações",
+    "toast": {
+      "errorTitle": "Erro ao salvar",
+      "successTitle": "Perfil atualizado!",
+      "successDescription": "Suas informações foram salvas."
+    }
+  },
+  "experienceBuilding": {
+    "title": "Experiência em Construção",
+    "subtitle": "Tem uma propriedade rural mas não sabe por onde começar? Fazemos um Raio-X gratuito do seu espaço e te ajudamos a criar sua primeira experiência turística.",
+    "cta": {
+      "title": "Raio-X Gratuito da sua Propriedade",
+      "description": "Analisamos o potencial turístico do seu espaço sem nenhum custo. A partir do diagnóstico, você decide se quer seguir com o projeto.",
+      "button": "Quero o Raio-X agora"
+    },
+    "form": {
+      "title": "Formulário de Assessoria — Raio-X",
+      "description": "Preencha os dados abaixo para solicitar a análise gratuita da sua propriedade.",
+      "nameLabel": "Nome completo *",
+      "namePlaceholder": "Seu nome",
+      "emailLabel": "E-mail *",
+      "emailPlaceholder": "seu@email.com",
+      "phoneLabel": "Telefone / WhatsApp *",
+      "phonePlaceholder": "(11) 99999-9999",
+      "propertyNameLabel": "Nome da propriedade",
+      "propertyNamePlaceholder": "Sítio, Fazenda, Chácara...",
+      "locationLabel": "Localização (cidade/estado) *",
+      "locationPlaceholder": "Ex: Atibaia - SP",
+      "sizeLabel": "Tamanho aproximado",
+      "sizePlaceholder": "Ex: 5 hectares",
+      "descriptionLabel": "Conte um pouco sobre sua propriedade",
+      "descriptionPlaceholder": "Descreva o que tem no local: mata, rio, pomar, criação de animais, estruturas existentes...",
+      "photosPrompt": "Tem fotos do local?",
+      "photosHint": "Em breve você poderá enviar fotos. Por enquanto, descreva o máximo possível no campo acima.",
+      "cancel": "Cancelar",
+      "submit": "Enviar solicitação"
+    },
+    "toast": {
+      "missingFields": "Preencha os campos obrigatórios.",
+      "success": "Solicitação de Raio-X enviada! Entraremos em contato em até 48h."
+    },
+    "steps": {
+      "title": "Como funciona",
+      "step1": {
+        "title": "Raio-X da Propriedade",
+        "description": "Fazemos uma análise inicial gratuita do potencial turístico do seu espaço — paisagens, atividades possíveis, gastronomia e infraestrutura.",
+        "badge": "Gratuito"
+      },
+      "step2": {
+        "title": "Plano de Experiência",
+        "description": "Criamos juntos um roteiro personalizado com atividades, público-alvo, precificação e melhorias necessárias para receber turistas."
+      },
+      "step3": {
+        "title": "Produção Visual",
+        "description": "Fotos e vídeos profissionais da propriedade para criar um perfil atrativo e convidativo na plataforma."
+      },
+      "step4": {
+        "title": "Lançamento e Acompanhamento",
+        "description": "Publicamos sua experiência e acompanhamos as primeiras reservas, ajustando detalhes para garantir o sucesso."
+      },
+      "footnote": "* A etapa 1 (Raio-X) é gratuita. As etapas seguintes possuem investimento acessível e facilitado para implantar sua primeira experiência."
+    },
+    "benefits": {
+      "title": "O que você ganha",
+      "items": {
+        "item1": "Raio-X inicial da propriedade sem custo",
+        "item2": "Investimento acessível e facilitado para implantação",
+        "item3": "Apoio na adequação de infraestrutura básica",
+        "item4": "Material fotográfico profissional",
+        "item5": "Treinamento para recepção de turistas",
+        "item6": "Acompanhamento nos 3 primeiros meses",
+        "item7": "Visibilidade na plataforma BoraPraRoça"
+      }
+    }
+  }
+}

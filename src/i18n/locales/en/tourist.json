@@ -1,0 +1,75 @@
+{
+  "layout": {
+    "title": "My Area"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "bookings": "My Bookings",
+    "favorites": "Favorites",
+    "financial": "Finances",
+    "profile": "My Profile",
+    "backToSite": "Back to site"
+  },
+  "dashboard": {
+    "title": "My Area 🌿",
+    "subtitle": "Your bookings and favorite experiences",
+    "bookings": "Bookings",
+    "confirmed": "Confirmed",
+    "totalSpent": "Total Spent",
+    "viewBookings": "View Bookings",
+    "favorites": "Favorites"
+  },
+  "bookings": {
+    "title": "My Bookings",
+    "subtitle": "Track your booked experiences",
+    "confirmCancel": "Are you sure you want to cancel this booking?",
+    "cancelledToast": "Booking cancelled",
+    "cancelErrorToast": "Error cancelling booking",
+    "emptyTitle": "No bookings yet",
+    "emptySubtitle": "Explore our experiences!",
+    "emptySubtitleAlt": "Explore our experiences and book your next rural adventure!",
+    "viewExperiences": "View experiences",
+    "person_one": "{{count}} person",
+    "person_other": "{{count}} people",
+    "total": "Total",
+    "cancel": "Cancel"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "subtitle": "Experiences you liked",
+    "emptyTitle": "No favorites",
+    "emptySubtitle": "Favorite experiences to find them here",
+    "explore": "Explore experiences",
+    "viewDetails": "View details"
+  },
+  "financial": {
+    "title": "My Finances",
+    "totalSpent": "Total Spent",
+    "history": "Payment History",
+    "empty": "No transactions recorded.",
+    "paid": "Paid",
+    "pending": "Pending"
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Keep your information up to date.",
+    "defaultName": "Tourist",
+    "personalData": "Personal Data",
+    "fullName": "Full name *",
+    "phone": "Phone",
+    "phonePlaceholder": "(11) 99999-0000",
+    "email": "Email",
+    "emailHint": "Email cannot be changed.",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveErrorToast": "Error saving",
+    "updatedToast": "Profile updated!",
+    "updatedToastDesc": "Your information has been saved."
+  },
+  "status": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "completed": "Completed"
+  }
+}
